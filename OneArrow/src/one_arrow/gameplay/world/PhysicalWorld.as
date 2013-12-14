@@ -29,7 +29,7 @@ package one_arrow.gameplay.world
             //   Weak Vec2 will be automatically sent to object pool.
             //   when used as argument to Space constructor.
             var gravity:Vec2 = Vec2.weak(0, 600);
-			space = SpaceLoader.loadSpaceFromRUBE(JSON.decode(new Config.WORLD_JSON()), 50);
+			space = SpaceLoader.loadSpaceFromRUBE(JSON.decode(new Config.WORLD_JSON()), Config.PIXELS_PER_METER);
             
 			if (Config.DEBUG)
 			{
