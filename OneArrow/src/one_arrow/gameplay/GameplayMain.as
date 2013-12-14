@@ -19,6 +19,8 @@ package one_arrow.gameplay
 		
 		public function get character():Character { return _character; }
 		private var _character:Character;
+		public function get arrow():Arrow { return _arrow; }
+		private var _arrow:Arrow;
 		
 		public var cameraX:int = 0;
 		public var cameraY:int = 0;
@@ -35,6 +37,9 @@ package one_arrow.gameplay
 			// entry point
 			_physicalWorld = new PhysicalWorld(this);
 			
+			_arrow = new Arrow(this);
+			addChild(_arrow);
+			_physicalWorld.addBody(_arrow.body);
 			_character = new MainCharacter(this);
 			addChild(_character);
 			_character.physicalBody.position = new Vec2(200, 100);
