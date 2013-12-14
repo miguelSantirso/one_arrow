@@ -7,6 +7,8 @@ package one_arrow.gameplay
 	import nape.geom.Vec2;
 	import one_arrow.gameplay.character.Character;
 	import one_arrow.gameplay.character.MainCharacter;
+	import one_arrow.gameplay.Enemies.Enemies;
+	import one_arrow.gameplay.Enemies.EnemiesData;
 	import one_arrow.gameplay.world.PhysicalWorld;
 	
 	/**
@@ -27,6 +29,7 @@ package one_arrow.gameplay
 		private var _character:Character;
 		public function get arrow():Arrow { return _arrow; }
 		private var _arrow:Arrow;
+		private var _enemies:Enemies;
 		
 		public var cameraX:int = 0;
 		public var cameraY:int = 0;
@@ -49,12 +52,12 @@ package one_arrow.gameplay
 			_arrow = new Arrow(this);
 			addChild(_arrow);
 			_physicalWorld.addBody(_arrow.body);
+			_enemies = new Enemies(this);
 			_character = new MainCharacter(this);
 			_character.physicalBody.position = new Vec2(800, 800);
 			addChild(_character);
 			_physicalWorld.addBody(_character.physicalBody);
 		}
-		
 		
 		public function update():void
 		{
