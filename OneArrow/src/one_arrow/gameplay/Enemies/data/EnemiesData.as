@@ -20,11 +20,14 @@ package one_arrow.gameplay.enemies.data
 		
 		private var _enemyWaves:XML;
 		
-		private var _waves:Array;
+		private var _waves:Vector.<WaveData>;
+		
+		private var _actualWaveId:int;
 		
 		public function EnemiesData():void
 		{
-			_waves = new Array();
+			_waves = new Vector.<WaveData>();
+			_actualWaveId = 0;
 		}
 		
 		
@@ -58,6 +61,11 @@ package one_arrow.gameplay.enemies.data
 			}
 			
 			dispatchEvent(new Event(WAVES_LOADED));
+		}
+		
+		public function getEnemies():Vector.<EnemyData>
+		{
+			return null;
 		}
 		
 	}
