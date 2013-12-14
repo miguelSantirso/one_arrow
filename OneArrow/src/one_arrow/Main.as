@@ -14,6 +14,8 @@ package one_arrow
 		private static var _instance:Main;
 		
 		private var _gameplayMain:GameplayMain;
+		public static function get input():KeyboardInput { return _input; }
+		private static var _input:KeyboardInput;
 		
 		
 		public function Main():void 
@@ -29,6 +31,8 @@ package one_arrow
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
 			
+			_input = new KeyboardInput();
+			_input.init(stage);
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
 			_gameplayMain = new GameplayMain();
