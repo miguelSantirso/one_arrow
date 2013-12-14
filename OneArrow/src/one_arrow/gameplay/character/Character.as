@@ -161,7 +161,6 @@ package one_arrow.gameplay.character
 			if (rayResult)
 			{
 				_nextPosition.x += sign * Math.min(rayResult.distance - 1, Config.PLAYER_SPEED_HORIZONTAL);
-				trace("choco: " + rayResult.distance);
 			}
 			else
 			{
