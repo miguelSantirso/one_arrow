@@ -54,6 +54,7 @@
     <element path="lib\nape-dev.swc" />
     <element path="lib\nape-hacks.swc" />
     <element path="lib\nape-symbolic.swc" />
+    <element path="assets\main_character_actions.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
