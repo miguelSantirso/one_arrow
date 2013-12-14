@@ -12,8 +12,14 @@ package one_arrow
 		private var _stage:Stage;
 		private var _keysState:Dictionary = new Dictionary();
 		
+		private var _jumpAvailable:Boolean = true;
 		
-		
+		public function get canJump():Boolean
+		{
+			var ret:Boolean = _jumpAvailable && upPressed;
+			if (ret) _jumpAvailable = false;
+			return ret;
+		}
 		public function get upPressed():Boolean 
 		{
 			return _keysState[38] || _keysState[87];
@@ -52,7 +58,12 @@ package one_arrow
 		{
 			//trace("key up: " + e.keyCode);
 			_keysState[e.keyCode] = false;
+			
+			if (e.keyCode == 38 || e.keyCode == 87)
+				_jumpAvailable = true;
 		}
+		
+
 		
 		public function set enabled(value:Boolean):void
 		{

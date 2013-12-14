@@ -11,6 +11,8 @@ package one_arrow.gameplay.character
 	import nape.callbacks.PreListener;
 	import nape.dynamics.Arbiter;
 	import nape.dynamics.ArbiterList;
+	import nape.dynamics.InteractionFilter;
+	import nape.dynamics.InteractionGroup;
 	import nape.geom.Ray;
 	import nape.geom.RayResult;
 	import nape.geom.Vec2;
@@ -47,9 +49,18 @@ package one_arrow.gameplay.character
 		public static const ANIM_IDLE_RIGHT:int = 1;
 		public static const ANIM_RUN_RIGHT:int = 2;
 		public static const ANIM_FALLING:int = 3;
+		public static const ANIM_JUMPING:int = 4;
 		
 		private var _animations:Dictionary = new Dictionary();
 		private var _currentAnimation:int = -1;
+		
+		private var _feetSensor:Circle;
+		private var _feetType:CbType = new CbType();
+		
+		
+		private var _jumpAcceleration:Number = 0.5;
+		private var _jumpFramesLeft:int = 0;
+		private var _remainingJumps:int = 2;
 		
 		private var _lastScaleX:int = 1;
 		
@@ -61,10 +72,17 @@ package one_arrow.gameplay.character
 			_physicalBody.userData.graphic = this;
 			_physicalBody.allowRotation = false;
 			
+			/*_feetSensor = new Circle(5);
+			_feetSensor.filter = new InteractionFilter(1, -1, 1, 5);
+			_feetSensor.sensorEnabled = true;
+			_feetSensor.body = _physicalBody;
+			_feetSensor.cbTypes.add(_feetType);*/
+			
 			_animations[ANIM_IDLE_LEFT] = new MainCharIdleLeft();
 			_animations[ANIM_IDLE_RIGHT] = new MainCharIdleRight();
 			_animations[ANIM_RUN_RIGHT] = new MainCharRunRight();
 			_animations[ANIM_FALLING] = new MainCharFalling();
+			_animations[ANIM_JUMPING] = new MainCharJumpUp();
 			
 			setAnimation(ANIM_IDLE_RIGHT);
 		}
@@ -80,21 +98,48 @@ package one_arrow.gameplay.character
 			else if (Main.input.leftPressed)
 				move(false);
 			
-			var rayResult:RayResult = _main.physicalWorld.space.rayCast(Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(0, 2*Config.PLAYER_SPEED_DOWN))));
-			if (!rayResult)
-				_nextPosition.y += 2*Config.PLAYER_SPEED_DOWN;
+			if (Main.input.canJump && _remainingJumps > 0)
+			{
+				// Jump
+				_remainingJumps--;
+				_jumpFramesLeft = 10;
+				trace(_remainingJumps);
+			}
+			
+			
+			if (_jumpFramesLeft > 0)
+			{
+				_nextPosition.y -= _jumpAcceleration * _jumpFramesLeft;
+				_jumpFramesLeft--;
+			}
 			else
 			{
-				_nextPosition.y += rayResult.distance;
+				var rayResult:RayResult = _main.physicalWorld.space.rayCast(
+					Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(0, 2 * Config.PLAYER_SPEED_DOWN))),
+					true);
+				if (!rayResult)
+					_nextPosition.y += 2*Config.PLAYER_SPEED_DOWN;
+				else
+				{
+					_remainingJumps = 2;
+					_nextPosition.y += rayResult.distance;
+				}
 			}
+			
+			
+			// ANIMATION
 			
 			var movementThisFrameX:Number = _nextPosition.x - _physicalBody.position.x;
 			var movementThisFrameY:Number = _nextPosition.y - _physicalBody.position.y;
 			
-			
 			if (movementThisFrameY > 0.5 * Config.PLAYER_SPEED_DOWN)
 			{
 				setAnimation(ANIM_FALLING);
+				scaleX = _lastScaleX;
+			}
+			else if (movementThisFrameY < -3)
+			{
+				setAnimation(ANIM_JUMPING);
 				scaleX = _lastScaleX;
 			}
 			else
@@ -123,7 +168,10 @@ package one_arrow.gameplay.character
 		{
 			var sign:Number = (right ? 1 : -1);
 			
-			var rayResult:RayResult = _main.physicalWorld.space.rayCast(Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(sign * 15, 0))));
+			var rayResult:RayResult = _main.physicalWorld.space.rayCast(
+				Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(sign * 15, 0))),
+				true,
+				new InteractionFilter(1, -1, 2, ~1));
 			_nextPosition.x = _physicalBody.position.x + sign * (rayResult ? rayResult.distance : 15);
 		}
 		

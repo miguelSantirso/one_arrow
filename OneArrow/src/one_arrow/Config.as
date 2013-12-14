@@ -15,7 +15,7 @@ package one_arrow
 		
 		public static const PIXELS_PER_METER:Number = 50;
 		
-		public static const PLAYER_SPEED_DOWN:Number = 15;
+		public static const PLAYER_SPEED_DOWN:Number = 25;
 		
 		[Embed(source="../../assets/world.json", mimeType="application/octet-stream")]
 		public static const WORLD_JSON:Class;
