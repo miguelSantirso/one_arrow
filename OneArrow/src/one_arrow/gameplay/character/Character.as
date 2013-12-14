@@ -151,11 +151,22 @@ package one_arrow.gameplay.character
 			
 			var sign:Number = (_direction.x > 0 ? 1 : -1);
 			
-			var rayResult:RayResult = _main.physicalWorld.space.rayCast(
-				Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(sign * 15, 0))),
-				true,
-				new InteractionFilter(1, -1, 2, ~1));
-			_nextPosition.x = _physicalBody.position.x + sign * (rayResult ? rayResult.distance : 15);
+			//_nextPosition.x = -sign * Config.PLAYER_SPEED_HORIZONTAL;
+			
+			/*var rayResult:RayResult = _main.physicalWorld.space.rayCast(
+				Ray.fromSegment(_nextPosition, new Vec2(_nextPosition.x + 2*Config.PLAYER_SPEED_HORIZONTAL, _nextPosition.y - 15)),
+				true);*/
+			var ray:Ray = new Ray(_nextPosition, _direction);
+			var rayResult:RayResult = _main.physicalWorld.space.rayCast(ray, true);
+			if (rayResult)
+			{
+				_nextPosition.x += sign * Math.min(rayResult.distance - 1, Config.PLAYER_SPEED_HORIZONTAL);
+				trace("choco: " + rayResult.distance);
+			}
+			else
+			{
+				_nextPosition.x += sign * Config.PLAYER_SPEED_HORIZONTAL;
+			}
 		}
 		
 		
