@@ -51,6 +51,10 @@ package one_arrow.gameplay.character
 		public static const ANIM_RUN_RIGHT:int = 2;
 		public static const ANIM_FALLING:int = 3;
 		public static const ANIM_JUMPING:int = 4;
+		public static const ANIM_LOADING_RIGHT:int = 5;
+		public static const ANIM_LOADING_LEFT:int = 6;
+		public static const ANIM_POINTING_LEFT:int = 7;
+		public static const ANIM_POINTING_RIGHT:int = 8;
 		
 		protected var _animations:Dictionary = new Dictionary();
 		private var _currentAnimation:int = -1;
@@ -63,7 +67,7 @@ package one_arrow.gameplay.character
 		protected var _remainingJumps:int = 2;
 		protected var _jumpFramesLeft:int = 0;
 		
-		private var _lastScaleX:int = 1;
+		protected var _lastScaleX:int = 1;
 		
 		public function Character(gameplayMain:GameplayMain) 
 		{
