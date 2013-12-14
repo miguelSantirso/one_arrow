@@ -2,6 +2,7 @@ package one_arrow.gameplay
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.geom.Point;
 	import nape.geom.Vec2;
 	import one_arrow.gameplay.character.Character;
 	import one_arrow.gameplay.world.PhysicalWorld;
@@ -18,6 +19,9 @@ package one_arrow.gameplay
 		public function get character():Character { return _character; }
 		private var _character:Character;
 		
+		public var cameraX:int = 0;
+		public var cameraY:int = 0;
+		
 		public function GameplayMain():void 
 		{
 			if (stage) init();
@@ -28,7 +32,7 @@ package one_arrow.gameplay
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
-			_physicalWorld = new PhysicalWorld();
+			_physicalWorld = new PhysicalWorld(this);
 			
 			_character = new Character(this);
 			addChild(_character);
@@ -39,8 +43,12 @@ package one_arrow.gameplay
 		
 		public function update():void
 		{
-			_physicalWorld.update();
 			_character.update();
+			
+			cameraX = _character.physicalBody.position.x;
+			cameraY = _character.physicalBody.position.y;
+			
+			_physicalWorld.update();
 		}
 		
 	}

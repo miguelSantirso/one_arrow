@@ -11,6 +11,7 @@ package one_arrow.gameplay.world
 	import nape.shape.Polygon;
 	import nape.space.Space;
 	import nape.util.BitmapDebug;
+	import one_arrow.gameplay.GameplayMain;
 	
 	import one_arrow.Main;
 	import one_arrow.Config;
@@ -21,12 +22,16 @@ package one_arrow.gameplay.world
 	 */
 	public class PhysicalWorld 
 	{
+		private var _gameplay:GameplayMain;
+		
 		public function get space():Space { return _space; }
 		private var _space:Space;
 		private var debugBitmap:BitmapDebug;
 		
-		public function PhysicalWorld() 
+		public function PhysicalWorld(mainGameplay:GameplayMain) 
 		{
+			_gameplay = mainGameplay;
+			
 			// Create a new simulation Space.
             //   Weak Vec2 will be automatically sent to object pool.
             //   when used as argument to Space constructor.
@@ -52,6 +57,8 @@ package one_arrow.gameplay.world
 			
 			if (debugBitmap)
 			{
+				debugBitmap.display.x = 400 - _gameplay.cameraX;
+				debugBitmap.display.y = 300 - _gameplay.cameraY;
 				// Render Space to the debug draw.
 				//   We first clear the debug screen,
 				//   then draw the entire Space,
@@ -76,8 +83,8 @@ package one_arrow.gameplay.world
 			var graphics:DisplayObject = b.userData.graphic;
 			if (graphics)
 			{
-				graphics.x = b.position.x;
-				graphics.y = b.position.y;
+				graphics.x = b.position.x + 400 - _gameplay.cameraX;
+				graphics.y = b.position.y + 300 - _gameplay.cameraY;
 				graphics.rotation = b.rotation;
 			}
 		}
