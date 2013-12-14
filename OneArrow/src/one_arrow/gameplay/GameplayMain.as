@@ -7,8 +7,7 @@ package one_arrow.gameplay
 	import nape.geom.Vec2;
 	import one_arrow.gameplay.character.Character;
 	import one_arrow.gameplay.character.MainCharacter;
-	import one_arrow.gameplay.Enemies.Enemies;
-	import one_arrow.gameplay.Enemies.EnemiesData;
+	import one_arrow.gameplay.enemies.Enemies;
 	import one_arrow.gameplay.world.PhysicalWorld;
 	
 	/**

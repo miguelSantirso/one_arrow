@@ -1,9 +1,10 @@
-package one_arrow.gameplay.Enemies 
+package one_arrow.gameplay.enemies 
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import one_arrow.gameplay.enemies.data.EnemiesData;
 	import one_arrow.gameplay.GameplayMain;
-	
+	import one_arrow.gameplay.character.Character;
 	/**
 	 * Controls the enemies
 	 */
@@ -11,6 +12,8 @@ package one_arrow.gameplay.Enemies
 	{
 		private var _main:GameplayMain;
 		private var _enemiesData:EnemiesData;
+		
+		private var _enemies:Vector.<Character>;
 		
 		public function Enemies(gameplayMain:GameplayMain)
 		{
@@ -26,7 +29,6 @@ package one_arrow.gameplay.Enemies
 		private function onEnemiesDataLoaded(evt:Event):void
 		{
 			_enemiesData.removeEventListener(EnemiesData.WAVES_LOADED, onEnemiesDataLoaded);
-			
 		}
 		
 	}
