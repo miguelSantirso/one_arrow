@@ -38,7 +38,7 @@ package one_arrow.gameplay.character
 	 */
 	public class Character extends Sprite 
 	{
-		private var _main:GameplayMain;
+		protected var _main:GameplayMain;
 		
 		public function get physicalBody():Body { return _physicalBody; }
 		private var _physicalBody:Body;
@@ -151,11 +151,6 @@ package one_arrow.gameplay.character
 			
 			var sign:Number = (_direction.x > 0 ? 1 : -1);
 			
-			//_nextPosition.x = -sign * Config.PLAYER_SPEED_HORIZONTAL;
-			
-			/*var rayResult:RayResult = _main.physicalWorld.space.rayCast(
-				Ray.fromSegment(_nextPosition, new Vec2(_nextPosition.x + 2*Config.PLAYER_SPEED_HORIZONTAL, _nextPosition.y - 15)),
-				true);*/
 			var ray:Ray = new Ray(_nextPosition, _direction);
 			var rayResult:RayResult = _main.physicalWorld.space.rayCast(ray, true);
 			if (rayResult)

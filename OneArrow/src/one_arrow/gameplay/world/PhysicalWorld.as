@@ -2,8 +2,11 @@ package one_arrow.gameplay.world
 {
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	import com.adobe.serialization.json.JSON;
+	import nape.callbacks.CbType;
+	import nape.dynamics.InteractionFilter;
 	import nape.geom.Vec2;
 	import nape.phys.BodyType;
 	import nape.phys.Body;
@@ -22,6 +25,9 @@ package one_arrow.gameplay.world
 	 */
 	public class PhysicalWorld 
 	{
+		public static const TERRAIN_TYPE:CbType = new CbType();
+		public static const ARROW_COLLISION_GROUP:int = 1;
+		
 		private var _gameplay:GameplayMain;
 		
 		public function get space():Space { return _space; }
@@ -38,6 +44,23 @@ package one_arrow.gameplay.world
             var gravity:Vec2 = Vec2.weak(0, 600);
 			_space = SpaceLoader.loadSpaceFromRUBE(JSON.decode(new Config.WORLD_JSON()), Config.PIXELS_PER_METER);
             
+			_space.bodies.foreach(function(body:Body):void {
+				var bodyName:String = body.userData.name;
+				if (bodyName)
+				{
+					if (bodyName.indexOf("terrain") >= 0)
+					{
+						body.cbTypes.add(TERRAIN_TYPE);
+					}
+					if (bodyName.indexOf("arrow") >= 0)
+					{
+						body.shapes.foreach(function(s:nape.shape.Shape):void {
+							s.filter.collisionGroup = ARROW_COLLISION_GROUP;
+						});
+					}
+				}
+			});
+			
 			if (Config.DEBUG)
 			{
 				// Create a new BitmapDebug screen matching stage dimensions and
@@ -47,7 +70,7 @@ package one_arrow.gameplay.world
 				debugBitmap = new BitmapDebug(Config.WORLD_SIZE_X, Config.WORLD_SIZE_Y, 0, true);
 				//debugBitmap.display.x = -0.5 * Config.WORLD_SIZE_X;
 				//debugBitmap.display.y = Config.WORLD_SIZE_Y;
-				Main.instance.addChildAt(debugBitmap.display, 0);
+				Main.instance.addChild(debugBitmap.display);
 			}
 		}
 		
@@ -85,7 +108,7 @@ package one_arrow.gameplay.world
 			{
 				graphics.x = b.position.x + 400 - _gameplay.cameraX;
 				graphics.y = b.position.y + 300 - _gameplay.cameraY;
-				graphics.rotation = b.rotation;
+				graphics.rotation = b.rotation * 57.2957795;
 			}
 		}
 		

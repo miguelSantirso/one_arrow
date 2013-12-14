@@ -1,5 +1,8 @@
 package one_arrow.gameplay.character 
 {
+	import flash.events.MouseEvent;
+	import nape.geom.Vec2;
+	import one_arrow.gameplay.Arrow;
 	import one_arrow.gameplay.GameplayMain;
 	import one_arrow.Main;
 	
@@ -21,6 +24,8 @@ package one_arrow.gameplay.character
 			_animations[Character.ANIM_JUMPING] = new MainCharJumpUp();
 			
 			setAnimation(Character.ANIM_IDLE_RIGHT);
+			
+			gameplayMain.addEventListener(MouseEvent.CLICK, onStageClick, false, 0, true);
 		}
 		
 		
@@ -36,10 +41,27 @@ package one_arrow.gameplay.character
 			
 			if (Main.input.canJump && _remainingJumps > 0)
 			{
+				//shootArrow();
 				// Jump
 				_remainingJumps--;
 				_jumpFramesLeft = 10;
 			}
+		}
+		
+		
+		private function shootArrow(worldPos:Vec2):void
+		{
+			var dir:Vec2 = worldPos.sub(physicalBody.position);
+			dir.length = 1;
+			_main.arrow.shoot(
+				physicalBody.position.sub(new Vec2(0, 70)),
+				dir
+			);
+		}
+		
+		private function onStageClick(e:MouseEvent):void
+		{
+			shootArrow(new Vec2(e.localX - 400 + _main.cameraX, e.localY - 300 + _main.cameraY));
 		}
 		
 	}
