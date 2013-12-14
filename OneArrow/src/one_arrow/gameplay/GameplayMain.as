@@ -54,7 +54,7 @@ package one_arrow.gameplay
 			_physicalWorld.addBody(_arrow.body);
 			_enemies = new Enemies(this);
 			_character = new MainCharacter(this);
-			_character.physicalBody.position = new Vec2(800, 800);
+			_character.physicalBody.position = new Vec2(800, 805);
 			addChild(_character);
 			_physicalWorld.addBody(_character.physicalBody);
 		}
