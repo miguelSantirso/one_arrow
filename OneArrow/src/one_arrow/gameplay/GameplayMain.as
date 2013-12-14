@@ -30,18 +30,17 @@ package one_arrow.gameplay
 			// entry point
 			_physicalWorld = new PhysicalWorld();
 			
-			_character = new Character();
+			_character = new Character(this);
 			addChild(_character);
 			_character.physicalBody.position = new Vec2(200, 100);
 			_physicalWorld.addBody(_character.physicalBody);
-			_physicalWorld.space.listeners.add(_character.feetListener);
 		}
 		
 		
 		public function update():void
 		{
-			_character.update();
 			_physicalWorld.update();
+			_character.update();
 		}
 		
 	}
