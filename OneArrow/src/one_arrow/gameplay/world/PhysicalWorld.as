@@ -70,7 +70,7 @@ package one_arrow.gameplay.world
 				debugBitmap = new BitmapDebug(Config.WORLD_SIZE_X, Config.WORLD_SIZE_Y, 0, true);
 				//debugBitmap.display.x = -0.5 * Config.WORLD_SIZE_X;
 				//debugBitmap.display.y = Config.WORLD_SIZE_Y;
-				Main.instance.addChildAt(debugBitmap.display, 0);
+				Main.instance.addChild(debugBitmap.display);
 			}
 		}
 		

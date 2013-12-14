@@ -1,5 +1,6 @@
 package one_arrow.gameplay 
 {
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Point;
@@ -14,8 +15,13 @@ package one_arrow.gameplay
 	 */
 	public class GameplayMain extends Sprite 
 	{
+		[Embed(source = "../../../assets/background.png")]
+		private var BackgroundClass:Class;
+		
 		public function get physicalWorld():PhysicalWorld { return _physicalWorld; }
 		private var _physicalWorld:PhysicalWorld;
+		
+		private var _bg:Bitmap = new BackgroundClass();
 		
 		public function get character():Character { return _character; }
 		private var _character:Character;
@@ -33,6 +39,9 @@ package one_arrow.gameplay
 		
 		private function init(e:Event = null):void 
 		{
+			addChild(_bg);
+			mouseEnabled = true;
+			
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
 			_physicalWorld = new PhysicalWorld(this);
@@ -41,8 +50,8 @@ package one_arrow.gameplay
 			addChild(_arrow);
 			_physicalWorld.addBody(_arrow.body);
 			_character = new MainCharacter(this);
+			_character.physicalBody.position = new Vec2(800, 800);
 			addChild(_character);
-			_character.physicalBody.position = new Vec2(200, 100);
 			_physicalWorld.addBody(_character.physicalBody);
 		}
 		
@@ -53,6 +62,9 @@ package one_arrow.gameplay
 			
 			cameraX = _character.physicalBody.position.x;
 			cameraY = _character.physicalBody.position.y;
+			
+			_bg.x = 400 - cameraX;
+			_bg.y = 300 - cameraY;
 			
 			_physicalWorld.update();
 		}

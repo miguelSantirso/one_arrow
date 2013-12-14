@@ -25,7 +25,7 @@ package one_arrow.gameplay.character
 			
 			setAnimation(Character.ANIM_IDLE_RIGHT);
 			
-			Main.instance.addEventListener(MouseEvent.CLICK, onStageClick, false, 0, true);
+			gameplayMain.addEventListener(MouseEvent.CLICK, onStageClick, false, 0, true);
 		}
 		
 		
@@ -43,23 +43,25 @@ package one_arrow.gameplay.character
 			{
 				//shootArrow();
 				// Jump
-				//_remainingJumps--;
-				//_jumpFramesLeft = 10;
+				_remainingJumps--;
+				_jumpFramesLeft = 10;
 			}
 		}
 		
 		
-		private function shootArrow():void
+		private function shootArrow(worldPos:Vec2):void
 		{
+			var dir:Vec2 = worldPos.sub(physicalBody.position);
+			dir.length = 1;
 			_main.arrow.shoot(
 				physicalBody.position.sub(new Vec2(0, 70)),
-				new Vec2(1, -0.7)
+				dir
 			);
 		}
 		
 		private function onStageClick(e:MouseEvent):void
 		{
-			shootArrow();
+			shootArrow(new Vec2(e.localX - 400 + _main.cameraX, e.localY - 300 + _main.cameraY));
 		}
 		
 	}
