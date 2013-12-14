@@ -5,6 +5,7 @@ package one_arrow.gameplay
 	import flash.geom.Point;
 	import nape.geom.Vec2;
 	import one_arrow.gameplay.character.Character;
+	import one_arrow.gameplay.character.MainCharacter;
 	import one_arrow.gameplay.world.PhysicalWorld;
 	
 	/**
@@ -34,7 +35,7 @@ package one_arrow.gameplay
 			// entry point
 			_physicalWorld = new PhysicalWorld(this);
 			
-			_character = new Character(this);
+			_character = new MainCharacter(this);
 			addChild(_character);
 			_character.physicalBody.position = new Vec2(200, 100);
 			_physicalWorld.addBody(_character.physicalBody);

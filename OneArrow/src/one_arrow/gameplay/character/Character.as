@@ -43,6 +43,7 @@ package one_arrow.gameplay.character
 		public function get physicalBody():Body { return _physicalBody; }
 		private var _physicalBody:Body;
 		
+		protected var _direction:Vec2 = new Vec2();
 		private var _nextPosition:Vec2 = new Vec2();
 		
 		public static const ANIM_IDLE_LEFT:int = 0;
@@ -51,16 +52,16 @@ package one_arrow.gameplay.character
 		public static const ANIM_FALLING:int = 3;
 		public static const ANIM_JUMPING:int = 4;
 		
-		private var _animations:Dictionary = new Dictionary();
+		protected var _animations:Dictionary = new Dictionary();
 		private var _currentAnimation:int = -1;
 		
 		private var _feetSensor:Circle;
 		private var _feetType:CbType = new CbType();
 		
 		
-		private var _jumpAcceleration:Number = 0.5;
-		private var _jumpFramesLeft:int = 0;
-		private var _remainingJumps:int = 2;
+		private var _jumpAcceleration:Number = 0.3;
+		protected var _remainingJumps:int = 2;
+		protected var _jumpFramesLeft:int = 0;
 		
 		private var _lastScaleX:int = 1;
 		
@@ -77,14 +78,6 @@ package one_arrow.gameplay.character
 			_feetSensor.sensorEnabled = true;
 			_feetSensor.body = _physicalBody;
 			_feetSensor.cbTypes.add(_feetType);*/
-			
-			_animations[ANIM_IDLE_LEFT] = new MainCharIdleLeft();
-			_animations[ANIM_IDLE_RIGHT] = new MainCharIdleRight();
-			_animations[ANIM_RUN_RIGHT] = new MainCharRunRight();
-			_animations[ANIM_FALLING] = new MainCharFalling();
-			_animations[ANIM_JUMPING] = new MainCharJumpUp();
-			
-			setAnimation(ANIM_IDLE_RIGHT);
 		}
 		
 		
@@ -93,19 +86,7 @@ package one_arrow.gameplay.character
 			_nextPosition.set(_physicalBody.position);
 			_nextPosition.y -= Config.PLAYER_SPEED_DOWN;
 			
-			if (Main.input.rightPressed)
-				move(true);
-			else if (Main.input.leftPressed)
-				move(false);
-			
-			if (Main.input.canJump && _remainingJumps > 0)
-			{
-				// Jump
-				_remainingJumps--;
-				_jumpFramesLeft = 10;
-				trace(_remainingJumps);
-			}
-			
+			move();
 			
 			if (_jumpFramesLeft > 0)
 			{
@@ -161,12 +142,14 @@ package one_arrow.gameplay.character
 				}
 			}
 			
-			
 			_physicalBody.position.set(_nextPosition);
 		}
-		private function move(right:Boolean):void
+		protected function move():void
 		{
-			var sign:Number = (right ? 1 : -1);
+			if (_direction.x == 0)
+				return;
+			
+			var sign:Number = (_direction.x > 0 ? 1 : -1);
 			
 			var rayResult:RayResult = _main.physicalWorld.space.rayCast(
 				Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(sign * 15, 0))),
@@ -176,7 +159,7 @@ package one_arrow.gameplay.character
 		}
 		
 		
-		private function setAnimation(newAnimation:int):void
+		protected function setAnimation(newAnimation:int):void
 		{
 			if (newAnimation == _currentAnimation)
 				return;
