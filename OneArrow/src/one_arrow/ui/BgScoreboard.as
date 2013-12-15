@@ -10,6 +10,7 @@ package one_arrow.ui
 	{
 		private var _tf:TextField;
 		
+		private var _waveComplete:Boolean = false;
 		private var _newWaveFramesLeft:int;
 		private var _countdownMillisLeft:int;
 		
@@ -30,11 +31,19 @@ package one_arrow.ui
 			_tf.text = "WAVE " + waveNumber;
 			_newWaveFramesLeft = 150;
 			_countdownMillisLeft = lengthInSeconds * 1000;
+			_waveComplete = false;
+		}
+		public function success():void
+		{
+			_waveComplete = true;
+			_tf.text = "SUCCESS";
 		}
 		
 		
 		public function update():void
 		{
+			if (_waveComplete) return;
+			
 			_countdownMillisLeft -= 1000 / 30;
 			
 			if (_newWaveFramesLeft > 0)
