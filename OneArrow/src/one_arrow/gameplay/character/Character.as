@@ -40,6 +40,10 @@ package one_arrow.gameplay.character
 	{
 		protected var _main:GameplayMain;
 		
+		protected var _backLayer:Sprite = new Sprite();
+		protected var _animLayer:Sprite = new Sprite();
+		protected var _foreLayer:Sprite = new Sprite();
+		
 		public function get physicalBody():Body { return _physicalBody; }
 		protected var _physicalBody:Body;
 		
@@ -75,6 +79,10 @@ package one_arrow.gameplay.character
 		public function Character(gameplayMain:GameplayMain) 
 		{
 			_main = gameplayMain;
+			
+			addChild(_backLayer);
+			addChild(_animLayer);
+			addChild(_foreLayer);
 			
 			_physicalBody = new Body(BodyType.KINEMATIC);
 			_physicalBody.userData.graphic = this;
@@ -179,12 +187,12 @@ package one_arrow.gameplay.character
 			if (_currentAnimation >= 0)
 			{
 				_animations[_currentAnimation].stop();
-				removeChild(_animations[_currentAnimation]);
+				_animLayer.removeChild(_animations[_currentAnimation]);
 			}
 			
 			_currentAnimation = newAnimation;
 			
-			addChild(_animations[_currentAnimation]);
+			_animLayer.addChild(_animations[_currentAnimation]);
 			_animations[_currentAnimation].gotoAndPlay(1);
 		}
 		

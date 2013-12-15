@@ -75,12 +75,13 @@ package one_arrow.gameplay
 			_body.allowMovement = _body.allowRotation = true;
 			
 			_body.velocity = Vec2.get();
+			_body.allowRotation = false;
 			_body.position = pos;
 			_body.rotation = direction.angle;
 			_body.torque = 0;
 			_body.angularVel = 0;
 			_body.isBullet = true;
-			_body.applyImpulse(direction.mul(160));
+			_body.applyImpulse(direction.mul(600));
 		}
 		
 		private function onValidTerrainCollision(cb:InteractionCallback):void
@@ -94,6 +95,7 @@ package one_arrow.gameplay
 		
 		private function onInvalidTerrainCollision(cb:InteractionCallback):void
 		{
+			_body.allowRotation = true;
 			_canStick = false;
 		}
 		
