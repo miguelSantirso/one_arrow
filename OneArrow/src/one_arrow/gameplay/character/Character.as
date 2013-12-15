@@ -122,7 +122,7 @@ package one_arrow.gameplay.character
 				var rayResult:RayResult = _main.physicalWorld.space.rayCast(
 					Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(0, _feetInFloor ? 2 * Config.PLAYER_SPEED_DOWN : -_verticalSpeed))),
 					true,
-					new InteractionFilter(4, PhysicalWorld.TERRAIN_COLLISION_GROUP));
+					new InteractionFilter(16, _direction.y > 0 ? PhysicalWorld.BOUNDS_COLLISION_GROUP : PhysicalWorld.BOUNDS_COLLISION_GROUP | PhysicalWorld.TERRAIN_COLLISION_GROUP));
 				if (rayResult)
 				{
 					if (!_feetInFloor)
@@ -208,7 +208,7 @@ package one_arrow.gameplay.character
 		{
 			_feetInFloor = false;
 			_remainingJumps--;
-			_verticalSpeed = 32;
+			_verticalSpeed = 35;
 			AutoFx.showFx(new FxJump(), physicalBody.position.x, physicalBody.position.y);
 		}
 		

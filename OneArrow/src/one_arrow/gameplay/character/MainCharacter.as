@@ -132,6 +132,11 @@ package one_arrow.gameplay.character
 					_direction.x = -1;
 				else _direction.x = 0;
 				
+				if (Main.input.downPressed)
+					_direction.y = 1;
+				else
+					_direction.y = 0;
+				
 				super.update();
 				
 				if (Main.input.canJump && _remainingJumps > 0)
