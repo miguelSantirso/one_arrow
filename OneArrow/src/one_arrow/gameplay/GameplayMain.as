@@ -14,6 +14,7 @@ package one_arrow.gameplay
 	import one_arrow.GameScreen;
 	import one_arrow.ui.ArrowIndicator;
 	import one_arrow.ui.BgScoreboard;
+	import one_arrow.ui.SuccessInformation;
 	
 	/**
 	 * ...
@@ -44,6 +45,8 @@ package one_arrow.gameplay
 		private var _arrowsIndicator:ArrowIndicator;
 		public function get scoreboard():BgScoreboard { return _scoreboard; }
 		private var _scoreboard:BgScoreboard = new BgScoreboard();
+		public function get successInformation():SuccessInformation { return _successInformation; }
+		private var _successInformation:SuccessInformation;
 		
 		public function get character():MainCharacter { return _character; }
 		private var _character:MainCharacter;
@@ -95,6 +98,9 @@ package one_arrow.gameplay
 			addChild(_arrowsIndicator);
 			_arrowsIndicator.x = 20;
 			_arrowsIndicator.y = 20;
+			
+			_successInformation = new SuccessInformation();
+			addChild(_successInformation);
 		}
 		
 		protected override function dispose(e:Event = null):void

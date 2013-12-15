@@ -6,8 +6,8 @@
     <movie input="" />
     <movie path="bin\OneArrow.swf" />
     <movie fps="30" />
-    <movie width="1200" />
-    <movie height="900" />
+    <movie width="800" />
+    <movie height="600" />
     <movie version="10" />
     <movie minorVersion="1" />
     <movie platform="Flash Player" />
@@ -25,6 +25,7 @@
     <option allowSourcePathOverlap="False" />
     <option benchmark="False" />
     <option es="False" />
+    <option inline="False" />
     <option locale="" />
     <option loadConfig="" />
     <option optimize="True" />
@@ -61,6 +62,7 @@
     <element path="assets\sound.swc" />
     <element path="assets\pantalla_start.swc" />
     <element path="assets\fx_main_character.swc" />
+    <element path="assets\animacion_wave_3.swc" />
     <element path="assets\enemy_03_actions.swc" />
     <element path="assets\icono_flecha.swc" />
     <element path="assets\scoreboard.swc" />
@@ -97,6 +99,7 @@
   <options>
     <option showHiddenPaths="False" />
     <option testMovie="Default" />
+    <option testMovieCommand="" />
   </options>
   <!-- Plugin storage -->
   <storage />
