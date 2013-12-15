@@ -73,7 +73,7 @@ package one_arrow.gameplay.character
 		private var _feetSensor:Circle;
 		private var _feetType:CbType = new CbType();
 		
-		private var _feetInFloor:Boolean = false;
+		protected var _feetInFloor:Boolean = false;
 		protected var _remainingJumps:int = 2;
 		private var _verticalAcceleration:Number = 5;
 		protected var _verticalSpeed:Number = 0;
