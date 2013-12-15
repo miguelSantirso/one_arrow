@@ -16,15 +16,25 @@ package one_arrow.gameplay.enemies.types
 	import utils.FrameScriptInjector;
 	import one_arrow.gameplay.Arrow;
 	import one_arrow.Sounds;
+	import one_arrow.Config;
 	/**
 	 * ...
 	 * @author Luis Miguel Blanco
 	 */
 	public class EnemyTurret extends EnemyBase 
 	{
+		private static var ATTACK_ANIMATION_COMPLETE:String = "attackComplete";
+		private var _framesLeftIdle:int;
+		private var _framesLeftShield:int;
+		
 		public function EnemyTurret(gameplayMain:GameplayMain) 
 		{
 			super(gameplayMain);
+			
+			var attackAnimation:MovieClip = _animations[Character.ANIM_ATTACK];
+			attackAnimation.gotoAndStop(1);
+			FrameScriptInjector.injectStopAtEnd(attackAnimation, ATTACK_ANIMATION_COMPLETE);
+			attackAnimation.addEventListener(ATTACK_ANIMATION_COMPLETE, onAttackAnimationComplete);		
 		}
 		
 		protected override function initAnimations():void
@@ -37,12 +47,51 @@ package one_arrow.gameplay.enemies.types
 		
 		protected override function onCollisionWithArrow(cb:InteractionCallback):void
 		{
+			if (_status != STATUS_IDLE) // only vulnerable state
+				return;
+				
 			super.onCollisionWithArrow(cb);
 			
 			Sounds.playSoundById(Sounds.ENEMY_DAMAGE);
 			Sounds.playSoundById(Sounds.ENEMY_DEATH);
 		}
+		
+		protected function onAttackAnimationComplete(e:Event):void
+		{
+			// temp, has to be projectile
+			//_main.character.takeDamage();
+			
+			setIdle();
+		}
+		
+		protected override function onAppearanceComplete(evt:Event):void
+		{
+			super.onAppearanceComplete(evt);
+			
+			// needs a random
+			setShieldIdle();
+		}
+		
+		protected function setAttacking():void
+		{
+			_status = STATUS_ATTACKING;
+			setAnimation(Character.ANIM_ATTACK);
+		}
+		
+		protected function setIdle():void
+		{
+			_framesLeftIdle = Math.ceil(Config.ENEMY_2_IDLE_SECONDS_AFTER_ATTACK * _main.stage.frameRate) + someRandomFrames();
+			_status = STATUS_IDLE;
+			setAnimation(Character.ANIM_IDLE);
+		}
 
+		protected function setShieldIdle():void
+		{
+			_framesLeftShield = Math.ceil(Config.ENEMY_2_SHIELD_SECONDS * _main.stage.frameRate) + someRandomFrames();
+			_status = STATUS_IDLE_SHIELD;
+			setAnimation(Character.ANIM_IDLE_SHIELD);
+		}
+		
 		override public function update():void
 		{
 			super.update();
@@ -51,8 +100,21 @@ package one_arrow.gameplay.enemies.types
 			{
 				case STATUS_DEFEAT:
 				case STATUS_APPEARING:
+				case STATUS_ATTACKING:
 					return;
+					break;
+					
+				case STATUS_IDLE_SHIELD:
+					if (--_framesLeftShield <= 0) {
+						setAttacking();
+					}
+					break;
 				
+				case STATUS_IDLE:
+					if (--_framesLeftIdle <= 0) {
+						setShieldIdle();
+					}
+					break;
 			}
 		}
 	}
