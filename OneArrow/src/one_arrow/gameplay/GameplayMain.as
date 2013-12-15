@@ -13,6 +13,8 @@ package one_arrow.gameplay
 	import one_arrow.gameplay.world.PhysicalWorld;
 	import one_arrow.Config;
 	import one_arrow.GameScreen;
+	import one_arrow.ui.ArrowIndicator;
+	import one_arrow.ui.BgScoreboard;
 	
 	/**
 	 * ...
@@ -20,16 +22,29 @@ package one_arrow.gameplay
 	 */
 	public class GameplayMain extends GameScreen
 	{
-		[Embed(source = "../../../assets/background.png")]
-		private var BackgroundClass:Class;
+		[Embed(source = "../../../assets/background_day.png")]
+		private var BackgroundDay:Class;
+		[Embed(source = "../../../assets/background_night.png")]
+		private var BackgroundNight:Class;
+		[Embed(source = "../../../assets/foreground.png")]
+		private var ForegroundClass:Class;
 		
 		public function get physicalWorld():PhysicalWorld { return _physicalWorld; }
 		private var _physicalWorld:PhysicalWorld;
 		
-		public function get bg():Bitmap { return _bg; }
-		private var _bg:Bitmap = new BackgroundClass();
+		public function get bg():Sprite { return _bg; }
+		private var _bg:Sprite = new Sprite();
 		public function get fore():Sprite { return _fore; }
 		private var _fore:Sprite = new Sprite();
+		
+		private var _bgDay:Bitmap = new BackgroundDay();
+		
+		private var _framesElapsed:Number = 0;
+		
+		public function get arrowIndicator():ArrowIndicator { return _arrowsIndicator; }
+		private var _arrowsIndicator:ArrowIndicator;
+		public function get scoreboard():BgScoreboard { return _scoreboard; }
+		private var _scoreboard:BgScoreboard = new BgScoreboard();
 		
 		public function get character():MainCharacter { return _character; }
 		private var _character:MainCharacter;
@@ -40,6 +55,8 @@ package one_arrow.gameplay
 		
 		public var cameraX:int = 0;
 		public var cameraY:int = 0;
+		
+		private var _currentWave:int = -1;
 		
 		public function GameplayMain():void 
 		{
@@ -54,7 +71,11 @@ package one_arrow.gameplay
 			super.init(e);
 			
 			addChild(_bg);
-			mouseEnabled = true;
+
+			_bg.mouseChildren = false;
+			_bg.addChild(new BackgroundNight());
+			_bg.addChild(_bgDay);
+			_bg.addChild(_scoreboard);
 			
 			// entry point
 			_physicalWorld = new PhysicalWorld(this);
@@ -83,6 +104,31 @@ package one_arrow.gameplay
 		public override function update():void
 		{
 			super.update();
+		
+			_framesElapsed++;
+			
+			if (_framesElapsed > Config.BG_TRANSITION_END_FRAME)
+			{
+				if (_bgDay != null)
+				{
+					_bg.removeChild(_bgDay);
+					_bgDay = null;
+				}
+			}
+			else if (_framesElapsed > Config.BG_TRANSITION_START_FRAME && _bgDay.alpha > 0)
+			{
+				_bgDay.alpha = (Config.BG_TRANSITION_END_FRAME - _framesElapsed) / Config.BG_TRANSITION_FRAMES_LONG;
+			}
+			
+			if (_currentWave != _enemies.currentWave)
+			{
+				_currentWave = _enemies.currentWave;
+				if (_currentWave == 2)
+				{
+					_character.maxJumps = 2;
+				}
+				_scoreboard.newWave(_currentWave + 1, 30);
+			}
 			
 			_character.update();
 			_enemies.update();
@@ -110,9 +156,9 @@ package one_arrow.gameplay
 			_physicalWorld.update();
 		}
 		
-		public function createProjectile(type:int):void
+		public function createProjectile(type:int,position:Point):void
 		{
-			_projectiles.createProjectile(type:int);
+			_projectiles.createProjectile(type,position);
 		}
 	}
 

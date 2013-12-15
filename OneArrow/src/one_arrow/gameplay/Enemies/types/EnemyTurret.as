@@ -17,6 +17,7 @@ package one_arrow.gameplay.enemies.types
 	import one_arrow.gameplay.Arrow;
 	import one_arrow.Sounds;
 	import one_arrow.Config;
+	import one_arrow.gameplay.projectiles.Projectile;
 	/**
 	 * ...
 	 * @author Luis Miguel Blanco
@@ -60,6 +61,16 @@ package one_arrow.gameplay.enemies.types
 		{
 			// TODO Shoot the projectile
 			// it should use a direction Vec2
+			var attackAnimation:MovieClip = _animations[Character.ANIM_ATTACK];
+			var positionOffset:Point = new Point();
+			
+			if (attackAnimation && attackAnimation.energy_slot){
+				var slot:MovieClip = attackAnimation.energy_slot as MovieClip;
+				positionOffset.x = slot.x;
+				positionOffset.y = slot.y;
+			}
+			
+			_main.createProjectile(Projectile.TYPE_ENERGY_BALL,_physicalBody.position.toPoint().add(positionOffset));
 			
 			setIdle();
 		}

@@ -1,8 +1,11 @@
 package one_arrow.gameplay.projectiles 
 {
 	import flash.display.Sprite;
+	import flash.geom.Point;
 	import nape.callbacks.CbType;
+	import nape.geom.Vec2;
 	import nape.phys.Body;
+	import nape.phys.BodyType;
 	
 	/**
 	 * ...
@@ -20,11 +23,40 @@ package one_arrow.gameplay.projectiles
 		
 		public function Projectile(newType:int = 0) 
 		{
+			mouseEnabled = false;
+			mouseChildren = false;
+			
 			type = newType;
+			
+			_body = new Body(BodyType.KINEMATIC);
+			_body.userData.graphic = this;
+			
+			init();
+		}
+		
+		public function init():void
+		{
+			
+		}
+		
+		public function dispose():void 
+		{
+			
 		}
 		
 		public function update():void
 		{
+			
+		}
+		
+		protected function destroy():void
+		{
+			dispose();
+		}
+		
+		public function setPosition(position:Point):void
+		{
+			_body.position.set(new Vec2(position.x, position.y));
 			
 		}
 	}

@@ -29,6 +29,9 @@ package one_arrow
 		public static const ENEMY_2_IDLE_SECONDS_AFTER_ATTACK:Number = 2.0;
 		public static const ENEMY_2_SHIELD_SECONDS:Number = 1.5;
 		
+		// Projectiles
+		public static const PROJECTILE_ENERGY_BALL_LIFE_SECONDS:Number = 1.0;
+		
 		public static const LOADING_ANIM_FRAMES_LONG:int = 19;
 		
 	}
