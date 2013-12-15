@@ -37,7 +37,8 @@ package one_arrow
 		public static const ENEMY_2_SHIELD_SECONDS:Number = 1.5;
 		
 		// Projectiles
-		public static const PROJECTILE_ENERGY_BALL_LIFE_SECONDS:Number = 1.0;
+		public static const PROJECTILE_ENERGY_BALL_LIFE_SECONDS:Number = 7.5;
+		public static const PROJECTILE_ENERGY_BALL_SPEED:Number = 5.0;
 		
 		public static const LOADING_ANIM_FRAMES_LONG:int = 19;
 		

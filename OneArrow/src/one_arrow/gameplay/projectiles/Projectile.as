@@ -7,6 +7,7 @@ package one_arrow.gameplay.projectiles
 	import nape.phys.Body;
 	import nape.phys.BodyType;
 	import one_arrow.events.ProjectileEvent;
+	import one_arrow.gameplay.GameplayMain;
 	
 	/**
 	 * ...
@@ -17,17 +18,19 @@ package one_arrow.gameplay.projectiles
 		public static const TYPE_ENERGY_BALL:int = 0;
 		public static const PROJECTILE_CB_TYPE:CbType = new CbType();
 		
+		protected var _main:GameplayMain;
+		
 		public function get body():Body { return _body; }
 		protected var _body:Body;
 		
 		public var type:int;
 		
-		public function Projectile(newType:int = 0) 
+		public function Projectile(gameplayMain:GameplayMain, newType:int = 0) 
 		{
 			mouseEnabled = false;
 			mouseChildren = false;
-			
-			type = newType;
+		
+			_main = gameplayMain;
 			
 			_body = new Body(BodyType.KINEMATIC);
 			_body.userData.graphic = this;
