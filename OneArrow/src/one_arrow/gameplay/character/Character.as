@@ -120,7 +120,7 @@ package one_arrow.gameplay.character
 			else
 			{
 				var rayResult:RayResult = _main.physicalWorld.space.rayCast(
-					Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(0, -_verticalSpeed))),
+					Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(0, _feetInFloor ? 2 * Config.PLAYER_SPEED_DOWN : -_verticalSpeed))),
 					true,
 					new InteractionFilter(4, PhysicalWorld.TERRAIN_COLLISION_GROUP));
 				if (rayResult)
@@ -129,6 +129,7 @@ package one_arrow.gameplay.character
 						AutoFx.showFx(new FxLand(), physicalBody.position.x, physicalBody.position.y);
 					_feetInFloor = true;
 					_remainingJumps = 2;
+					_verticalSpeed = 0;
 					_nextPosition.y += rayResult.distance;
 				}
 				else
@@ -147,7 +148,7 @@ package one_arrow.gameplay.character
 				setAnimation(ANIM_FALLING);
 				scaleX = _lastScaleX;
 			}
-			else if (movementThisFrameY < -3)
+			else if (movementThisFrameY < 0 && !_feetInFloor)
 			{
 				setAnimation(ANIM_JUMPING);
 				scaleX = _lastScaleX;
@@ -207,7 +208,7 @@ package one_arrow.gameplay.character
 		{
 			_feetInFloor = false;
 			_remainingJumps--;
-			_verticalSpeed = 40;
+			_verticalSpeed = 32;
 			AutoFx.showFx(new FxJump(), physicalBody.position.x, physicalBody.position.y);
 		}
 		
