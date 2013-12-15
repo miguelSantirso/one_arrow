@@ -35,6 +35,7 @@ package one_arrow.gameplay
 		public function get arrow():Arrow { return _arrow; }
 		private var _arrow:Arrow;
 		private var _enemies:Enemies;
+		private var _currentWave:int = -1;
 		
 		public var cameraX:int = 0;
 		public var cameraY:int = 0;
@@ -79,6 +80,15 @@ package one_arrow.gameplay
 		public override function update():void
 		{
 			super.update();
+			
+			if (_currentWave != _enemies.currentWave)
+			{
+				if (_currentWave == 2)
+				{
+					_character.maxJumps = 2;
+				}
+				_currentWave = _enemies.currentWave;
+			}
 			
 			_character.update();
 			_enemies.update();

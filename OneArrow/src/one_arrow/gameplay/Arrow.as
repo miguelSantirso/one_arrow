@@ -41,9 +41,7 @@ package one_arrow.gameplay
 			
 			_gameplay = gameplayMain;
 			
-			graphics.lineStyle(3, 0x225544);
-			graphics.moveTo(-40, 0);
-			graphics.lineTo(00, 0);
+			addChild(new ArrowRight);
 			
 			_body = new Body(BodyType.DYNAMIC);
 			_body.userData.graphic = this;
@@ -69,7 +67,7 @@ package one_arrow.gameplay
 			shape.filter.collisionMask = PhysicalWorld.ARROW_COLLISION_GROUP;
 			shape.cbTypes.add(_restType);
 			var weight:Circle = new Circle(3);
-			weight.translate(new Vec2(5, 0));
+			//weight.translate(new Vec2(5, 0));
 			weight.body = _body;
 			weight.material.density = 6.5;
 			shape.filter.collisionMask = PhysicalWorld.ARROW_COLLISION_GROUP;

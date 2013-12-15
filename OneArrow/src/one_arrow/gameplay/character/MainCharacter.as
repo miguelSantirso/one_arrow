@@ -195,10 +195,9 @@ package one_arrow.gameplay.character
 		private function shootArrow():void
 		{
 			var angle:Number = clampAngle(_vectorToMouse.angle);
-			_main.arrow.shoot(
-				physicalBody.position.sub(new Vec2(0, 70)),
-				angle
-			);
+			var pos:Vec2 = physicalBody.position.sub(new Vec2(0, 70));
+			_main.arrow.shoot(pos, angle);
+			AutoFx.showFx(new FxShoot(), pos.x + Math.cos(angle) * 30, pos.y + Math.sin(angle) * 30);
 			_nArrowsLeft--;
 			_pointingArmFore.visible = _pointingArmBack.visible = false;
 			
