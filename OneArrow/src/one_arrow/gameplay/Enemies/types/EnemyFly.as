@@ -1,5 +1,6 @@
 package one_arrow.gameplay.enemies.types 
 {
+	import one_arrow.gameplay.enemies.EnemyBase;
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.geom.Point;
@@ -21,14 +22,8 @@ package one_arrow.gameplay.enemies.types
 	 * ...
 	 * @author ...
 	 */
-	public class EnemyFly extends Character 
+	public class EnemyFly extends EnemyBase 
 	{
-		
-		private var _enemyCbType:CbType;
-		
-		public static const DEFEAT_ANIMATION_COMPLETE:String = "deadcomplete";
-		public static const APPEARANCE_ANIMATION_COMPLETE:String = "appearanceComplete";
-		
 		private static const MAXIMUM_IDLE_DISTANCE:int = 100;
 		private static const MOVEMENT_SPEED:int = 2;
 		private static const FOLLOW_SPEED:int = 4;
@@ -36,86 +31,26 @@ package one_arrow.gameplay.enemies.types
 		private static const DISTANCE_TO_ATTACK:int = 50;
 		private static const DISTANCE_TO_DIE:int = 90;
 		
-		private static const STATUS_IDLE:int = 1;
-		private static const STATUS_FOLLOWING:int = 2;
-		private static const STATUS_ATTACKING:int = 3;
-		private static const STATUS_DEFEAT:int = 4;
-		private static const STATUS_APPEARING:int = 5;
-		private static const STATUS_LEAVING:int = 6;
-		private var _status:int;
-		
 		private var _framesLeftLeaving:int = Config.ENEMY_FRAMES_RELAXED_AFTER_ATTACK;
-		
-		private var _initial_position:Point;
-			
-		private var _appearanceEffect:MovieClip;
 		
 		public function EnemyFly(gameplayMain:GameplayMain) 
 		{
 			super(gameplayMain);
-			
+		}
+		
+		protected override function initAnimations():void
+		{
 			_animations[Character.ANIM_IDLE] = new Enemy01Idle();
 			_animations[Character.ANIM_ATTACK] = new Enemy01Attack();
 			_animations[Character.ANIM_DEFEAT] = new Enemy01Defeat();
-			
-			var defeat:MovieClip = _animations[Character.ANIM_DEFEAT];
-			defeat.gotoAndStop(1);
-			FrameScriptInjector.injectStopAtEnd(defeat, DEFEAT_ANIMATION_COMPLETE);
-			defeat.addEventListener(DEFEAT_ANIMATION_COMPLETE, onDefeatAnimationComplete);
-			
-			_status = STATUS_APPEARING;
-			
-			_direction.x = -1;
-			_main.physicalWorld.addBody(_physicalBody);
-			
-			_enemyCbType = new CbType();
-			
-			var collisionBox:Polygon = new Polygon(Polygon.rect( -35, -84, 70, 60));
-			collisionBox.sensorEnabled = true;
-			collisionBox.body = _physicalBody;
-			collisionBox.cbTypes.add(_enemyCbType);
-			_main.physicalWorld.space.listeners.add(new InteractionListener(
-				CbEvent.BEGIN,
-				InteractionType.SENSOR,
-				_enemyCbType,
-				Arrow.ARROW_THROW_CB_TYPE,
-				onCollisionWithArrow
-			));
-			
 		}
 		
-		private function onCollisionWithArrow(cb:InteractionCallback):void
+		protected override function onCollisionWithArrow(cb:InteractionCallback):void
 		{
-			_status = STATUS_DEFEAT;
-			setAnimation(Character.ANIM_DEFEAT);
-			_main.physicalWorld.removeBody(_physicalBody);
+			super.onCollisionWithArrow(cb);
 			
 			Sounds.playSoundById(Sounds.ENEMY_DAMAGE);
 			Sounds.playSoundById(Sounds.ENEMY_DEATH);
-		}
-		
-		public function setPosition(position:Point):void
-		{
-			_initial_position = position;
-			_physicalBody.position.set(new Vec2(position.x, position.y));
-			
-			_appearanceEffect = new FxEnemyAppear();
-			_foreLayer.addChild(_appearanceEffect);
-			FrameScriptInjector.injectFunctionToLabel(_appearanceEffect, "appear", onEnemyAppear);
-			FrameScriptInjector.injectStopAtEnd(_appearanceEffect, APPEARANCE_ANIMATION_COMPLETE);
-			_appearanceEffect.addEventListener(APPEARANCE_ANIMATION_COMPLETE, onAppearanceComplete);
-		}
-		
-		private function onEnemyAppear():void
-		{
-			setAnimation(Character.ANIM_IDLE);
-			_status = STATUS_IDLE;
-		}
-		
-		private function onAppearanceComplete(evt:Event):void
-		{
-			_appearanceEffect.removeEventListener(APPEARANCE_ANIMATION_COMPLETE, onAppearanceComplete);
-			_foreLayer.removeChild(_appearanceEffect);
 		}
 		
 		private function setAssetDirection():void
@@ -126,17 +61,7 @@ package one_arrow.gameplay.enemies.types
 				_animations[_currentAnimation].scaleX = -1;
 		}
 		
-		private function onDefeatAnimationComplete(evt:Event):void
-		{
-			_animations[Character.ANIM_DEFEAT].removeEventListener(DEFEAT_ANIMATION_COMPLETE, onDefeatAnimationComplete);
-			while (_animLayer.numChildren > 0) {
-				_animLayer.removeChildAt(0);
-			}
-			
-			dispatchEvent(new Event(DEFEAT_ANIMATION_COMPLETE));
-		}
-		
-		override public function update():void
+		public override function update():void
 		{
 			
 			if (_status == STATUS_DEFEAT || _status == STATUS_APPEARING)

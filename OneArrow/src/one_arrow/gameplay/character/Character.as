@@ -70,6 +70,8 @@ package one_arrow.gameplay.character
 		public static const ANIM_HIT_FALLING_LOOP:int = 13;
 		public static const ANIM_HIT_RECOVER:int = 14;
 		
+		public static const ANIM_IDLE_SHIELD:int = 15;
+		
 		public function get currentAnimMc():MovieClip { return _animations[_currentAnimation]; }
 		protected var _animations:Dictionary = new Dictionary();
 		protected var _currentAnimation:int = -1;
