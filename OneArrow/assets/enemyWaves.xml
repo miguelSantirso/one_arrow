@@ -6,4 +6,16 @@
 	<enemy x="1000" y="300" type="0"/>
 	<enemy x="500" y="220" type="0"/>
 </wave>
+<wave>
+	<enemy x="300" y="800" type="0"/>
+	<enemy x="600" y="600" type="0"/>
+	<enemy x="900" y="300" type="0"/>
+	<enemy x="1000" y="220" type="0"/>
+</wave>
+<wave>
+	<enemy x="300" y="800" type="0"/>
+	<enemy x="1500" y="800" type="0"/>
+	<enemy x="1000" y="800" type="0"/>
+	<enemy x="500" y="800" type="0"/>
+</wave>
 </data>
