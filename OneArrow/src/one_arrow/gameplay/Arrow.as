@@ -20,6 +20,8 @@ package one_arrow.gameplay
 	 */
 	public class Arrow extends Sprite 
 	{
+		public static const ARROW_CB_TYPE:CbType = new CbType();
+		
 		private var _gameplay:GameplayMain;
 		private var _tipType:CbType = new CbType();
 		private var _restType:CbType = new CbType();
@@ -29,6 +31,7 @@ package one_arrow.gameplay
 		
 		public function get body():Body { return _body; }
 		private var _body:Body;
+		private var _sensor:Circle;
 		
 		public function Arrow(gameplayMain:GameplayMain) 
 		{
@@ -65,7 +68,13 @@ package one_arrow.gameplay
 			weight.translate(new Vec2(5, 0));
 			weight.body = _body;
 			weight.material.density = 6.5;
+			shape.filter.collisionMask = PhysicalWorld.ARROW_COLLISION_GROUP;
 			weight.cbTypes.add(_tipType);
+			_sensor = new Circle(50);
+			_sensor.material.density = 0;
+			_sensor.sensorEnabled = true;
+			_sensor.cbTypes.add(ARROW_CB_TYPE);
+			_sensor.body = _body;
 		}
 		
 		
@@ -82,6 +91,8 @@ package one_arrow.gameplay
 			_body.angularVel = 0;
 			_body.isBullet = true;
 			_body.applyImpulse(direction.mul(600));
+			
+			_sensor.cbTypes.remove(ARROW_CB_TYPE);
 		}
 		
 		private function onValidTerrainCollision(cb:InteractionCallback):void
@@ -91,12 +102,14 @@ package one_arrow.gameplay
 			_body.velocity = Vec2.get();
 			_body.angularVel = 0;
 			_body.allowMovement = _body.allowRotation = false;
+			_sensor.cbTypes.add(ARROW_CB_TYPE);
 		}
 		
 		private function onInvalidTerrainCollision(cb:InteractionCallback):void
 		{
 			_body.allowRotation = true;
 			_canStick = false;
+			_sensor.cbTypes.add(ARROW_CB_TYPE);
 		}
 		
 	}

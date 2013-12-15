@@ -3,7 +3,13 @@ package one_arrow.gameplay.character
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import nape.callbacks.CbEvent;
+	import nape.callbacks.CbType;
+	import nape.callbacks.InteractionCallback;
+	import nape.callbacks.InteractionListener;
+	import nape.callbacks.InteractionType;
 	import nape.geom.Vec2;
+	import nape.shape.Polygon;
 	import one_arrow.gameplay.Arrow;
 	import one_arrow.gameplay.GameplayMain;
 	import one_arrow.Main;
@@ -14,6 +20,10 @@ package one_arrow.gameplay.character
 	 */
 	public class MainCharacter extends Character 
 	{
+		public static const CHARACTER_CB_TYPE:CbType = new CbType();
+		
+		private var _nArrowsLeft:int = 1;
+		
 		private var _mouseDown:Boolean = false;
 		private var _framesToStartPointing:int = -1;
 		
@@ -36,6 +46,18 @@ package one_arrow.gameplay.character
 			_animations[Character.ANIM_POINTING_LEFT] = new MainCharPointingLeft();
 			
 			setAnimation(Character.ANIM_IDLE_RIGHT);
+			
+			var collisionBox:Polygon = new Polygon(Polygon.rect( -35, -108, 70, 108));
+			collisionBox.sensorEnabled = true;
+			collisionBox.body = physicalBody;
+			collisionBox.cbTypes.add(CHARACTER_CB_TYPE);
+			_main.physicalWorld.space.listeners.add(new InteractionListener(
+				CbEvent.BEGIN,
+				InteractionType.SENSOR,
+				CHARACTER_CB_TYPE,
+				Arrow.ARROW_CB_TYPE,
+				onCollisionWithArrow
+			));
 			
 			_foreLayer.addChild(_pointingArmFore);
 			_backLayer.addChild(_pointingArmBack);
@@ -105,7 +127,6 @@ package one_arrow.gameplay.character
 				
 				if (Main.input.canJump && _remainingJumps > 0)
 				{
-					//shootArrow();
 					// Jump
 					_remainingJumps--;
 					_jumpFramesLeft = 10;
@@ -123,11 +144,19 @@ package one_arrow.gameplay.character
 				physicalBody.position.sub(new Vec2(0, 70)),
 				dir
 			);
+			_nArrowsLeft--;
 			_pointingArmFore.visible = _pointingArmBack.visible = false;
+		}
+		private function onCollisionWithArrow(cb:InteractionCallback):void
+		{
+			_main.arrow.body.position = new Vec2( -200, -200);
+			_nArrowsLeft++;
 		}
 		
 		private function onStageDown(e:MouseEvent):void
 		{
+			if (_nArrowsLeft <= 0) return;
+			
 			_mouseDown = true;
 			setAnimation(_lastScaleX == 1 ? Character.ANIM_LOADING_RIGHT : Character.ANIM_LOADING_LEFT);
 			scaleX = 1;
@@ -141,7 +170,7 @@ package one_arrow.gameplay.character
 			_mouseDown = false;
 			_lastMouseWorldPos.x = e.localX - 400 + _main.cameraX;
 			_lastMouseWorldPos.y = e.localY - 300 + _main.cameraY + 50;
-			if (_framesToStartPointing == -1)
+			if (_framesToStartPointing == -1 && _nArrowsLeft)
 				shootArrow(_lastMouseWorldPos);
 		}
 		private function onMouseMove(e:MouseEvent):void

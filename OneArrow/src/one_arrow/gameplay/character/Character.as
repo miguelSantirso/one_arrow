@@ -30,6 +30,7 @@ package one_arrow.gameplay.character
 	import one_arrow.gameplay.GameplayMain;
 	import one_arrow.Config;
 	
+	import one_arrow.gameplay.world.PhysicalWorld;
 	import one_arrow.Main;
 	
 	/**
@@ -112,7 +113,8 @@ package one_arrow.gameplay.character
 			{
 				var rayResult:RayResult = _main.physicalWorld.space.rayCast(
 					Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(0, 2 * Config.PLAYER_SPEED_DOWN))),
-					true);
+					true,
+					new InteractionFilter(4, PhysicalWorld.TERRAIN_COLLISION_GROUP));
 				if (!rayResult)
 					_nextPosition.y += 2*Config.PLAYER_SPEED_DOWN;
 				else
@@ -167,7 +169,7 @@ package one_arrow.gameplay.character
 			var sign:Number = (_direction.x > 0 ? 1 : -1);
 			
 			var ray:Ray = new Ray(_nextPosition, _direction);
-			var rayResult:RayResult = _main.physicalWorld.space.rayCast(ray, true);
+			var rayResult:RayResult = _main.physicalWorld.space.rayCast(ray, true, new InteractionFilter(4, PhysicalWorld.TERRAIN_COLLISION_GROUP));
 			if (rayResult)
 			{
 				_nextPosition.x += sign * Math.min(rayResult.distance - 1, Config.PLAYER_SPEED_HORIZONTAL);

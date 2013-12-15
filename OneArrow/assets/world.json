@@ -65,7 +65,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "body3",
+			"name" : "body3_terrain",
 			"position" : 
 			{
 				"x" : 23.00090217590332,
@@ -110,7 +110,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "body3",
+			"name" : "body3_terrain",
 			"position" : 
 			{
 				"x" : 10.40634250640869,
@@ -157,7 +157,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "body3",
+			"name" : "body3_terrain",
 			"position" : 
 			{
 				"x" : 9.676252365112305,
@@ -272,7 +272,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "body2",
+			"name" : "body2_terrain",
 			"position" : 
 			{
 				"x" : 1.891300678253174,
@@ -317,7 +317,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "body0",
+			"name" : "body0_terrain",
 			"position" : 
 			{
 				"x" : 3.382991313934326,
@@ -348,7 +348,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "body1",
+			"name" : "body1_terrain",
 			"position" : 
 			{
 				"x" : 25.35542488098145,
@@ -379,7 +379,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "body1",
+			"name" : "body1_terrain",
 			"position" : 
 			{
 				"x" : 2.534048318862915,
@@ -410,7 +410,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "wall_right",
+			"name" : "wall_right_terrain",
 			"position" : 
 			{
 				"x" : 30.0058593750,
@@ -441,7 +441,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "wall_left",
+			"name" : "wall_left_terrain",
 			"position" : 
 			{
 				"x" : 1.024723172187805,
@@ -472,7 +472,7 @@
 				}
 			],
 			"linearVelocity" : 0,
-			"name" : "floor",
+			"name" : "floor_terrain",
 			"position" : 
 			{
 				"x" : 13.99762058258057,
