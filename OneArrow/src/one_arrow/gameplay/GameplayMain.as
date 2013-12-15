@@ -10,12 +10,13 @@ package one_arrow.gameplay
 	import one_arrow.gameplay.enemies.Enemies;
 	import one_arrow.gameplay.world.PhysicalWorld;
 	import one_arrow.Config;
+	import one_arrow.GameScreen;
 	
 	/**
 	 * ...
 	 * @author Miguel Santirso
 	 */
-	public class GameplayMain extends Sprite 
+	public class GameplayMain extends GameScreen
 	{
 		[Embed(source = "../../../assets/background.png")]
 		private var BackgroundClass:Class;
@@ -40,12 +41,13 @@ package one_arrow.gameplay
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
-		private function init(e:Event = null):void 
+		protected override function init(e:Event = null):void 
 		{
+			super.init(e);
+			
 			addChild(_bg);
 			mouseEnabled = true;
 			
-			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
 			_physicalWorld = new PhysicalWorld(this);
 			
@@ -60,8 +62,15 @@ package one_arrow.gameplay
 			_physicalWorld.addBody(_character.physicalBody);
 		}
 		
-		public function update():void
+		protected override function dispose(e:Event = null):void
 		{
+			super.dispose(e);
+		}
+		
+		public override function update():void
+		{
+			super.update();
+			
 			_character.update();
 			_enemies.update();
 			

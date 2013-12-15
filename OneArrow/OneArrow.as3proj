@@ -25,7 +25,6 @@
     <option allowSourcePathOverlap="False" />
     <option benchmark="False" />
     <option es="False" />
-    <option inline="False" />
     <option locale="" />
     <option loadConfig="" />
     <option optimize="True" />
@@ -60,6 +59,7 @@
     <element path="assets\enemy_01_actions.swc" />
     <element path="assets\fx_enemy_appears.swc" />
     <element path="assets\sound.swc" />
+    <element path="assets\pantalla_start.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
@@ -93,7 +93,6 @@
   <options>
     <option showHiddenPaths="False" />
     <option testMovie="Default" />
-    <option testMovieCommand="" />
   </options>
   <!-- Plugin storage -->
   <storage />
