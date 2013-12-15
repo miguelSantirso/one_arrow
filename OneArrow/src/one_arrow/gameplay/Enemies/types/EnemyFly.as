@@ -22,7 +22,7 @@ package one_arrow.gameplay.enemies.types
 	public class EnemyFly extends Character 
 	{
 		
-		public static const ENEMY_CB_TYPE:CbType = new CbType();
+		private var _enemyCbType:CbType;
 		
 		public static const DEFEAT_ANIMATION_COMPLETE:String = "deadcomplete";
 		
@@ -62,15 +62,17 @@ package one_arrow.gameplay.enemies.types
 			_direction.x = -1;
 			_main.physicalWorld.addBody(_physicalBody);
 			
+			_enemyCbType = new CbType();
+			
 			var collisionBox:Polygon = new Polygon(Polygon.rect( -35, -84, 70, 60));
 			collisionBox.sensorEnabled = true;
 			collisionBox.body = _physicalBody;
-			collisionBox.cbTypes.add(ENEMY_CB_TYPE);
+			collisionBox.cbTypes.add(_enemyCbType);
 			_main.physicalWorld.space.listeners.add(new InteractionListener(
 				CbEvent.BEGIN,
 				InteractionType.SENSOR,
-				ENEMY_CB_TYPE,
-				Arrow.ARROW_CB_TYPE,
+				_enemyCbType,
+				Arrow.ARROW_THROW_CB_TYPE,
 				onCollisionWithArrow
 			));
 			
@@ -78,7 +80,9 @@ package one_arrow.gameplay.enemies.types
 		
 		private function onCollisionWithArrow(cb:InteractionCallback):void
 		{
-			trace("collision with arrow");
+			_status = STATUS_DEFEAT;
+			setAnimation(Character.ANIM_DEFEAT);
+			_main.physicalWorld.removeBody(_physicalBody);
 		}
 		
 		public function setPosition(position:Point):void
