@@ -12,7 +12,7 @@ package one_arrow.ui
 		
 		private var _waveComplete:Boolean = false;
 		private var _newWaveFramesLeft:int;
-		public var countDownMillisLeft:uint;
+		public var countDownMillisLeft:int;
 		
 		public function BgScoreboard() 
 		{

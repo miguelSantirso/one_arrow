@@ -64,6 +64,7 @@
     <element path="assets\enemy_03_actions.swc" />
     <element path="assets\icono_flecha.swc" />
     <element path="assets\scoreboard.swc" />
+    <element path="assets\main_char_defeat.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
