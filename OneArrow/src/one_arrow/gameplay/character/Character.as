@@ -78,6 +78,9 @@ package one_arrow.gameplay.character
 		
 		public function Character(gameplayMain:GameplayMain) 
 		{
+			mouseEnabled = false;
+			mouseChildren = false;
+			
 			_main = gameplayMain;
 			
 			addChild(_backLayer);

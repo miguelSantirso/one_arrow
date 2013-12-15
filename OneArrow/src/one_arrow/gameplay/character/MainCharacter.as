@@ -30,6 +30,8 @@ package one_arrow.gameplay.character
 		private var _pointingArmFore:MovieClip = new MainCharArmPointingRightFore();
 		private var _pointingArmBack:MovieClip = new MainCharArmPointingRightBack();
 		private var _lastMouseWorldPos:Vec2 = new Vec2();
+		public function get vectorToMouse():Vec2 { return _vectorToMouse; }
+		private var _vectorToMouse:Vec2 = new Vec2();
 		
 		public function MainCharacter(gameplayMain:GameplayMain)
 		{
@@ -75,6 +77,8 @@ package one_arrow.gameplay.character
 		
 		public override function update():void
 		{
+			_vectorToMouse = _lastMouseWorldPos.sub(physicalBody.position);
+			
 			if (_mouseDown)
 			{
 				if (_framesToStartPointing > 0)
@@ -89,7 +93,7 @@ package one_arrow.gameplay.character
 				}
 				else
 				{
-					var vectorToMouse:Vec2 = _lastMouseWorldPos.sub(physicalBody.position);
+					var vectorToMouseTmp:Vec2 = _vectorToMouse.copy();
 					
 					if (_lastMouseWorldPos.x > physicalBody.position.x)
 					{
@@ -104,12 +108,12 @@ package one_arrow.gameplay.character
 						_pointingArmBack.scaleX = _pointingArmFore.scaleX = -1;
 						_pointingArmFore.x = 4;
 						setAnimation(Character.ANIM_POINTING_LEFT);
-						vectorToMouse.x = -vectorToMouse.x;
-						vectorToMouse.y = -vectorToMouse.y;
+						vectorToMouseTmp.x = -vectorToMouseTmp.x;
+						vectorToMouseTmp.y = -vectorToMouseTmp.y;
 					}
 					
 					
-					var angle:Number = vectorToMouse.angle * 57.2957795;
+					var angle:Number = vectorToMouseTmp.angle * 57.2957795;
 					if (angle < -45) angle = -45;
 					if (angle > 40) angle = 40;
 					_pointingArmBack.rotation = _pointingArmFore.rotation = angle;
@@ -175,7 +179,6 @@ package one_arrow.gameplay.character
 		}
 		private function onMouseMove(e:MouseEvent):void
 		{
-			if (!_mouseDown) return;
 			var p:Point = _main.globalToLocal(new Point(e.stageX, e.stageY));
 			_lastMouseWorldPos.x = e.localX - 400 + _main.cameraX;
 			_lastMouseWorldPos.y = e.localY - 300 + _main.cameraY + 50;

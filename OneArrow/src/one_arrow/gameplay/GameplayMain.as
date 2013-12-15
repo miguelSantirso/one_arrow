@@ -25,8 +25,8 @@ package one_arrow.gameplay
 		
 		private var _bg:Bitmap = new BackgroundClass();
 		
-		public function get character():Character { return _character; }
-		private var _character:Character;
+		public function get character():MainCharacter { return _character; }
+		private var _character:MainCharacter;
 		public function get arrow():Arrow { return _arrow; }
 		private var _arrow:Arrow;
 		private var _enemies:Enemies;
@@ -65,8 +65,16 @@ package one_arrow.gameplay
 			_character.update();
 			_enemies.update();
 			
-			cameraX = _character.physicalBody.position.x;
-			cameraY = _character.physicalBody.position.y;
+			cameraX = _character.physicalBody.position.x;// + _character.vectorToMouse.x * 0.25;
+			cameraY = _character.physicalBody.position.y;// + _character.vectorToMouse.y * 0.25;
+			if (Math.abs(_character.vectorToMouse.x) >= 1)
+			{
+				cameraX += _character.vectorToMouse.x * 0.12;
+			}
+			if (Math.abs(_character.vectorToMouse.y) >= 1)
+			{
+				cameraY += _character.vectorToMouse.y * 0.1;
+			}
 			
 			if (cameraX < 400) cameraX = 400;
 			if (cameraY < 300) cameraY = 300;

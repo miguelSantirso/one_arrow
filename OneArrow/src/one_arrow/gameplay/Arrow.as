@@ -35,6 +35,9 @@ package one_arrow.gameplay
 		
 		public function Arrow(gameplayMain:GameplayMain) 
 		{
+			mouseEnabled = false;
+			mouseChildren = false;
+			
 			_gameplay = gameplayMain;
 			
 			graphics.lineStyle(3, 0x225544);
