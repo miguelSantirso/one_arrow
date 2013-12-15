@@ -22,6 +22,8 @@ package one_arrow.gameplay
 	{
 		[Embed(source = "../../../assets/background.png")]
 		private var BackgroundClass:Class;
+		[Embed(source = "../../../assets/foreground.png")]
+		private var ForegroundClass:Class;
 		
 		public function get physicalWorld():PhysicalWorld { return _physicalWorld; }
 		private var _physicalWorld:PhysicalWorld;
@@ -72,8 +74,10 @@ package one_arrow.gameplay
 			addChild(_character);
 			_physicalWorld.addBody(_character.physicalBody);
 			
-			
+			_fore.mouseChildren = false;
+			_fore.mouseEnabled = false;
 			addChild(_fore);
+			_fore.addChild(new ForegroundClass());
 			
 			_arrowsIndicator = new ArrowIndicator();
 			addChild(_arrowsIndicator);
