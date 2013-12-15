@@ -9,6 +9,7 @@ package one_arrow.gameplay
 	import one_arrow.gameplay.character.MainCharacter;
 	import one_arrow.gameplay.enemies.Enemies;
 	import one_arrow.gameplay.world.PhysicalWorld;
+	import one_arrow.Config;
 	
 	/**
 	 * ...
@@ -66,6 +67,11 @@ package one_arrow.gameplay
 			
 			cameraX = _character.physicalBody.position.x;
 			cameraY = _character.physicalBody.position.y;
+			
+			if (cameraX < 400) cameraX = 400;
+			if (cameraY < 300) cameraY = 300;
+			if (cameraX > Config.WORLD_SIZE_X - 400) cameraX = Config.WORLD_SIZE_X - 400;
+			if (cameraY > Config.WORLD_SIZE_Y - 300) cameraY = Config.WORLD_SIZE_Y - 300;
 			
 			_bg.x = 400 - cameraX;
 			_bg.y = 300 - cameraY;
