@@ -72,6 +72,8 @@ package one_arrow.gameplay.projectiles
 				
 				if (contains(evt.protectile))
 					removeChild(evt.protectile);
+					
+				trace("projectiles left",_projectiles.length);
 			}
 		}
 	}
