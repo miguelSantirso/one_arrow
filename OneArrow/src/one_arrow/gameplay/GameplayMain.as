@@ -8,6 +8,7 @@ package one_arrow.gameplay
 	import one_arrow.gameplay.character.Character;
 	import one_arrow.gameplay.character.MainCharacter;
 	import one_arrow.gameplay.enemies.Enemies;
+	import one_arrow.gameplay.fx.AutoFx;
 	import one_arrow.gameplay.world.PhysicalWorld;
 	import one_arrow.Config;
 	
@@ -23,7 +24,10 @@ package one_arrow.gameplay
 		public function get physicalWorld():PhysicalWorld { return _physicalWorld; }
 		private var _physicalWorld:PhysicalWorld;
 		
+		public function get bg():Bitmap { return _bg; }
 		private var _bg:Bitmap = new BackgroundClass();
+		public function get fore():Sprite { return _fore; }
+		private var _fore:Sprite = new Sprite();
 		
 		public function get character():MainCharacter { return _character; }
 		private var _character:MainCharacter;
@@ -36,6 +40,8 @@ package one_arrow.gameplay
 		
 		public function GameplayMain():void 
 		{
+			AutoFx._gameplay = this;
+			
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -58,6 +64,9 @@ package one_arrow.gameplay
 			_character.physicalBody.position = new Vec2(800, 805);
 			addChild(_character);
 			_physicalWorld.addBody(_character.physicalBody);
+			
+			
+			addChild(_fore);
 		}
 		
 		public function update():void
@@ -81,8 +90,8 @@ package one_arrow.gameplay
 			if (cameraX > Config.WORLD_SIZE_X - 400) cameraX = Config.WORLD_SIZE_X - 400;
 			if (cameraY > Config.WORLD_SIZE_Y - 300) cameraY = Config.WORLD_SIZE_Y - 300;
 			
-			_bg.x = 400 - cameraX;
-			_bg.y = 300 - cameraY;
+			_fore.x = _bg.x = 400 - cameraX;
+			_fore.y = _bg.y = 300 - cameraY;
 			
 			_physicalWorld.update();
 		}

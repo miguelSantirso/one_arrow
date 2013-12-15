@@ -42,6 +42,7 @@
       <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\assets\main_character_actions.swc</path-element>
       <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\assets\enemy_01_actions.swc</path-element>
       <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\assets\fx_enemy_appears.swc</path-element>
+      <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\assets\fx_main_character.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>

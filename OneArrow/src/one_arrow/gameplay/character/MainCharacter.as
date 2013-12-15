@@ -11,6 +11,7 @@ package one_arrow.gameplay.character
 	import nape.geom.Vec2;
 	import nape.shape.Polygon;
 	import one_arrow.gameplay.Arrow;
+	import one_arrow.gameplay.fx.AutoFx;
 	import one_arrow.gameplay.GameplayMain;
 	import one_arrow.Main;
 	
@@ -132,8 +133,7 @@ package one_arrow.gameplay.character
 				if (Main.input.canJump && _remainingJumps > 0)
 				{
 					// Jump
-					_remainingJumps--;
-					_verticalSpeed = 40;
+					jump();
 				}
 			}
 			
