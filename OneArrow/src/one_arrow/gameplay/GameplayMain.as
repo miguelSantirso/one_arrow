@@ -145,13 +145,13 @@ package one_arrow.gameplay
 				cameraY += _character.vectorToMouse.y * 0.1;
 			}
 			
-			if (cameraX < 400) cameraX = 400;
-			if (cameraY < 300) cameraY = 300;
-			if (cameraX > Config.WORLD_SIZE_X - 400) cameraX = Config.WORLD_SIZE_X - 400;
-			if (cameraY > Config.WORLD_SIZE_Y - 300) cameraY = Config.WORLD_SIZE_Y - 300;
+			if (cameraX < 0.5 * Config.SCREEN_SIZE_X) cameraX = 0.5 * Config.SCREEN_SIZE_X;
+			if (cameraY < 0.5 * Config.SCREEN_SIZE_Y) cameraY = 0.5 * Config.SCREEN_SIZE_Y;
+			if (cameraX > Config.WORLD_SIZE_X - 0.5 * Config.SCREEN_SIZE_X) cameraX = Config.WORLD_SIZE_X - 0.5 * Config.SCREEN_SIZE_X;
+			if (cameraY > Config.WORLD_SIZE_Y - 0.5 * Config.SCREEN_SIZE_Y) cameraY = Config.WORLD_SIZE_Y - 0.5 * Config.SCREEN_SIZE_Y;
 			
-			_fore.x = _bg.x = 400 - cameraX;
-			_fore.y = _bg.y = 300 - cameraY;
+			_fore.x = _bg.x = 0.5 * Config.SCREEN_SIZE_X - cameraX;
+			_fore.y = _bg.y = 0.5 * Config.SCREEN_SIZE_Y - cameraY;
 			
 			_physicalWorld.update();
 			

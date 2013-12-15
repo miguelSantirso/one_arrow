@@ -249,14 +249,14 @@ package one_arrow.gameplay.character
 			setAnimation(_lastScaleX == 1 ? Character.ANIM_LOADING_RIGHT : Character.ANIM_LOADING_LEFT);
 			scaleX = 1;
 			_framesToStartPointing = Config.LOADING_ANIM_FRAMES_LONG;
-			_lastMouseWorldPos.x = e.stageX - 400 + _main.cameraX;
-			_lastMouseWorldPos.y = e.stageY - 300 + _main.cameraY + 50;
+			_lastMouseWorldPos.x = e.stageX - 0.5 * Config.SCREEN_SIZE_X + _main.cameraX;
+			_lastMouseWorldPos.y = e.stageY - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;
 		}
 		private function onStageUp(e:MouseEvent):void
 		{
 			_mouseDown = false;
-			_lastMouseWorldPos.x = e.stageX - 400 + _main.cameraX;
-			_lastMouseWorldPos.y = e.stageY - 300 + _main.cameraY + 50;
+			_lastMouseWorldPos.x = e.stageX - 0.5 * Config.SCREEN_SIZE_X + _main.cameraX;
+			_lastMouseWorldPos.y = e.stageY - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;
 			if (_framesToStartPointing == -1)
 			{
 				shootArrow();
@@ -266,8 +266,8 @@ package one_arrow.gameplay.character
 		private function onMouseMove(e:MouseEvent):void
 		{
 			var p:Point = _main.globalToLocal(new Point(e.stageX, e.stageY));
-			_lastMouseWorldPos.x = e.stageX - 400 + _main.cameraX;
-			_lastMouseWorldPos.y = e.stageY - 300 + _main.cameraY + 50;
+			_lastMouseWorldPos.x = e.stageX - 0.5 * Config.SCREEN_SIZE_X + _main.cameraX;
+			_lastMouseWorldPos.y = e.stageY - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;
 		}
 		
 	}
