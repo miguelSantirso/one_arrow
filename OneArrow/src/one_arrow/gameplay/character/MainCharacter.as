@@ -208,6 +208,7 @@ package one_arrow.gameplay.character
 			_main.arrow.shoot(pos, angle);
 			AutoFx.showFx(new FxShoot(), pos.x + Math.cos(angle) * 30, pos.y + Math.sin(angle) * 30);
 			_nArrowsLeft--;
+			_main.arrowIndicator.setArrowsEmpty();
 			_pointingArmFore.visible = _pointingArmBack.visible = false;
 			
 			Sounds.playSoundById(Sounds.ARROW_THROW);
@@ -217,6 +218,7 @@ package one_arrow.gameplay.character
 			AutoFx.showFx(new FxPickArrow(), _main.arrow.body.position.x, _main.arrow.body.position.y);
 			_main.arrow.body.position = new Vec2( -200, -200);
 			_nArrowsLeft++;
+			_main.arrowIndicator.setArrowAvailable();
 		}
 		
 		
@@ -238,6 +240,9 @@ package one_arrow.gameplay.character
 		
 		private function onStageDown(e:MouseEvent):void
 		{
+			if (_nArrowsLeft <= 0)
+				_main.arrowIndicator.doAnimation();
+			
 			if (_nArrowsLeft <= 0 || !_feetInFloor) return;
 			
 			_mouseDown = true;

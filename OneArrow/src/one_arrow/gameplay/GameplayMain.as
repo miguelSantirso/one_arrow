@@ -12,6 +12,7 @@ package one_arrow.gameplay
 	import one_arrow.gameplay.world.PhysicalWorld;
 	import one_arrow.Config;
 	import one_arrow.GameScreen;
+	import one_arrow.ui.ArrowIndicator;
 	
 	/**
 	 * ...
@@ -29,6 +30,9 @@ package one_arrow.gameplay
 		private var _bg:Bitmap = new BackgroundClass();
 		public function get fore():Sprite { return _fore; }
 		private var _fore:Sprite = new Sprite();
+		
+		public function get arrowIndicator():ArrowIndicator { return _arrowsIndicator; }
+		private var _arrowsIndicator:ArrowIndicator;
 		
 		public function get character():MainCharacter { return _character; }
 		private var _character:MainCharacter;
@@ -70,6 +74,11 @@ package one_arrow.gameplay
 			
 			
 			addChild(_fore);
+			
+			_arrowsIndicator = new ArrowIndicator();
+			addChild(_arrowsIndicator);
+			_arrowsIndicator.x = 20;
+			_arrowsIndicator.y = 20;
 		}
 		
 		protected override function dispose(e:Event = null):void
