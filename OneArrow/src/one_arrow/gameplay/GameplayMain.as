@@ -16,6 +16,7 @@ package one_arrow.gameplay
 	import one_arrow.GameScreen;
 	import one_arrow.ui.ArrowIndicator;
 	import one_arrow.ui.BgScoreboard;
+	import one_arrow.ui.SuccessInformation;
 	
 	/**
 	 * ...
@@ -37,7 +38,8 @@ package one_arrow.gameplay
 		private var _bg:Sprite = new Sprite();
 		public function get fore():Sprite { return _fore; }
 		private var _fore:Sprite = new Sprite();
-		
+		private var _successInformation:SuccessInformation;
+		public function get successInformation():SuccessInformation { return _successInformation; }
 		private var _bgDay:Bitmap = new BackgroundDay();
 		
 		private var _framesElapsed:Number = 0;
@@ -110,6 +112,10 @@ package one_arrow.gameplay
 			_rules.waveCompletedAndReturnPointsObtained();
 			
 			addChild(_fore);
+			
+			_successInformation = new SuccessInformation();
+			addChild(_successInformation);
+			_successInformation.showWave(40, 35000, 5);
 		}
 		
 		protected override function dispose(e:Event = null):void
@@ -159,6 +165,7 @@ package one_arrow.gameplay
 			_character.update();
 			_enemies.update();
 			_projectiles.update();
+			_successInformation.update();
 			
 			cameraX = _character.physicalBody.position.x;
 			cameraY = _character.physicalBody.position.y;
