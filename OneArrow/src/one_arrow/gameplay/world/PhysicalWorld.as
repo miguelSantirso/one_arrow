@@ -91,8 +91,8 @@ package one_arrow.gameplay.world
 			
 			if (debugBitmap)
 			{
-				debugBitmap.display.x = 400 - _gameplay.cameraX;
-				debugBitmap.display.y = 300 - _gameplay.cameraY;
+				debugBitmap.display.x = 0.5 * Config.SCREEN_SIZE_X - _gameplay.cameraX;
+				debugBitmap.display.y = 0.5 * Config.SCREEN_SIZE_Y - _gameplay.cameraY;
 				// Render Space to the debug draw.
 				//   We first clear the debug screen,
 				//   then draw the entire Space,
@@ -122,8 +122,8 @@ package one_arrow.gameplay.world
 			var graphics:DisplayObject = b.userData.graphic;
 			if (graphics)
 			{
-				graphics.x = b.position.x + 400 - _gameplay.cameraX;
-				graphics.y = b.position.y + 300 - _gameplay.cameraY;
+				graphics.x = b.position.x + 0.5 * Config.SCREEN_SIZE_X - _gameplay.cameraX;
+				graphics.y = b.position.y + 0.5 * Config.SCREEN_SIZE_Y - _gameplay.cameraY;
 				graphics.rotation = b.rotation * 57.2957795;
 			}
 		}

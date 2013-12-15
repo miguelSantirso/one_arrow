@@ -9,6 +9,13 @@ package one_arrow
 	{
 		public static const DEBUG:Boolean = false;
 		
+		public static const SCREEN_SIZE_X:int = 1200;
+		public static const SCREEN_SIZE_Y:int = 900;
+		
+		public static const BG_TRANSITION_START_FRAME:Number = 15 * 30;
+		public static const BG_TRANSITION_FRAMES_LONG:Number = 60 * 30;
+		public static const BG_TRANSITION_END_FRAME:Number = BG_TRANSITION_START_FRAME + BG_TRANSITION_FRAMES_LONG;
+		
 		public static const WORLD_SIZE_X:int = 1923;
 		public static const WORLD_SIZE_Y:int = 1095;
 		public static const WORLD_SIZE:Point = new Point(WORLD_SIZE_X, WORLD_SIZE_Y);

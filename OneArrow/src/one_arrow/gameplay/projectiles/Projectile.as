@@ -6,6 +6,7 @@ package one_arrow.gameplay.projectiles
 	import nape.geom.Vec2;
 	import nape.phys.Body;
 	import nape.phys.BodyType;
+	import one_arrow.events.ProjectileEvent;
 	
 	/**
 	 * ...
@@ -51,6 +52,8 @@ package one_arrow.gameplay.projectiles
 		
 		protected function destroy():void
 		{
+			dispatchEvent(new ProjectileEvent(this,ProjectileEvent.DESTROY));
+			
 			dispose();
 		}
 		

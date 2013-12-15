@@ -9,6 +9,7 @@ package one_arrow.events
 	 */
 	public class ProjectileEvent extends Event 
 	{
+		public static const DESTROY:String = "destroyProjectileEvent"
 		protected var _protectile:Projectile;
 		
 		public function ProjectileEvent(projectile:Projectile, type:String, bubbles:Boolean = false, cancelable:Boolean = false) 
