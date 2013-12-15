@@ -38,19 +38,12 @@ package one_arrow
 			_input.init(stage);
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
-			//_gameplayMain = new GameplayMain();
-			//addChild(_gameplayMain);
-			
-			//addChild(new StartMenu());
-			
 			changeGameScreen(GameScreen.START_MENU);
 		}
 		
 		
 		private function onEnterFrame(e:Event):void
 		{
-			//_gameplayMain.update();
-			
 			_gameScreen.update();
 		}
 		

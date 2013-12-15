@@ -58,9 +58,9 @@
     <element path="assets\main_character_actions.swc" />
     <element path="assets\enemy_01_actions.swc" />
     <element path="assets\fx_enemy_appears.swc" />
-    <element path="assets\fx_main_character.swc" />
     <element path="assets\sound.swc" />
     <element path="assets\pantalla_start.swc" />
+    <element path="assets\fx_main_character.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
