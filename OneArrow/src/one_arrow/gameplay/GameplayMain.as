@@ -37,7 +37,8 @@ package one_arrow.gameplay
 		private var _bg:Sprite = new Sprite();
 		public function get fore():Sprite { return _fore; }
 		private var _fore:Sprite = new Sprite();
-		
+		private var _successInformation:SuccessInformation;
+		public function get successInformation():SuccessInformation { return _successInformation; }
 		private var _bgDay:Bitmap = new BackgroundDay();
 		
 		private var _framesElapsed:Number = 0;
@@ -46,8 +47,6 @@ package one_arrow.gameplay
 		private var _arrowsIndicator:ArrowIndicator;
 		public function get scoreboard():BgScoreboard { return _scoreboard; }
 		private var _scoreboard:BgScoreboard = new BgScoreboard();
-		public function get successInformation():SuccessInformation { return _successInformation; }
-		private var _successInformation:SuccessInformation;
 		
 		public function get character():MainCharacter { return _character; }
 		private var _character:MainCharacter;
@@ -94,19 +93,13 @@ package one_arrow.gameplay
 			_physicalWorld.addBody(_character.physicalBody);
 			
 			_projectiles = new Projectiles(this);
+			_projectiles.mouseEnabled = false;
 			addChild(_projectiles);
 			
-
-			_arrowsIndicator = new ArrowIndicator();
-			addChild(_arrowsIndicator);
-			_arrowsIndicator.x = 20;
-			_arrowsIndicator.y = 20;
+			addChild(_fore);
 			
 			_successInformation = new SuccessInformation();
 			addChild(_successInformation);
-
-			addChild(_fore);
-
 		}
 		
 		protected override function dispose(e:Event = null):void
