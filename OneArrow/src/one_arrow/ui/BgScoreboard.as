@@ -12,7 +12,7 @@ package one_arrow.ui
 		
 		private var _waveComplete:Boolean = false;
 		private var _newWaveFramesLeft:int;
-		private var _countdownMillisLeft:int;
+		public var countDownMillisLeft:uint;
 		
 		public function BgScoreboard() 
 		{
@@ -26,11 +26,10 @@ package one_arrow.ui
 		}
 		
 		
-		public function newWave(waveNumber:int, lengthInSeconds):void
+		public function newWave(waveNumber:int):void
 		{
 			_tf.text = "WAVE " + waveNumber;
 			_newWaveFramesLeft = 150;
-			_countdownMillisLeft = lengthInSeconds * 1000;
 			_waveComplete = false;
 		}
 		public function success():void
@@ -44,17 +43,15 @@ package one_arrow.ui
 		{
 			if (_waveComplete) return;
 			
-			_countdownMillisLeft -= 1000 / 30;
-			
 			if (_newWaveFramesLeft > 0)
 			{
 				_newWaveFramesLeft--;
 			}
 			else
 			{
-				if (_countdownMillisLeft > 0)
+				if (countDownMillisLeft > 0)
 				{
-					var aux:int = _countdownMillisLeft;
+					var aux:int = countDownMillisLeft;
 					
 					var minutes:int = Math.floor(aux / 1000 / 60);
 					aux -= minutes * 60 * 1000;

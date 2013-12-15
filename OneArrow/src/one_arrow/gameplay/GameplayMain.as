@@ -9,6 +9,7 @@ package one_arrow.gameplay
 	import one_arrow.gameplay.character.MainCharacter;
 	import one_arrow.gameplay.enemies.Enemies;
 	import one_arrow.gameplay.fx.AutoFx;
+	import one_arrow.gameplay.projectiles.Projectiles;
 	import one_arrow.gameplay.world.PhysicalWorld;
 	import one_arrow.Config;
 	import one_arrow.GameScreen;
@@ -53,10 +54,12 @@ package one_arrow.gameplay
 		public function get arrow():Arrow { return _arrow; }
 		private var _arrow:Arrow;
 		private var _enemies:Enemies;
-		private var _currentWave:int = -1;
+		private var _projectiles:Projectiles;
 		
 		public var cameraX:int = 0;
 		public var cameraY:int = 0;
+		
+		private var _currentWave:int = -1;
 		
 		public function GameplayMain():void 
 		{
@@ -71,6 +74,7 @@ package one_arrow.gameplay
 			super.init(e);
 			
 			addChild(_bg);
+
 			_bg.mouseChildren = false;
 			_bg.addChild(new BackgroundNight());
 			_bg.addChild(_bgDay);
@@ -89,11 +93,10 @@ package one_arrow.gameplay
 			addChild(_character);
 			_physicalWorld.addBody(_character.physicalBody);
 			
-			_fore.mouseChildren = false;
-			_fore.mouseEnabled = false;
-			addChild(_fore);
-			_fore.addChild(new ForegroundClass());
+			_projectiles = new Projectiles(this);
+			addChild(_projectiles);
 			
+
 			_arrowsIndicator = new ArrowIndicator();
 			addChild(_arrowsIndicator);
 			_arrowsIndicator.x = 20;
@@ -101,6 +104,9 @@ package one_arrow.gameplay
 			
 			_successInformation = new SuccessInformation();
 			addChild(_successInformation);
+
+			addChild(_fore);
+
 		}
 		
 		protected override function dispose(e:Event = null):void
@@ -111,7 +117,7 @@ package one_arrow.gameplay
 		public override function update():void
 		{
 			super.update();
-			
+		
 			_framesElapsed++;
 			
 			if (_framesElapsed > Config.BG_TRANSITION_END_FRAME)
@@ -139,6 +145,7 @@ package one_arrow.gameplay
 			
 			_character.update();
 			_enemies.update();
+			_projectiles.update();
 			
 			cameraX = _character.physicalBody.position.x;
 			cameraY = _character.physicalBody.position.y;
@@ -151,19 +158,21 @@ package one_arrow.gameplay
 				cameraY += _character.vectorToMouse.y * 0.1;
 			}
 			
-			if (cameraX < 0.5 * Config.SCREEN_SIZE_X) cameraX = 0.5 * Config.SCREEN_SIZE_X;
-			if (cameraY < 0.5 * Config.SCREEN_SIZE_Y) cameraY = 0.5 * Config.SCREEN_SIZE_Y;
-			if (cameraX > Config.WORLD_SIZE_X - 0.5 * Config.SCREEN_SIZE_X) cameraX = Config.WORLD_SIZE_X - 0.5 * Config.SCREEN_SIZE_X;
-			if (cameraY > Config.WORLD_SIZE_Y - 0.5 * Config.SCREEN_SIZE_Y) cameraY = Config.WORLD_SIZE_Y - 0.5 * Config.SCREEN_SIZE_Y;
+			if (cameraX < 400) cameraX = 400;
+			if (cameraY < 300) cameraY = 300;
+			if (cameraX > Config.WORLD_SIZE_X - 400) cameraX = Config.WORLD_SIZE_X - 400;
+			if (cameraY > Config.WORLD_SIZE_Y - 300) cameraY = Config.WORLD_SIZE_Y - 300;
 			
-			_fore.x = _bg.x = 0.5 * Config.SCREEN_SIZE_X - cameraX;
-			_fore.y = _bg.y = 0.5 * Config.SCREEN_SIZE_Y - cameraY;
+			_fore.x = _bg.x = 400 - cameraX;
+			_fore.y = _bg.y = 300 - cameraY;
 			
 			_physicalWorld.update();
-			
-			_scoreboard.update();
 		}
 		
+		public function createProjectile(type:int,position:Point):void
+		{
+			_projectiles.createProjectile(type,position);
+		}
 	}
 
 }
