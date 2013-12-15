@@ -125,14 +125,20 @@ package one_arrow.gameplay
 				_bgDay.alpha = (Config.BG_TRANSITION_END_FRAME - _framesElapsed) / Config.BG_TRANSITION_FRAMES_LONG;
 			}
 			
-			if (_currentWave != _rules.currentWave)
+			if (_currentWave != _rules.currentWave && !_rules.isResting())
 			{
 				_currentWave = _rules.currentWave;
 				if (_currentWave == 2)
 				{
 					_character.maxJumps = 2;
 				}
+				_enemies.startWave(_currentWave);
 				_scoreboard.newWave(_currentWave + 1);
+			}
+			else if (_enemies.isWaveComplete() && !_rules.isResting())
+			{
+				_rules.waveCompletedAndReturnPointsObtained();
+				_scoreboard.success();
 			}
 			
 			_character.update();

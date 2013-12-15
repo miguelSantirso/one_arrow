@@ -25,9 +25,6 @@ package one_arrow.gameplay.enemies
 		private static const STATUS_WAITING:int = 1;
 		private var _status:int;
 		
-		private static const FRAME_DELAY_UNTIL_NEXT_WAVE:int = 75;
-		private var _frameCounter:int;
-		
 		public function get currentWave():int { return _enemiesData.currentWave; }
 		
 		public function Enemies(gameplayMain:GameplayMain)
@@ -40,7 +37,6 @@ package one_arrow.gameplay.enemies
 			
 			_enemiesData = new EnemiesData();
 			_enemiesData.load();
-			loadEnemies();
 		}
 		
 		public function loadEnemies():void
@@ -76,6 +72,12 @@ package one_arrow.gameplay.enemies
 			
 		}
 		
+		
+		public function isWaveComplete():Boolean
+		{
+			return _status == STATUS_WAITING;
+		}
+		
 		private function onEnemyDefeat(evt:Event):void
 		{
 			evt.currentTarget.removeEventListener(EnemyBase.DEFEAT_ANIMATION_COMPLETE, onEnemyDefeat);
@@ -87,41 +89,25 @@ package one_arrow.gameplay.enemies
 					_enemies.splice(i, 1);
 					
 					if (_enemies.length == 0)
-						prepareNextWave();
+						_status = STATUS_WAITING;
 						
 					return;
 				}
 			}
 		}
 		
-		private function prepareNextWave():void
-		{
-			_status = STATUS_WAITING;
-			_frameCounter = 0;
-		}
 		
-		private function startNextWave():void
+		public function startWave(waveIndex:int):void
 		{
-			_enemiesData.nextWave();
+			_enemiesData.currentWave = waveIndex;
 			loadEnemies();
 			
 			_status = STATUS_FIGHTING;
-			
 			Sounds.playSoundById(Sounds.ENEMY_SPAWN);
 		}
 		
 		public function update():void
 		{
-			if (_status == STATUS_WAITING)
-			{
-				_frameCounter++;
-				
-				if (_frameCounter > FRAME_DELAY_UNTIL_NEXT_WAVE)
-					startNextWave();
-				
-				return;
-			}
-			
 			for (var i:int = 0; i < _enemies.length; i++)
 			{
 				_enemies[i].update();

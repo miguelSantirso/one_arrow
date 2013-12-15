@@ -18,6 +18,11 @@ package one_arrow.gameplay
 		public function get millisRemaining():Number { return _waveMillisRemaining; }
 		private var _waveMillisRemaining:Number;
 		
+		public function isResting():Boolean
+		{
+			return _restTimeFramesRemaining > 0;
+		}
+		
 		
 		public function waveCompletedAndReturnPointsObtained():int
 		{
