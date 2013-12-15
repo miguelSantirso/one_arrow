@@ -17,6 +17,7 @@ package one_arrow.gameplay.enemies.types
 	import one_arrow.gameplay.GameplayMain;
 	import utils.FrameScriptInjector;
 	import one_arrow.gameplay.Arrow;
+	import one_arrow.Sounds;
 	/**
 	 * ...
 	 * @author ...
@@ -89,6 +90,9 @@ package one_arrow.gameplay.enemies.types
 			_status = STATUS_DEFEAT;
 			setAnimation(Character.ANIM_DEFEAT);
 			_main.physicalWorld.removeBody(_physicalBody);
+			
+			Sounds.playSoundById(Sounds.ENEMY_DAMAGE);
+			Sounds.playSoundById(Sounds.ENEMY_DEATH);
 		}
 		
 		public function setPosition(position:Point):void

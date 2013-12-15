@@ -176,6 +176,13 @@ package one_arrow.gameplay.character
 			
 		}
 		
+		protected override function jump():void
+		{
+			super.jump();
+			
+			Sounds.playSoundById(Sounds.JUMP);
+		}
+
 		public function takeDamage():void
 		{
 			_mouseDown = false;
@@ -189,9 +196,10 @@ package one_arrow.gameplay.character
 			_preventDefaultAnimations = true;
 			_verticalSpeed = 15;
 			setAnimation(ANIM_HIT);
+			
+			Sounds.playSoundById(Sounds.DAMAGE);
 		}
-		
-		
+
 		private function shootArrow():void
 		{
 			var angle:Number = clampAngle(_vectorToMouse.angle);
