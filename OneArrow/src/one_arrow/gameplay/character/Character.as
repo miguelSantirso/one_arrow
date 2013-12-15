@@ -70,10 +70,9 @@ package one_arrow.gameplay.character
 		private var _feetSensor:Circle;
 		private var _feetType:CbType = new CbType();
 		
-		
-		private var _jumpAcceleration:Number = 0.3;
 		protected var _remainingJumps:int = 2;
-		protected var _jumpFramesLeft:int = 0;
+		private var _verticalAcceleration:Number = 5;
+		protected var _verticalSpeed:Number = 0;
 		
 		protected var _lastScaleX:int = 1;
 		
@@ -104,26 +103,29 @@ package one_arrow.gameplay.character
 			
 			move();
 			
-			if (_jumpFramesLeft > 0)
+			_verticalSpeed -= _verticalAcceleration;
+			if (_verticalSpeed < -60) _verticalSpeed = -60;
+			
+			if (_verticalSpeed >= 0)
 			{
-				_nextPosition.y -= _jumpAcceleration * _jumpFramesLeft;
-				_jumpFramesLeft--;
+				_nextPosition.y -= _verticalSpeed - Config.PLAYER_SPEED_DOWN;
 			}
 			else
 			{
 				var rayResult:RayResult = _main.physicalWorld.space.rayCast(
-					Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(0, 2 * Config.PLAYER_SPEED_DOWN))),
+					Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(0, -_verticalSpeed))),
 					true,
 					new InteractionFilter(4, PhysicalWorld.TERRAIN_COLLISION_GROUP));
-				if (!rayResult)
-					_nextPosition.y += 2*Config.PLAYER_SPEED_DOWN;
-				else
+				if (rayResult)
 				{
 					_remainingJumps = 2;
 					_nextPosition.y += rayResult.distance;
 				}
+				else
+				{
+					_nextPosition.y -= _verticalSpeed - Config.PLAYER_SPEED_DOWN;
+				}
 			}
-			
 			
 			// ANIMATION
 			
