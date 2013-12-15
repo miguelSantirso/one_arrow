@@ -25,6 +25,7 @@ package one_arrow.gameplay.enemies.types
 		private var _enemyCbType:CbType;
 		
 		public static const DEFEAT_ANIMATION_COMPLETE:String = "deadcomplete";
+		public static const APPEARANCE_ANIMATION_COMPLETE:String = "appearanceComplete";
 		
 		private static const MAXIMUM_IDLE_DISTANCE:int = 100;
 		private static const MOVEMENT_SPEED:int = 4;
@@ -37,10 +38,12 @@ package one_arrow.gameplay.enemies.types
 		private static const STATUS_FOLLOWING:int = 2;
 		private static const STATUS_ATTACKING:int = 3;
 		private static const STATUS_DEFEAT:int = 4;
+		private static const STATUS_APPEARING:int = 5;
 		private var _status:int;
 		
 		private var _initial_position:Point;
 			
+		private var _appearanceEffect:MovieClip;
 		
 		public function EnemyFly(gameplayMain:GameplayMain) 
 		{
@@ -55,9 +58,7 @@ package one_arrow.gameplay.enemies.types
 			FrameScriptInjector.injectStopAtEnd(defeat, DEFEAT_ANIMATION_COMPLETE);
 			defeat.addEventListener(DEFEAT_ANIMATION_COMPLETE, onDefeatAnimationComplete);
 			
-			setAnimation(Character.ANIM_IDLE);
-			
-			_status = STATUS_IDLE;
+			_status = STATUS_APPEARING;
 			
 			_direction.x = -1;
 			_main.physicalWorld.addBody(_physicalBody);
@@ -88,7 +89,20 @@ package one_arrow.gameplay.enemies.types
 		public function setPosition(position:Point):void
 		{
 			_initial_position = position;
-			_physicalBody.position.set(new Vec2(position.x,position.y));
+			_physicalBody.position.set(new Vec2(position.x, position.y));
+			
+			_appearanceEffect = new FxEnemyAppear();
+			FrameScriptInjector.injectStopAtEnd(_appearanceEffect, APPEARANCE_ANIMATION_COMPLETE);
+			_appearanceEffect.addEventListener(APPEARANCE_ANIMATION_COMPLETE, onAppearanceComplete);
+			_foreLayer.addChild(_appearanceEffect);
+		}
+		
+		private function onAppearanceComplete(evt:Event):void
+		{
+			_appearanceEffect.removeEventListener(APPEARANCE_ANIMATION_COMPLETE, onAppearanceComplete);
+			_foreLayer.removeChild(_appearanceEffect);
+			setAnimation(Character.ANIM_IDLE);
+			_status = STATUS_IDLE;
 		}
 		
 		private function setAssetDirection():void
@@ -112,25 +126,8 @@ package one_arrow.gameplay.enemies.types
 		override public function update():void
 		{
 			
-			if (_status == STATUS_DEFEAT)
+			if (_status == STATUS_DEFEAT || _status == STATUS_APPEARING)
 				return;
-			
-			
-			/*if (_main.arrow.canStick)
-			{
-				var arrow:Body = _main.arrow.body;
-				var distanceToArrow = Point.distance(new Point(_physicalBody.position.x, _physicalBody.position.y-25),
-															new Point(arrow.position.x, arrow.position.y));
-				
-				if (distanceToArrow < DISTANCE_TO_DIE)
-				{
-					_status = STATUS_DEFEAT;
-					setAnimation(Character.ANIM_DEFEAT);
-					_main.physicalWorld.removeBody(_physicalBody);
-					return;
-				}
-			}			*/								
-			
 			
 			var hero:Character = _main.character;
 			var distanceToHero:Number = Point.distance(new Point(_physicalBody.position.x, _physicalBody.position.y),

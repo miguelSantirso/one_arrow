@@ -58,6 +58,7 @@
     <element path="lib\nape-symbolic.swc" />
     <element path="assets\main_character_actions.swc" />
     <element path="assets\enemy_01_actions.swc" />
+    <element path="assets\fx_enemy_appears.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
