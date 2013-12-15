@@ -129,6 +129,11 @@ package one_arrow.gameplay.enemies
 		{
 			// We don't call the super.update()
 		}
+		
+		protected function someRandomFrames(maxFrames:int = 30):int
+		{
+			return Math.ceil(maxFrames*Math.random())
+		}
 	}
 
 }
