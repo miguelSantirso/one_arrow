@@ -58,8 +58,8 @@ package one_arrow.gameplay.enemies.types
 		
 		protected function onAttackAnimationComplete(e:Event):void
 		{
-			// temp, has to be projectile
-			//_main.character.takeDamage();
+			// TODO Shoot the projectile
+			// it should use a direction Vec2
 			
 			setIdle();
 		}
@@ -68,7 +68,6 @@ package one_arrow.gameplay.enemies.types
 		{
 			super.onAppearanceComplete(evt);
 			
-			// needs a random
 			setShieldIdle();
 		}
 		

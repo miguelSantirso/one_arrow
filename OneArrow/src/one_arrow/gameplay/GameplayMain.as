@@ -9,11 +9,10 @@ package one_arrow.gameplay
 	import one_arrow.gameplay.character.MainCharacter;
 	import one_arrow.gameplay.enemies.Enemies;
 	import one_arrow.gameplay.fx.AutoFx;
+	import one_arrow.gameplay.projectiles.Projectiles;
 	import one_arrow.gameplay.world.PhysicalWorld;
 	import one_arrow.Config;
 	import one_arrow.GameScreen;
-	import one_arrow.ui.ArrowIndicator;
-	import one_arrow.ui.BgScoreboard;
 	
 	/**
 	 * ...
@@ -23,28 +22,21 @@ package one_arrow.gameplay
 	{
 		[Embed(source = "../../../assets/background.png")]
 		private var BackgroundClass:Class;
-		[Embed(source = "../../../assets/foreground.png")]
-		private var ForegroundClass:Class;
 		
 		public function get physicalWorld():PhysicalWorld { return _physicalWorld; }
 		private var _physicalWorld:PhysicalWorld;
 		
-		public function get bg():Sprite { return _bg; }
-		private var _bg:Sprite = new Sprite();
+		public function get bg():Bitmap { return _bg; }
+		private var _bg:Bitmap = new BackgroundClass();
 		public function get fore():Sprite { return _fore; }
 		private var _fore:Sprite = new Sprite();
-		
-		public function get arrowIndicator():ArrowIndicator { return _arrowsIndicator; }
-		private var _arrowsIndicator:ArrowIndicator;
-		public function get scoreboard():BgScoreboard { return _scoreboard; }
-		private var _scoreboard:BgScoreboard = new BgScoreboard();
 		
 		public function get character():MainCharacter { return _character; }
 		private var _character:MainCharacter;
 		public function get arrow():Arrow { return _arrow; }
 		private var _arrow:Arrow;
 		private var _enemies:Enemies;
-		private var _currentWave:int = -1;
+		private var _projectiles:Projectiles;
 		
 		public var cameraX:int = 0;
 		public var cameraY:int = 0;
@@ -62,9 +54,7 @@ package one_arrow.gameplay
 			super.init(e);
 			
 			addChild(_bg);
-			_bg.mouseChildren = false;
-			_bg.addChild(new BackgroundClass());
-			_bg.addChild(_scoreboard);
+			mouseEnabled = true;
 			
 			// entry point
 			_physicalWorld = new PhysicalWorld(this);
@@ -79,15 +69,10 @@ package one_arrow.gameplay
 			addChild(_character);
 			_physicalWorld.addBody(_character.physicalBody);
 			
-			_fore.mouseChildren = false;
-			_fore.mouseEnabled = false;
-			addChild(_fore);
-			_fore.addChild(new ForegroundClass());
+			_projectiles = new Projectiles(this);
+			addChild(_projectiles);
 			
-			_arrowsIndicator = new ArrowIndicator();
-			addChild(_arrowsIndicator);
-			_arrowsIndicator.x = 20;
-			_arrowsIndicator.y = 20;
+			addChild(_fore);
 		}
 		
 		protected override function dispose(e:Event = null):void
@@ -99,19 +84,9 @@ package one_arrow.gameplay
 		{
 			super.update();
 			
-			
-			if (_currentWave != _enemies.currentWave)
-			{
-				_currentWave = _enemies.currentWave;
-				if (_currentWave == 2)
-				{
-					_character.maxJumps = 2;
-				}
-				_scoreboard.newWave(_currentWave + 1, 30);
-			}
-			
 			_character.update();
 			_enemies.update();
+			_projectiles.update();
 			
 			cameraX = _character.physicalBody.position.x;
 			cameraY = _character.physicalBody.position.y;
@@ -133,10 +108,12 @@ package one_arrow.gameplay
 			_fore.y = _bg.y = 300 - cameraY;
 			
 			_physicalWorld.update();
-			
-			_scoreboard.update();
 		}
 		
+		public function createProjectile(type:int):void
+		{
+			_projectiles.createProjectile(type:int);
+		}
 	}
 
 }
