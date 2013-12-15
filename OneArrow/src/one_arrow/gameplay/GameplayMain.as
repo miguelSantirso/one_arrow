@@ -55,6 +55,8 @@ package one_arrow.gameplay
 		private var _enemies:Enemies;
 		private var _projectiles:Projectiles;
 		
+		private var _rules:GameplayRules = new GameplayRules();
+
 		public var cameraX:int = 0;
 		public var cameraY:int = 0;
 		
@@ -96,6 +98,18 @@ package one_arrow.gameplay
 			_projectiles.mouseEnabled = false;
 			addChild(_projectiles);
 			
+			_fore.mouseChildren = false;
+			_fore.mouseEnabled = false;
+ 			addChild(_fore);
+			_fore.addChild(new ForegroundClass());
+			
+			_arrowsIndicator = new ArrowIndicator();
+			addChild(_arrowsIndicator);
+			_arrowsIndicator.x = 20;
+			_arrowsIndicator.y = 20;
+			
+			_rules.waveCompletedAndReturnPointsObtained();
+			
 			addChild(_fore);
 			
 			_successInformation = new SuccessInformation();
@@ -126,15 +140,21 @@ package one_arrow.gameplay
 				_bgDay.alpha = (Config.BG_TRANSITION_END_FRAME - _framesElapsed) / Config.BG_TRANSITION_FRAMES_LONG;
 			}
 			
-			if (_currentWave != _enemies.currentWave)
-			{
-				_currentWave = _enemies.currentWave;
-				if (_currentWave == 2)
-				{
-					_character.maxJumps = 2;
-				}
-				_scoreboard.newWave(_currentWave + 1, 30);
+			if (_currentWave != _rules.currentWave && !_rules.isResting())
+ 			{
+				_currentWave = _rules.currentWave;
+ 				if (_currentWave == 2)
+ 				{
+ 					_character.maxJumps = 2;
+ 				}
+				_enemies.startWave(_currentWave);
+				_scoreboard.newWave(_currentWave + 1);
 			}
+			else if (_enemies.isWaveComplete() && !_rules.isResting())
+			{
+				_rules.waveCompletedAndReturnPointsObtained();
+				_scoreboard.success();
+ 			}
 			
 			_character.update();
 			_enemies.update();
@@ -151,15 +171,19 @@ package one_arrow.gameplay
 				cameraY += _character.vectorToMouse.y * 0.1;
 			}
 			
-			if (cameraX < 400) cameraX = 400;
-			if (cameraY < 300) cameraY = 300;
-			if (cameraX > Config.WORLD_SIZE_X - 400) cameraX = Config.WORLD_SIZE_X - 400;
-			if (cameraY > Config.WORLD_SIZE_Y - 300) cameraY = Config.WORLD_SIZE_Y - 300;
+			if (cameraX < 0.5 * Config.SCREEN_SIZE_X) cameraX = 0.5 * Config.SCREEN_SIZE_X;
+			if (cameraY < 0.5 * Config.SCREEN_SIZE_Y) cameraY = 0.5 * Config.SCREEN_SIZE_Y;
+			if (cameraX > Config.WORLD_SIZE_X - 0.5 * Config.SCREEN_SIZE_X) cameraX = Config.WORLD_SIZE_X - 0.5 * Config.SCREEN_SIZE_X;
+			if (cameraY > Config.WORLD_SIZE_Y - 0.5 * Config.SCREEN_SIZE_Y) cameraY = Config.WORLD_SIZE_Y - 0.5 * Config.SCREEN_SIZE_Y;
+ 			
+			_fore.x = _bg.x = 0.5 * Config.SCREEN_SIZE_X - cameraX;
+			_fore.y = _bg.y = 0.5 * Config.SCREEN_SIZE_Y - cameraY;
+ 			
+ 			_physicalWorld.update();
 			
-			_fore.x = _bg.x = 400 - cameraX;
-			_fore.y = _bg.y = 300 - cameraY;
-			
-			_physicalWorld.update();
+			_rules.update();
+			_scoreboard.countDownMillisLeft = _rules.millisRemaining;
+			_scoreboard.update();
 		}
 		
 		public function createProjectile(type:int,position:Point):void
