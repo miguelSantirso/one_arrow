@@ -139,6 +139,8 @@ package one_arrow.gameplay.character
 					// Jump
 					jump();
 				}
+				
+				if (!Main.input.upPressed && _verticalSpeed > 0) _verticalSpeed *= 0.5;
 			}
 			
 		}
