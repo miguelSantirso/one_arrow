@@ -11,6 +11,7 @@ package one_arrow.gameplay.enemies.types
 	import nape.geom.Vec2;
 	import nape.phys.Body;
 	import nape.shape.Polygon;
+	import one_arrow.Config;
 	import one_arrow.gameplay.character.Character;
 	import one_arrow.gameplay.GameplayMain;
 	import utils.FrameScriptInjector;
@@ -28,8 +29,8 @@ package one_arrow.gameplay.enemies.types
 		public static const APPEARANCE_ANIMATION_COMPLETE:String = "appearanceComplete";
 		
 		private static const MAXIMUM_IDLE_DISTANCE:int = 100;
-		private static const MOVEMENT_SPEED:int = 4;
-		private static const FOLLOW_SPEED:int = 6;
+		private static const MOVEMENT_SPEED:int = 2;
+		private static const FOLLOW_SPEED:int = 4;
 		private static const DISTANCE_TO_FOLLOW:int = 200;
 		private static const DISTANCE_TO_ATTACK:int = 50;
 		private static const DISTANCE_TO_DIE:int = 90;
@@ -39,7 +40,11 @@ package one_arrow.gameplay.enemies.types
 		private static const STATUS_ATTACKING:int = 3;
 		private static const STATUS_DEFEAT:int = 4;
 		private static const STATUS_APPEARING:int = 5;
+		private static const STATUS_LEAVING:int = 6;
 		private var _status:int;
+		
+		private var _leavingTarget:Vec2 = new Vec2();
+		private var _framesLeftLeaving:int = Config.ENEMY_FRAMES_RELAXED_AFTER_ATTACK;
 		
 		private var _initial_position:Point;
 			
@@ -134,6 +139,18 @@ package one_arrow.gameplay.enemies.types
 			if (_status == STATUS_DEFEAT || _status == STATUS_APPEARING)
 				return;
 			
+			if (_status != STATUS_LEAVING 
+				&& _currentAnimation == Character.ANIM_ATTACK 
+				&& currentAnimMc.currentFrame == 6)
+			{
+				_main.character.takeDamage();
+				_leavingTarget.x = Math.random() * (Config.WORLD_SIZE_X - 200) + 100; 
+				_leavingTarget.y = Math.random() * (Config.WORLD_SIZE_Y - 300) + 150; 
+				_status = STATUS_LEAVING;
+				setAnimation(ANIM_IDLE);
+				_framesLeftLeaving = Config.ENEMY_FRAMES_RELAXED_AFTER_ATTACK
+			}
+			
 			var hero:Character = _main.character;
 			var distanceToHero:Number = Point.distance(new Point(_physicalBody.position.x, _physicalBody.position.y),
 														new Point(hero.physicalBody.position.x, hero.physicalBody.position.y));
@@ -143,7 +160,18 @@ package one_arrow.gameplay.enemies.types
 			direction.normalise();
 				
 			//FOLLOWING COS DISTANCE
-			if (distanceToHero < DISTANCE_TO_FOLLOW && distanceToHero>DISTANCE_TO_ATTACK)
+			if (_status == STATUS_LEAVING)
+			{
+				if (--_framesLeftLeaving == 0)
+					_status = STATUS_IDLE;
+				else
+				{
+					direction = _leavingTarget.sub(_physicalBody.position);
+					direction.length = 1;
+					_physicalBody.position.add(direction.mul(MOVEMENT_SPEED));
+				}
+			}
+			else if (distanceToHero < DISTANCE_TO_FOLLOW && distanceToHero>DISTANCE_TO_ATTACK)
 			{
 				if(_status != STATUS_FOLLOWING)
 					setAnimation(Character.ANIM_IDLE);
@@ -169,14 +197,14 @@ package one_arrow.gameplay.enemies.types
 			}
 			
 			//IF NOT FOLLOWING OR NOT ATTACKING 
-			if (_status != STATUS_IDLE)
+			if (_status != STATUS_IDLE && _status != STATUS_LEAVING)
 			{
 				_initial_position = new Point(_physicalBody.position.x, _physicalBody.position.y);
 				_status = STATUS_IDLE;
 				setAnimation(Character.ANIM_IDLE);
 				_direction.x = -1;
 			}
-				
+			
 			if (_direction.x < 0 
 			&& _physicalBody.position.x < _initial_position.x - MAXIMUM_IDLE_DISTANCE)
 				_direction.x = 1;
