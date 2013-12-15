@@ -30,6 +30,7 @@ package one_arrow.gameplay.projectiles.types
 				destroy();
 														
 			var direction:Vec2 = _main.character.physicalBody.position.sub(_body.position);
+			direction.y += _main.character.halfHeight;
 			direction.normalise();
 			
 			_body.position = _body.position.add(direction.mul(SPEED));
