@@ -115,7 +115,6 @@ package one_arrow.gameplay
 			
 			_successInformation = new SuccessInformation();
 			addChild(_successInformation);
-			_successInformation.showWave(40, 35000, 5);
 		}
 		
 		protected override function dispose(e:Event = null):void
@@ -153,12 +152,15 @@ package one_arrow.gameplay
  				{
  					_character.maxJumps = 2;
  				}
+				
 				_enemies.startWave(_currentWave);
 				_scoreboard.newWave(_currentWave + 1);
 			}
 			else if (_enemies.isWaveComplete() && !_rules.isResting())
 			{
-				_rules.waveCompletedAndReturnPointsObtained();
+				var timeLeft:int = _rules.millisRemaining / 1000;
+				var points:int = _rules.waveCompletedAndReturnPointsObtained();
+				_successInformation.showWave(timeLeft, _rules.totalScore - timeLeft, _rules.currentWave);
 				_scoreboard.success();
  			}
 			

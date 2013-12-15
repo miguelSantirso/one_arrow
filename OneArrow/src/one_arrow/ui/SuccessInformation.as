@@ -2,6 +2,7 @@ package one_arrow.ui
 {
 	
 	import flash.display.Sprite;
+	import one_arrow.Config;
 	import utils.FrameScriptInjector;
 	/**
 	 * ...
@@ -33,6 +34,9 @@ package one_arrow.ui
 			FrameScriptInjector.injectFunctionToLabel(_successAnimation, "waveSet", onWaveSet);
 			FrameScriptInjector.injectFunctionToLabel(_successAnimation, "countdown", onCountDown);
 			FrameScriptInjector.injectFunctionToLabel(_successAnimation, "complete", onCompleted);
+			
+			_successAnimation.scaleX = _successAnimation.scaleY = Config.SCREEN_SIZE_X / _successAnimation.width;
+			_successAnimation.y = 0.5 * (Config.SCREEN_SIZE_Y - _successAnimation.height);
 		}
 		
 		public function showWave(seconds:int, points:int, waveId:int):void
