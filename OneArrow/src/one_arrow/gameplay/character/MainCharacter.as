@@ -188,6 +188,7 @@ package one_arrow.gameplay.character
 			_mouseDown = false;
 			_direction.x = 0;
 			_direction.y = 0;
+			_pointingArmBack.visible = _pointingArmFore.visible = false;
 			
 			_damaged = true;
 			_feetInFloor = false;
@@ -199,23 +200,26 @@ package one_arrow.gameplay.character
 			
 			Sounds.playSoundById(Sounds.DAMAGE);
 		}
-
+		
+		
 		private function shootArrow():void
-		{
-			var angle:Number = clampAngle(_vectorToMouse.angle);
-			_main.arrow.shoot(
-				physicalBody.position.sub(new Vec2(0, 70)),
-				angle
-			);
-			_nArrowsLeft--;
-			_pointingArmFore.visible = _pointingArmBack.visible = false;
-			
-			Sounds.playSoundById(Sounds.ARROW_THROW);
+ 		{
+ 			var angle:Number = clampAngle(_vectorToMouse.angle);
+			var pos:Vec2 = physicalBody.position.sub(new Vec2(0, 70));
+			_main.arrow.shoot(pos, angle);
+			AutoFx.showFx(new FxShoot(), pos.x + Math.cos(angle) * 30, pos.y + Math.sin(angle) * 30);
+ 			_nArrowsLeft--;
+			_main.arrowIndicator.setArrowsEmpty();
+ 			_pointingArmFore.visible = _pointingArmBack.visible = false;
+ 			
+ 			Sounds.playSoundById(Sounds.ARROW_THROW);
 		}
 		private function onCollisionWithArrow(cb:InteractionCallback):void
 		{
-			_main.arrow.body.position = new Vec2( -200, -200);
-			_nArrowsLeft++;
+			AutoFx.showFx(new FxPickArrow(), _main.arrow.body.position.x, _main.arrow.body.position.y);
+ 			_main.arrow.body.position = new Vec2( -200, -200);
+ 			_nArrowsLeft++;
+			_main.arrowIndicator.setArrowAvailable();
 		}
 		
 		private function clampAngle(angle:Number):Number
@@ -236,6 +240,9 @@ package one_arrow.gameplay.character
 		
 		private function onStageDown(e:MouseEvent):void
 		{
+			if (_nArrowsLeft <= 0)
+				_main.arrowIndicator.doAnimation();
+
 			if (_nArrowsLeft <= 0 || !_feetInFloor) return;
 			
 			_mouseDown = true;
@@ -243,13 +250,13 @@ package one_arrow.gameplay.character
 			scaleX = 1;
 			_framesToStartPointing = Config.LOADING_ANIM_FRAMES_LONG;
 			_lastMouseWorldPos.x = e.stageX - 0.5 * Config.SCREEN_SIZE_X + _main.cameraX;
-			_lastMouseWorldPos.y = e.stageX - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;
+			_lastMouseWorldPos.y = e.stageY - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;
 		}
 		private function onStageUp(e:MouseEvent):void
 		{
 			_mouseDown = false;
 			_lastMouseWorldPos.x = e.stageX - 0.5 * Config.SCREEN_SIZE_X + _main.cameraX;
-			_lastMouseWorldPos.y = e.stageX - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;
+			_lastMouseWorldPos.y = e.stageY - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;
 			if (_framesToStartPointing == -1)
 			{
 				shootArrow();
@@ -259,7 +266,7 @@ package one_arrow.gameplay.character
 		private function onMouseMove(e:MouseEvent):void
 		{
 			_lastMouseWorldPos.x = e.stageX - 0.5 * Config.SCREEN_SIZE_X + _main.cameraX;
-			_lastMouseWorldPos.y = e.stageX - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;
+			_lastMouseWorldPos.y = e.stageY - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;
 		}
 		
 	}
