@@ -62,6 +62,7 @@
     <element path="assets\pantalla_start.swc" />
     <element path="assets\fx_main_character.swc" />
     <element path="assets\icono_flecha.swc" />
+    <element path="assets\scoreboard.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

@@ -13,6 +13,7 @@ package one_arrow.gameplay
 	import one_arrow.Config;
 	import one_arrow.GameScreen;
 	import one_arrow.ui.ArrowIndicator;
+	import one_arrow.ui.BgScoreboard;
 	
 	/**
 	 * ...
@@ -28,13 +29,15 @@ package one_arrow.gameplay
 		public function get physicalWorld():PhysicalWorld { return _physicalWorld; }
 		private var _physicalWorld:PhysicalWorld;
 		
-		public function get bg():Bitmap { return _bg; }
-		private var _bg:Bitmap = new BackgroundClass();
+		public function get bg():Sprite { return _bg; }
+		private var _bg:Sprite = new Sprite();
 		public function get fore():Sprite { return _fore; }
 		private var _fore:Sprite = new Sprite();
 		
 		public function get arrowIndicator():ArrowIndicator { return _arrowsIndicator; }
 		private var _arrowsIndicator:ArrowIndicator;
+		public function get scoreboard():BgScoreboard { return _scoreboard; }
+		private var _scoreboard:BgScoreboard = new BgScoreboard();
 		
 		public function get character():MainCharacter { return _character; }
 		private var _character:MainCharacter;
@@ -59,7 +62,9 @@ package one_arrow.gameplay
 			super.init(e);
 			
 			addChild(_bg);
-			mouseEnabled = true;
+			_bg.mouseChildren = false;
+			_bg.addChild(new BackgroundClass());
+			_bg.addChild(_scoreboard);
 			
 			// entry point
 			_physicalWorld = new PhysicalWorld(this);
@@ -94,13 +99,15 @@ package one_arrow.gameplay
 		{
 			super.update();
 			
+			
 			if (_currentWave != _enemies.currentWave)
 			{
+				_currentWave = _enemies.currentWave;
 				if (_currentWave == 2)
 				{
 					_character.maxJumps = 2;
 				}
-				_currentWave = _enemies.currentWave;
+				_scoreboard.newWave(_currentWave + 1, 30);
 			}
 			
 			_character.update();
@@ -126,6 +133,8 @@ package one_arrow.gameplay
 			_fore.y = _bg.y = 300 - cameraY;
 			
 			_physicalWorld.update();
+			
+			_scoreboard.update();
 		}
 		
 	}
