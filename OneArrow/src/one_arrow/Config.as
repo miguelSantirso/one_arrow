@@ -7,7 +7,7 @@ package one_arrow
 	 */
 	public class Config 
 	{
-		public static const DEBUG:Boolean = true;
+		public static const DEBUG:Boolean = false;
 		
 		public static const WORLD_SIZE_X:int = 1923;
 		public static const WORLD_SIZE_Y:int = 1095;

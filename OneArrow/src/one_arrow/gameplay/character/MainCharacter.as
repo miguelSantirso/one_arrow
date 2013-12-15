@@ -129,7 +129,7 @@ package one_arrow.gameplay.character
 				{
 					// Jump
 					_remainingJumps--;
-					_jumpFramesLeft = 10;
+					_verticalSpeed = 40;
 				}
 			}
 			
