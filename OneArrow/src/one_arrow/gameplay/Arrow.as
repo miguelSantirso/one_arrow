@@ -21,9 +21,10 @@ package one_arrow.gameplay
 	public class Arrow extends Sprite 
 	{
 		public static const ARROW_CB_TYPE:CbType = new CbType();
+		public static const ARROW_THROW_CB_TYPE:CbType = new CbType();
 		
 		private var _gameplay:GameplayMain;
-		private var _tipType:CbType = new CbType();
+		
 		private var _restType:CbType = new CbType();
 		
 		private var _canStick:Boolean = false;
@@ -50,7 +51,7 @@ package one_arrow.gameplay
 			_gameplay.physicalWorld.space.listeners.add(new InteractionListener(
 				CbEvent.BEGIN,
 				InteractionType.COLLISION,
-				_tipType,
+				ARROW_THROW_CB_TYPE,
 				CbType.ANY_BODY,
 				onValidTerrainCollision
 			));
@@ -72,7 +73,7 @@ package one_arrow.gameplay
 			weight.body = _body;
 			weight.material.density = 6.5;
 			shape.filter.collisionMask = PhysicalWorld.ARROW_COLLISION_GROUP;
-			weight.cbTypes.add(_tipType);
+			weight.cbTypes.add(ARROW_THROW_CB_TYPE);
 			
 			_sensor = new Circle(50);
 			_sensor.material.density = 0;

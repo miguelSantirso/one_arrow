@@ -65,8 +65,8 @@ package one_arrow.gameplay
 			_character.update();
 			_enemies.update();
 			
-			cameraX = _character.physicalBody.position.x;// + _character.vectorToMouse.x * 0.25;
-			cameraY = _character.physicalBody.position.y;// + _character.vectorToMouse.y * 0.25;
+			cameraX = _character.physicalBody.position.x;
+			cameraY = _character.physicalBody.position.y;
 			if (Math.abs(_character.vectorToMouse.x) >= 1)
 			{
 				cameraX += _character.vectorToMouse.x * 0.12;
