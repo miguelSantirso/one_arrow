@@ -92,10 +92,10 @@ package one_arrow.gameplay.enemies.types
 			_physicalBody.position.set(new Vec2(position.x, position.y));
 			
 			_appearanceEffect = new FxEnemyAppear();
+			_foreLayer.addChild(_appearanceEffect);
 			FrameScriptInjector.injectFunctionToLabel(_appearanceEffect, "appear", onEnemyAppear);
 			FrameScriptInjector.injectStopAtEnd(_appearanceEffect, APPEARANCE_ANIMATION_COMPLETE);
 			_appearanceEffect.addEventListener(APPEARANCE_ANIMATION_COMPLETE, onAppearanceComplete);
-			_foreLayer.addChild(_appearanceEffect);
 		}
 		
 		private function onEnemyAppear():void
