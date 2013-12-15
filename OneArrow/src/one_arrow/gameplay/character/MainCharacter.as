@@ -10,7 +10,9 @@ package one_arrow.gameplay.character
 	import nape.callbacks.InteractionType;
 	import nape.geom.Vec2;
 	import nape.shape.Polygon;
+	import one_arrow.Config;
 	import one_arrow.gameplay.Arrow;
+	import one_arrow.gameplay.fx.AutoFx;
 	import one_arrow.gameplay.GameplayMain;
 	import one_arrow.Main;
 	import one_arrow.Sounds;
@@ -26,11 +28,15 @@ package one_arrow.gameplay.character
 		private var _nArrowsLeft:int = 1;
 		
 		private var _mouseDown:Boolean = false;
-		private var _framesToStartPointing:int = -1;
+		private var _framesToStartPointing:int = Config.LOADING_ANIM_FRAMES_LONG;
+		private var _shootAngle:Number;
 		
 		private var _pointingArmFore:MovieClip = new MainCharArmPointingRightFore();
 		private var _pointingArmBack:MovieClip = new MainCharArmPointingRightBack();
 		private var _lastMouseWorldPos:Vec2 = new Vec2();
+		public function get vectorToMouse():Vec2 { return _vectorToMouse; }
+		private var _vectorToMouse:Vec2 = new Vec2();
+		private var _arrowDirection:Vec2 = new Vec2();
 		
 		public function MainCharacter(gameplayMain:GameplayMain)
 		{
@@ -76,6 +82,8 @@ package one_arrow.gameplay.character
 		
 		public override function update():void
 		{
+			_vectorToMouse = _lastMouseWorldPos.sub(physicalBody.position);
+			
 			if (_mouseDown)
 			{
 				if (_framesToStartPointing > 0)
@@ -90,7 +98,7 @@ package one_arrow.gameplay.character
 				}
 				else
 				{
-					var vectorToMouse:Vec2 = _lastMouseWorldPos.sub(physicalBody.position);
+					var vectorToMouseTmp:Vec2 = _vectorToMouse.copy();
 					
 					if (_lastMouseWorldPos.x > physicalBody.position.x)
 					{
@@ -105,12 +113,12 @@ package one_arrow.gameplay.character
 						_pointingArmBack.scaleX = _pointingArmFore.scaleX = -1;
 						_pointingArmFore.x = 4;
 						setAnimation(Character.ANIM_POINTING_LEFT);
-						vectorToMouse.x = -vectorToMouse.x;
-						vectorToMouse.y = -vectorToMouse.y;
+						vectorToMouseTmp.x = -vectorToMouseTmp.x;
+						vectorToMouseTmp.y = -vectorToMouseTmp.y;
 					}
 					
 					
-					var angle:Number = vectorToMouse.angle * 57.2957795;
+					var angle:Number = vectorToMouseTmp.angle * 57.2957795;
 					if (angle < -45) angle = -45;
 					if (angle > 40) angle = 40;
 					_pointingArmBack.rotation = _pointingArmFore.rotation = angle;
@@ -129,21 +137,21 @@ package one_arrow.gameplay.character
 				if (Main.input.canJump && _remainingJumps > 0)
 				{
 					// Jump
-					_remainingJumps--;
-					_verticalSpeed = 40;
+					jump();
 				}
+				
+				if (!Main.input.upPressed && _verticalSpeed > 0) _verticalSpeed *= 0.5;
 			}
 			
 		}
 		
 		
-		private function shootArrow(worldPos:Vec2):void
+		private function shootArrow():void
 		{
-			var dir:Vec2 = worldPos.sub(physicalBody.position);
-			dir.length = 1;
+			var angle:Number = clampAngle(_vectorToMouse.angle);
 			_main.arrow.shoot(
 				physicalBody.position.sub(new Vec2(0, 70)),
-				dir
+				angle
 			);
 			_nArrowsLeft--;
 			_pointingArmFore.visible = _pointingArmBack.visible = false;
@@ -156,29 +164,47 @@ package one_arrow.gameplay.character
 			_nArrowsLeft++;
 		}
 		
+		
+		private function clampAngle(angle:Number):Number
+		{
+			if (_lastScaleX > 0)
+			{
+				if (angle > 0.78) return 0.78;
+				else if (angle < -0.78) return -0.78;
+			}
+			else
+			{
+				if (angle < 2.27 && angle > 0) return 2.27;
+				else if (angle > -2.27 && angle < 0) return -2.27;
+			}
+			
+			return angle;
+		}
+		
 		private function onStageDown(e:MouseEvent):void
 		{
-			if (_nArrowsLeft <= 0) return;
+			if (_nArrowsLeft <= 0 || !_feetInFloor) return;
 			
 			_mouseDown = true;
 			setAnimation(_lastScaleX == 1 ? Character.ANIM_LOADING_RIGHT : Character.ANIM_LOADING_LEFT);
 			scaleX = 1;
-			_framesToStartPointing = 19;
+			_framesToStartPointing = Config.LOADING_ANIM_FRAMES_LONG;
 			_lastMouseWorldPos.x = e.localX - 400 + _main.cameraX;
 			_lastMouseWorldPos.y = e.localY - 300 + _main.cameraY + 50;
-			//shootArrow(new Vec2(e.localX - 400 + _main.cameraX, e.localY - 300 + _main.cameraY));
 		}
 		private function onStageUp(e:MouseEvent):void
 		{
 			_mouseDown = false;
 			_lastMouseWorldPos.x = e.localX - 400 + _main.cameraX;
 			_lastMouseWorldPos.y = e.localY - 300 + _main.cameraY + 50;
-			if (_framesToStartPointing == -1 && _nArrowsLeft)
-				shootArrow(_lastMouseWorldPos);
+			if (_framesToStartPointing == -1)
+			{
+				shootArrow();
+				_framesToStartPointing = Config.LOADING_ANIM_FRAMES_LONG;
+			}
 		}
 		private function onMouseMove(e:MouseEvent):void
 		{
-			if (!_mouseDown) return;
 			var p:Point = _main.globalToLocal(new Point(e.stageX, e.stageY));
 			_lastMouseWorldPos.x = e.localX - 400 + _main.cameraX;
 			_lastMouseWorldPos.y = e.localY - 300 + _main.cameraY + 50;

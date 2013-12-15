@@ -36,6 +36,9 @@ package one_arrow.gameplay
 		
 		public function Arrow(gameplayMain:GameplayMain) 
 		{
+			mouseEnabled = false;
+			mouseChildren = false;
+			
 			_gameplay = gameplayMain;
 			
 			graphics.lineStyle(3, 0x225544);
@@ -80,7 +83,7 @@ package one_arrow.gameplay
 		}
 		
 		
-		public function shoot(pos:Vec2, direction:Vec2):void
+		public function shoot(pos:Vec2, angle:Number):void
 		{
 			_canStick = true;
 			_body.allowMovement = _body.allowRotation = true;
@@ -88,11 +91,11 @@ package one_arrow.gameplay
 			_body.velocity = Vec2.get();
 			_body.allowRotation = false;
 			_body.position = pos;
-			_body.rotation = direction.angle;
+			_body.rotation = angle;
 			_body.torque = 0;
 			_body.angularVel = 0;
 			_body.isBullet = true;
-			_body.applyImpulse(direction.mul(600));
+			_body.applyImpulse((new Vec2(1, 0)).rotate(angle).mul(600));
 			
 			_sensor.cbTypes.remove(ARROW_CB_TYPE);
 		}

@@ -1,5 +1,6 @@
 package one_arrow.gameplay.character 
 {
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.TimerEvent;
 	import flash.utils.Dictionary;
@@ -27,6 +28,7 @@ package one_arrow.gameplay.character
 	import nape.geom.Geom;
 	import nape.phys.GravMassMode;
 	import nape.shape.ShapeList;
+	import one_arrow.gameplay.fx.AutoFx;
 	import one_arrow.gameplay.GameplayMain;
 	import one_arrow.Config;
 	
@@ -48,6 +50,7 @@ package one_arrow.gameplay.character
 		public function get physicalBody():Body { return _physicalBody; }
 		protected var _physicalBody:Body;
 		
+		private var _prevDirectionX:int = 0;
 		protected var _direction:Vec2 = new Vec2();
 		private var _nextPosition:Vec2 = new Vec2();
 		
@@ -70,6 +73,7 @@ package one_arrow.gameplay.character
 		private var _feetSensor:Circle;
 		private var _feetType:CbType = new CbType();
 		
+		protected var _feetInFloor:Boolean = false;
 		protected var _remainingJumps:int = 2;
 		private var _verticalAcceleration:Number = 5;
 		protected var _verticalSpeed:Number = 0;
@@ -78,6 +82,9 @@ package one_arrow.gameplay.character
 		
 		public function Character(gameplayMain:GameplayMain) 
 		{
+			mouseEnabled = false;
+			mouseChildren = false;
+			
 			_main = gameplayMain;
 			
 			addChild(_backLayer);
@@ -113,12 +120,16 @@ package one_arrow.gameplay.character
 			else
 			{
 				var rayResult:RayResult = _main.physicalWorld.space.rayCast(
-					Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(0, -_verticalSpeed))),
+					Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(0, _feetInFloor ? 2 * Config.PLAYER_SPEED_DOWN : -_verticalSpeed))),
 					true,
 					new InteractionFilter(4, PhysicalWorld.TERRAIN_COLLISION_GROUP));
 				if (rayResult)
 				{
+					if (!_feetInFloor)
+						AutoFx.showFx(new FxLand(), physicalBody.position.x, physicalBody.position.y);
+					_feetInFloor = true;
 					_remainingJumps = 2;
+					_verticalSpeed = 0;
 					_nextPosition.y += rayResult.distance;
 				}
 				else
@@ -137,7 +148,7 @@ package one_arrow.gameplay.character
 				setAnimation(ANIM_FALLING);
 				scaleX = _lastScaleX;
 			}
-			else if (movementThisFrameY < -3)
+			else if (movementThisFrameY < 0 && !_feetInFloor)
 			{
 				setAnimation(ANIM_JUMPING);
 				scaleX = _lastScaleX;
@@ -166,9 +177,19 @@ package one_arrow.gameplay.character
 		protected function move():void
 		{
 			if (_direction.x == 0)
+			{
+				_prevDirectionX = 0;
 				return;
+			}
 			
 			var sign:Number = (_direction.x > 0 ? 1 : -1);
+			
+			if (_prevDirectionX != _direction.x && _feetInFloor)
+			{
+				var fx:MovieClip = new FxRunRight();
+				fx.scaleX = sign;
+				AutoFx.showFx(fx, _physicalBody.position.x, _physicalBody.position.y);
+			}
 			
 			var ray:Ray = new Ray(_nextPosition, _direction);
 			var rayResult:RayResult = _main.physicalWorld.space.rayCast(ray, true, new InteractionFilter(4, PhysicalWorld.TERRAIN_COLLISION_GROUP));
@@ -180,6 +201,15 @@ package one_arrow.gameplay.character
 			{
 				_nextPosition.x += sign * Config.PLAYER_SPEED_HORIZONTAL;
 			}
+			
+			_prevDirectionX = _direction.x;
+		}
+		protected function jump():void
+		{
+			_feetInFloor = false;
+			_remainingJumps--;
+			_verticalSpeed = 32;
+			AutoFx.showFx(new FxJump(), physicalBody.position.x, physicalBody.position.y);
 		}
 		
 		
