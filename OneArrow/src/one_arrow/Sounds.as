@@ -8,6 +8,7 @@ package one_arrow
 	public class Sounds 
 	{
 		public static const ARROW_THROW:int = registerSound(SoundThrow, "ArrowThrow");
+		public static const JUMP:int = registerSound(SoundJump, "Jump");
 		
 		private static var _soundsById:Vector.<Sound>;
 		private static var _soundsByName:Dictionary;

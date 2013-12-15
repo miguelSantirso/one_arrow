@@ -145,6 +145,12 @@ package one_arrow.gameplay.character
 			
 		}
 		
+		protected override function jump():void
+		{
+			super.jump();
+			
+			Sounds.playSoundById(Sounds.JUMP);
+		}
 		
 		private function shootArrow():void
 		{
