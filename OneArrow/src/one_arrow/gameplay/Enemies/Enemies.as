@@ -19,11 +19,20 @@ package one_arrow.gameplay.enemies
 		
 		private var _enemies:Vector.<Character>;
 		
+		private static const STATUS_FIGHTING:int = 0;
+		private static const STATUS_WAITING:int = 1;
+		private var _status:int;
+		
+		private static const FRAME_DELAY_UNTIL_NEXT_WAVE:int = 75;
+		private var _frameCounter:int;
+		
 		public function Enemies(gameplayMain:GameplayMain)
 		{
 			_main = gameplayMain;
 			
 			_enemies = new Vector.<Character>;
+			
+			_status = STATUS_FIGHTING;
 			
 			_enemiesData = new EnemiesData();
 			_enemiesData.load();
@@ -60,14 +69,43 @@ package one_arrow.gameplay.enemies
 				if (_enemies[i] == evt.currentTarget)
 				{
 					_enemies.splice(i, 1);
+					
+					if (_enemies.length == 0)
+						prepareNextWave();
+						
 					return;
 				}
 			}
 		}
 		
-		public function update():void
+		private function prepareNextWave():void
+		{
+			_status = STATUS_WAITING;
+			_frameCounter = 0;
+		}
+		
+		private function startNextWave():void
 		{
 			
+			_enemiesData.nextWave();
+			loadEnemies();
+			
+			_status = STATUS_FIGHTING;
+		}
+		
+		public function update():void
+		{
+			if (_status == STATUS_WAITING)
+			{
+				_frameCounter++;
+				
+				if (_frameCounter > FRAME_DELAY_UNTIL_NEXT_WAVE)
+					startNextWave();
+				
+				return;
+			}
+			
+			trace(_enemies.length);
 			for (var i:int = 0; i < _enemies.length; i++)
 			{
 				_enemies[i].update();
