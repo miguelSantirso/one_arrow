@@ -85,7 +85,7 @@ package utils
 			
 			if (frameNumber < 0)
 			{
-				throw new Error(printf("Can't find label \"%s\" in MovieClip", frameLabel));
+				throw new Error("Can't find label in MovieClip");
 			}
 			if (frameNumber == 1)
 			{

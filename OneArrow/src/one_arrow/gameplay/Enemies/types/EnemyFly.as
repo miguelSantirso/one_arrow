@@ -1,11 +1,13 @@
 package one_arrow.gameplay.enemies.types 
 {
 	import flash.display.MovieClip;
+	import flash.events.Event;
 	import flash.geom.Point;
 	import nape.geom.Vec2;
 	import nape.phys.Body;
 	import one_arrow.gameplay.character.Character;
 	import one_arrow.gameplay.GameplayMain;
+	import utils.FrameScriptInjector;
 	
 	/**
 	 * ...
@@ -13,12 +15,14 @@ package one_arrow.gameplay.enemies.types
 	 */
 	public class EnemyFly extends Character 
 	{
+		private static const DEFEAT_ANIMATION_COMPLETE:String = "deadcomplete";
+		
 		private static const MAXIMUM_IDLE_DISTANCE:int = 100;
 		private static const MOVEMENT_SPEED:int = 4;
 		private static const FOLLOW_SPEED:int = 6;
 		private static const DISTANCE_TO_FOLLOW:int = 200;
 		private static const DISTANCE_TO_ATTACK:int = 50;
-		private static const DISTANCE_TO_DIE:int = 70;
+		private static const DISTANCE_TO_DIE:int = 90;
 		
 		private static const STATUS_IDLE:int = 1;
 		private static const STATUS_FOLLOWING:int = 2;
@@ -36,6 +40,11 @@ package one_arrow.gameplay.enemies.types
 			_animations[Character.ANIM_IDLE] = new Enemy01Idle();
 			_animations[Character.ANIM_ATTACK] = new Enemy01Attack();
 			_animations[Character.ANIM_DEFEAT] = new Enemy01Defeat();
+			
+			var defeat:MovieClip = _animations[Character.ANIM_DEFEAT];
+			defeat.gotoAndStop(1);
+			FrameScriptInjector.injectStopAtEnd(defeat, DEFEAT_ANIMATION_COMPLETE);
+			defeat.addEventListener(DEFEAT_ANIMATION_COMPLETE, onDefeatAnimationComplete);
 			
 			setAnimation(Character.ANIM_IDLE);
 			
@@ -60,19 +69,25 @@ package one_arrow.gameplay.enemies.types
 				_animations[_currentAnimation].scaleX = -1;
 		}
 		
+		private function onDefeatAnimationComplete(evt:Event):void
+		{
+			_animations[Character.ANIM_DEFEAT].removeEventListener(DEFEAT_ANIMATION_COMPLETE, onDefeatAnimationComplete);
+			while (_animLayer.numChildren > 0) {
+				_animLayer.removeChildAt(0);
+			}
+		}
+		
 		override public function update():void
 		{
 			
 			if (_status == STATUS_DEFEAT)
 				return;
 			
-				
-			
 			
 			if (_main.arrow.canStick)
 			{
 				var arrow:Body = _main.arrow.body;
-				var distanceToArrow = Point.distance(new Point(_physicalBody.position.x, _physicalBody.position.y),
+				var distanceToArrow = Point.distance(new Point(_physicalBody.position.x, _physicalBody.position.y+25),
 															new Point(arrow.position.x, arrow.position.y));
 				
 				if (distanceToArrow < DISTANCE_TO_DIE)
