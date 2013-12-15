@@ -1,9 +1,6 @@
 package one_arrow.gameplay.enemies.data 
 {
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
+	import one_arrow.Config;
 	/**
 	 * ...
 	 * @author ...
@@ -12,11 +9,8 @@ package one_arrow.gameplay.enemies.data
 	 * And returns any data related to the enemy waves.
 	 * 
 	 */
-	public class EnemiesData extends EventDispatcher
+	public class EnemiesData 
 	{
-		public static const WAVES_LOADED:String = "WavesLoaded";
-		
-		private var _loader:URLLoader;
 		
 		private var _enemyWaves:XML;
 		
@@ -24,6 +18,7 @@ package one_arrow.gameplay.enemies.data
 		
 		private var _actualWaveId:int;
 		
+				
 		public function EnemiesData():void
 		{
 			_waves = new Vector.<WaveData>();
@@ -33,22 +28,7 @@ package one_arrow.gameplay.enemies.data
 		
 		public function load():void
 		{
-			_loader = new URLLoader();
-			_loader.addEventListener(Event.COMPLETE, onLoaded);
-			
-			try {
-				_loader.load(new URLRequest("enemyWaves.xml"));
-			}catch (e:Error)
-			{
-				trace("error loading xml");
-			}
-		}
-		
-		private function onLoaded(evt:Event):void
-		{
-			_loader.removeEventListener(Event.COMPLETE, onLoaded);
-			
-			_enemyWaves = new XML(_loader.data as String);
+			_enemyWaves = new XML(new Config.ENEMY_WAVES());
 			
 			var wave:XML;
 			var waveData:WaveData;
@@ -60,7 +40,6 @@ package one_arrow.gameplay.enemies.data
 				
 			}
 			
-			dispatchEvent(new Event(WAVES_LOADED));
 		}
 		
 		public function get enemiesInWave():Vector.<EnemyData>
