@@ -188,6 +188,7 @@ package one_arrow.gameplay.character
 			_mouseDown = false;
 			_direction.x = 0;
 			_direction.y = 0;
+			_pointingArmBack.visible = _pointingArmFore.visible = false;
 			
 			_damaged = true;
 			_feetInFloor = false;
@@ -213,6 +214,7 @@ package one_arrow.gameplay.character
 		}
 		private function onCollisionWithArrow(cb:InteractionCallback):void
 		{
+			AutoFx.showFx(new FxPickArrow(), _main.arrow.body.position.x, _main.arrow.body.position.y);
 			_main.arrow.body.position = new Vec2( -200, -200);
 			_nArrowsLeft++;
 		}
