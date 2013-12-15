@@ -8,6 +8,7 @@ package one_arrow.gameplay
 	import one_arrow.gameplay.character.Character;
 	import one_arrow.gameplay.character.MainCharacter;
 	import one_arrow.gameplay.enemies.Enemies;
+	import one_arrow.gameplay.enemies.KillerDrone;
 	import one_arrow.gameplay.fx.AutoFx;
 	import one_arrow.gameplay.projectiles.Projectiles;
 	import one_arrow.gameplay.world.PhysicalWorld;
@@ -15,6 +16,7 @@ package one_arrow.gameplay
 	import one_arrow.GameScreen;
 	import one_arrow.ui.ArrowIndicator;
 	import one_arrow.ui.BgScoreboard;
+	import one_arrow.ui.SuccessInformation;
 	
 	/**
 	 * ...
@@ -36,7 +38,8 @@ package one_arrow.gameplay
 		private var _bg:Sprite = new Sprite();
 		public function get fore():Sprite { return _fore; }
 		private var _fore:Sprite = new Sprite();
-		
+		private var _successInformation:SuccessInformation;
+		public function get successInformation():SuccessInformation { return _successInformation; }
 		private var _bgDay:Bitmap = new BackgroundDay();
 		
 		private var _framesElapsed:Number = 0;
@@ -109,6 +112,10 @@ package one_arrow.gameplay
 			_rules.waveCompletedAndReturnPointsObtained();
 			
 			addChild(_fore);
+			
+			_successInformation = new SuccessInformation();
+			addChild(_successInformation);
+			_successInformation.showWave(40, 35000, 5);
 		}
 		
 		protected override function dispose(e:Event = null):void
@@ -135,7 +142,11 @@ package one_arrow.gameplay
 				_bgDay.alpha = (Config.BG_TRANSITION_END_FRAME - _framesElapsed) / Config.BG_TRANSITION_FRAMES_LONG;
 			}
 			
-			if (_currentWave != _rules.currentWave && !_rules.isResting())
+			if (!_rules.isResting() && !_gameOver && _rules.millisRemaining <= 0)
+			{
+				ranOutOfTime();
+			}
+			else if (_currentWave != _rules.currentWave && !_rules.isResting())
  			{
 				_currentWave = _rules.currentWave;
  				if (_currentWave == 2)
@@ -154,6 +165,7 @@ package one_arrow.gameplay
 			_character.update();
 			_enemies.update();
 			_projectiles.update();
+			_successInformation.update();
 			
 			cameraX = _character.physicalBody.position.x;
 			cameraY = _character.physicalBody.position.y;
@@ -176,6 +188,9 @@ package one_arrow.gameplay
  			
  			_physicalWorld.update();
 			
+			if (_killerDrone)
+				_killerDrone.update();
+			
 			_rules.update();
 			_scoreboard.countDownMillisLeft = _rules.millisRemaining;
 			_scoreboard.update();
@@ -184,6 +199,17 @@ package one_arrow.gameplay
 		public function createProjectile(type:int,position:Point):void
 		{
 			_projectiles.createProjectile(type,position);
+		}
+		
+		
+		
+		private var _gameOver:Boolean = false;
+		private var _killerDrone:KillerDrone;
+		public function ranOutOfTime():void
+		{
+			_gameOver = true;
+			_killerDrone = new KillerDrone(this);
+			_fore.addChild(_killerDrone);
 		}
 	}
 
