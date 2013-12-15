@@ -14,6 +14,7 @@ package one_arrow.gameplay.character
 	import one_arrow.gameplay.fx.AutoFx;
 	import one_arrow.gameplay.GameplayMain;
 	import one_arrow.Main;
+	import one_arrow.Sounds;
 	
 	/**
 	 * ...
@@ -150,6 +151,8 @@ package one_arrow.gameplay.character
 			);
 			_nArrowsLeft--;
 			_pointingArmFore.visible = _pointingArmBack.visible = false;
+			
+			Sounds.playSoundById(Sounds.ARROW_THROW);
 		}
 		private function onCollisionWithArrow(cb:InteractionCallback):void
 		{
