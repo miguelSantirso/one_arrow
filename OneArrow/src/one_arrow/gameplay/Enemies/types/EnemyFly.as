@@ -15,7 +15,7 @@ package one_arrow.gameplay.enemies.types
 	 */
 	public class EnemyFly extends Character 
 	{
-		private static const DEFEAT_ANIMATION_COMPLETE:String = "deadcomplete";
+		public static const DEFEAT_ANIMATION_COMPLETE:String = "deadcomplete";
 		
 		private static const MAXIMUM_IDLE_DISTANCE:int = 100;
 		private static const MOVEMENT_SPEED:int = 4;
@@ -75,6 +75,8 @@ package one_arrow.gameplay.enemies.types
 			while (_animLayer.numChildren > 0) {
 				_animLayer.removeChildAt(0);
 			}
+			
+			dispatchEvent(new Event(DEFEAT_ANIMATION_COMPLETE));
 		}
 		
 		override public function update():void
@@ -87,7 +89,7 @@ package one_arrow.gameplay.enemies.types
 			if (_main.arrow.canStick)
 			{
 				var arrow:Body = _main.arrow.body;
-				var distanceToArrow = Point.distance(new Point(_physicalBody.position.x, _physicalBody.position.y+25),
+				var distanceToArrow = Point.distance(new Point(_physicalBody.position.x, _physicalBody.position.y-25),
 															new Point(arrow.position.x, arrow.position.y));
 				
 				if (distanceToArrow < DISTANCE_TO_DIE)

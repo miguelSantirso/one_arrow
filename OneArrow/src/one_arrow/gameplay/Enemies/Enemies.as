@@ -26,16 +26,9 @@ package one_arrow.gameplay.enemies
 			_enemies = new Vector.<Character>;
 			
 			_enemiesData = new EnemiesData();
-			_enemiesData.addEventListener(EnemiesData.WAVES_LOADED, onEnemiesDataLoaded);
 			_enemiesData.load();
-		}
-		
-		private function onEnemiesDataLoaded(evt:Event):void
-		{
-			_enemiesData.removeEventListener(EnemiesData.WAVES_LOADED, onEnemiesDataLoaded);
 			loadEnemies();
 		}
-		
 		
 		public function loadEnemies():void
 		{
@@ -48,7 +41,8 @@ package one_arrow.gameplay.enemies
 					case 0:
 						newEnemy = new EnemyFly(_main);
 						_enemies.push(newEnemy);
-						(newEnemy as EnemyFly).setPosition(new Point(_enemiesData.enemiesInWave[i].x,_enemiesData.enemiesInWave[i].y));
+						(newEnemy as EnemyFly).setPosition(new Point(_enemiesData.enemiesInWave[i].x, _enemiesData.enemiesInWave[i].y));
+						newEnemy.addEventListener(EnemyFly.DEFEAT_ANIMATION_COMPLETE, onEnemyDefeat);
 						addChild(newEnemy);
 						
 					break;
@@ -57,8 +51,23 @@ package one_arrow.gameplay.enemies
 			
 		}
 		
+		private function onEnemyDefeat(evt:Event):void
+		{
+			evt.currentTarget.removeEventListener(EnemyFly.DEFEAT_ANIMATION_COMPLETE, onEnemyDefeat);
+			
+			for (var i:int = 0; i < _enemies.length; i++)
+			{
+				if (_enemies[i] == evt.currentTarget)
+				{
+					_enemies.splice(i, 1);
+					return;
+				}
+			}
+		}
+		
 		public function update():void
 		{
+			
 			for (var i:int = 0; i < _enemies.length; i++)
 			{
 				_enemies[i].update();
