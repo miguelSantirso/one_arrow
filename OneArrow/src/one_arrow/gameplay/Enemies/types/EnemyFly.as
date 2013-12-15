@@ -3,18 +3,27 @@ package one_arrow.gameplay.enemies.types
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.geom.Point;
+	import nape.callbacks.CbEvent;
+	import nape.callbacks.CbType;
+	import nape.callbacks.InteractionCallback;
+	import nape.callbacks.InteractionListener;
+	import nape.callbacks.InteractionType;
 	import nape.geom.Vec2;
 	import nape.phys.Body;
+	import nape.shape.Polygon;
 	import one_arrow.gameplay.character.Character;
 	import one_arrow.gameplay.GameplayMain;
 	import utils.FrameScriptInjector;
-	
+	import one_arrow.gameplay.Arrow;
 	/**
 	 * ...
 	 * @author ...
 	 */
 	public class EnemyFly extends Character 
 	{
+		
+		public static const ENEMY_CB_TYPE:CbType = new CbType();
+		
 		public static const DEFEAT_ANIMATION_COMPLETE:String = "deadcomplete";
 		
 		private static const MAXIMUM_IDLE_DISTANCE:int = 100;
@@ -53,6 +62,23 @@ package one_arrow.gameplay.enemies.types
 			_direction.x = -1;
 			_main.physicalWorld.addBody(_physicalBody);
 			
+			var collisionBox:Polygon = new Polygon(Polygon.rect( -35, -84, 70, 60));
+			collisionBox.sensorEnabled = true;
+			collisionBox.body = _physicalBody;
+			collisionBox.cbTypes.add(ENEMY_CB_TYPE);
+			_main.physicalWorld.space.listeners.add(new InteractionListener(
+				CbEvent.BEGIN,
+				InteractionType.SENSOR,
+				ENEMY_CB_TYPE,
+				Arrow.ARROW_CB_TYPE,
+				onCollisionWithArrow
+			));
+			
+		}
+		
+		private function onCollisionWithArrow(cb:InteractionCallback):void
+		{
+			trace("collision with arrow");
 		}
 		
 		public function setPosition(position:Point):void
@@ -86,7 +112,7 @@ package one_arrow.gameplay.enemies.types
 				return;
 			
 			
-			if (_main.arrow.canStick)
+			/*if (_main.arrow.canStick)
 			{
 				var arrow:Body = _main.arrow.body;
 				var distanceToArrow = Point.distance(new Point(_physicalBody.position.x, _physicalBody.position.y-25),
@@ -99,7 +125,7 @@ package one_arrow.gameplay.enemies.types
 					_main.physicalWorld.removeBody(_physicalBody);
 					return;
 				}
-			}											
+			}			*/								
 			
 			
 			var hero:Character = _main.character;
