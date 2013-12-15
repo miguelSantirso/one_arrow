@@ -7,6 +7,7 @@ package one_arrow.gameplay.enemies
 	import one_arrow.gameplay.enemies.data.EnemiesData;
 	import one_arrow.gameplay.enemies.data.EnemyData;
 	import one_arrow.gameplay.enemies.types.EnemyFly;
+	import one_arrow.gameplay.enemies.types.EnemyTurret;
 	import one_arrow.gameplay.GameplayMain;
 	import one_arrow.gameplay.character.Character;
 	import one_arrow.Sounds;
@@ -48,16 +49,28 @@ package one_arrow.gameplay.enemies
 			
 			for (var i:int = 0; i < _enemiesData.enemiesInWave.length; i++)
 			{
+				newEnemy = null;
+				
 				switch(_enemiesData.enemiesInWave[i].type)
 				{
 					case 0:
 						newEnemy = new EnemyFly(_main);
-						_enemies.push(newEnemy);
 						(newEnemy as EnemyFly).setPosition(new Point(_enemiesData.enemiesInWave[i].x, _enemiesData.enemiesInWave[i].y));
-						newEnemy.addEventListener(EnemyFly.DEFEAT_ANIMATION_COMPLETE, onEnemyDefeat);
-						addChild(newEnemy);
-						
-					break;
+						break;
+					
+					case 2:
+						newEnemy = new EnemyTurret(_main);
+						(newEnemy as EnemyTurret).setPosition(new Point(_enemiesData.enemiesInWave[i].x, _enemiesData.enemiesInWave[i].y));
+						break;
+					
+					default:
+						break;
+				}
+				
+				if (newEnemy) {
+					_enemies.push(newEnemy);
+					newEnemy.addEventListener(EnemyBase.DEFEAT_ANIMATION_COMPLETE, onEnemyDefeat);
+					addChild(newEnemy);
 				}
 			}
 			
@@ -65,7 +78,7 @@ package one_arrow.gameplay.enemies
 		
 		private function onEnemyDefeat(evt:Event):void
 		{
-			evt.currentTarget.removeEventListener(EnemyFly.DEFEAT_ANIMATION_COMPLETE, onEnemyDefeat);
+			evt.currentTarget.removeEventListener(EnemyBase.DEFEAT_ANIMATION_COMPLETE, onEnemyDefeat);
 			
 			for (var i:int = 0; i < _enemies.length; i++)
 			{
