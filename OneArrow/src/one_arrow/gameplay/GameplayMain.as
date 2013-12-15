@@ -114,6 +114,7 @@ package one_arrow.gameplay
 			
 			_successInformation = new SuccessInformation();
 			addChild(_successInformation);
+			_successInformation.showWave(40, 35000, 5);
 		}
 		
 		protected override function dispose(e:Event = null):void
@@ -159,6 +160,7 @@ package one_arrow.gameplay
 			_character.update();
 			_enemies.update();
 			_projectiles.update();
+			_successInformation.update();
 			
 			cameraX = _character.physicalBody.position.x;
 			cameraY = _character.physicalBody.position.y;
