@@ -32,7 +32,7 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>C:\Users\Luis Miguel\Workspace\Ludum28\one_arrow\OneArrow\src</path-element>
+      <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\src</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
@@ -45,12 +45,13 @@
       <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\assets\sound.swc</path-element>
       <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\assets\pantalla_start.swc</path-element>
       <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\assets\fx_main_character.swc</path-element>
+      <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\assets\enemy_03_actions.swc</path-element>
       <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\assets\icono_flecha.swc</path-element>
       <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\assets\scoreboard.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Users\Luis Miguel\Workspace\Ludum28\one_arrow\OneArrow\src\one_arrow\Main.as</path-element>
+    <path-element>C:\Users\Miguel\Desktop\ludum_dare\one_arrow\OneArrow\src\one_arrow\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>
