@@ -21,8 +21,10 @@ package one_arrow.gameplay
 	 */
 	public class GameplayMain extends GameScreen
 	{
-		[Embed(source = "../../../assets/background.png")]
-		private var BackgroundClass:Class;
+		[Embed(source = "../../../assets/background_day.png")]
+		private var BackgroundDay:Class;
+		[Embed(source = "../../../assets/background_night.png")]
+		private var BackgroundNight:Class;
 		[Embed(source = "../../../assets/foreground.png")]
 		private var ForegroundClass:Class;
 		
@@ -33,6 +35,10 @@ package one_arrow.gameplay
 		private var _bg:Sprite = new Sprite();
 		public function get fore():Sprite { return _fore; }
 		private var _fore:Sprite = new Sprite();
+		
+		private var _bgDay:Bitmap = new BackgroundDay();
+		
+		private var _framesElapsed:Number = 0;
 		
 		public function get arrowIndicator():ArrowIndicator { return _arrowsIndicator; }
 		private var _arrowsIndicator:ArrowIndicator;
@@ -63,7 +69,8 @@ package one_arrow.gameplay
 			
 			addChild(_bg);
 			_bg.mouseChildren = false;
-			_bg.addChild(new BackgroundClass());
+			_bg.addChild(new BackgroundNight());
+			_bg.addChild(_bgDay);
 			_bg.addChild(_scoreboard);
 			
 			// entry point
@@ -99,6 +106,20 @@ package one_arrow.gameplay
 		{
 			super.update();
 			
+			_framesElapsed++;
+			
+			if (_framesElapsed > Config.BG_TRANSITION_END_FRAME)
+			{
+				if (_bgDay != null)
+				{
+					_bg.removeChild(_bgDay);
+					_bgDay = null;
+				}
+			}
+			else if (_framesElapsed > Config.BG_TRANSITION_START_FRAME && _bgDay.alpha > 0)
+			{
+				_bgDay.alpha = (Config.BG_TRANSITION_END_FRAME - _framesElapsed) / Config.BG_TRANSITION_FRAMES_LONG;
+			}
 			
 			if (_currentWave != _enemies.currentWave)
 			{
