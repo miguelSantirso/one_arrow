@@ -12,6 +12,7 @@ package one_arrow.gameplay
 	import one_arrow.gameplay.world.PhysicalWorld;
 	import one_arrow.Config;
 	import one_arrow.GameScreen;
+	import one_arrow.ui.ArrowIndicator;
 	
 	/**
 	 * ...
@@ -21,6 +22,8 @@ package one_arrow.gameplay
 	{
 		[Embed(source = "../../../assets/background.png")]
 		private var BackgroundClass:Class;
+		[Embed(source = "../../../assets/foreground.png")]
+		private var ForegroundClass:Class;
 		
 		public function get physicalWorld():PhysicalWorld { return _physicalWorld; }
 		private var _physicalWorld:PhysicalWorld;
@@ -30,11 +33,15 @@ package one_arrow.gameplay
 		public function get fore():Sprite { return _fore; }
 		private var _fore:Sprite = new Sprite();
 		
+		public function get arrowIndicator():ArrowIndicator { return _arrowsIndicator; }
+		private var _arrowsIndicator:ArrowIndicator;
+		
 		public function get character():MainCharacter { return _character; }
 		private var _character:MainCharacter;
 		public function get arrow():Arrow { return _arrow; }
 		private var _arrow:Arrow;
 		private var _enemies:Enemies;
+		private var _currentWave:int = -1;
 		
 		public var cameraX:int = 0;
 		public var cameraY:int = 0;
@@ -67,8 +74,15 @@ package one_arrow.gameplay
 			addChild(_character);
 			_physicalWorld.addBody(_character.physicalBody);
 			
-			
+			_fore.mouseChildren = false;
+			_fore.mouseEnabled = false;
 			addChild(_fore);
+			_fore.addChild(new ForegroundClass());
+			
+			_arrowsIndicator = new ArrowIndicator();
+			addChild(_arrowsIndicator);
+			_arrowsIndicator.x = 20;
+			_arrowsIndicator.y = 20;
 		}
 		
 		protected override function dispose(e:Event = null):void
@@ -79,6 +93,15 @@ package one_arrow.gameplay
 		public override function update():void
 		{
 			super.update();
+			
+			if (_currentWave != _enemies.currentWave)
+			{
+				if (_currentWave == 2)
+				{
+					_character.maxJumps = 2;
+				}
+				_currentWave = _enemies.currentWave;
+			}
 			
 			_character.update();
 			_enemies.update();

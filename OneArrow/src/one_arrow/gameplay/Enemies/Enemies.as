@@ -28,6 +28,8 @@ package one_arrow.gameplay.enemies
 		private static const FRAME_DELAY_UNTIL_NEXT_WAVE:int = 75;
 		private var _frameCounter:int;
 		
+		public function get currentWave():int { return _enemiesData.currentWave; }
+		
 		public function Enemies(gameplayMain:GameplayMain)
 		{
 			_main = gameplayMain;

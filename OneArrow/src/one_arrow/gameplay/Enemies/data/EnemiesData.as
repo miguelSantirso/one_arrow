@@ -16,6 +16,7 @@ package one_arrow.gameplay.enemies.data
 		
 		private var _waves:Vector.<WaveData>;
 		
+		public function get currentWave():int { return _actualWaveId; }
 		private var _actualWaveId:int;
 		
 				

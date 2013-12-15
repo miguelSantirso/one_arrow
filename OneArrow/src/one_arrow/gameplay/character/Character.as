@@ -80,7 +80,8 @@ package one_arrow.gameplay.character
 		private var _feetType:CbType = new CbType();
 		
 		protected var _feetInFloor:Boolean = false;
-		protected var _remainingJumps:int = 2;
+		public var maxJumps:int = 1;
+		protected var _remainingJumps:int = 1;
 		private var _verticalAcceleration:Number = 5;
 		protected var _verticalSpeed:Number = 0;
 		
@@ -136,7 +137,7 @@ package one_arrow.gameplay.character
 					if (!_feetInFloor)
 						AutoFx.showFx(new FxLand(), physicalBody.position.x, physicalBody.position.y);
 					_feetInFloor = true;
-					_remainingJumps = 2;
+					_remainingJumps = maxJumps;
 					_verticalSpeed = 0;
 					_nextPosition.y += rayResult.distance;
 				}

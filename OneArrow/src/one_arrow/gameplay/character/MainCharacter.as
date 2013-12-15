@@ -188,6 +188,7 @@ package one_arrow.gameplay.character
 			_mouseDown = false;
 			_direction.x = 0;
 			_direction.y = 0;
+			_pointingArmBack.visible = _pointingArmFore.visible = false;
 			
 			_damaged = true;
 			_feetInFloor = false;
@@ -203,19 +204,21 @@ package one_arrow.gameplay.character
 		private function shootArrow():void
 		{
 			var angle:Number = clampAngle(_vectorToMouse.angle);
-			_main.arrow.shoot(
-				physicalBody.position.sub(new Vec2(0, 70)),
-				angle
-			);
+			var pos:Vec2 = physicalBody.position.sub(new Vec2(0, 70));
+			_main.arrow.shoot(pos, angle);
+			AutoFx.showFx(new FxShoot(), pos.x + Math.cos(angle) * 30, pos.y + Math.sin(angle) * 30);
 			_nArrowsLeft--;
+			_main.arrowIndicator.setArrowsEmpty();
 			_pointingArmFore.visible = _pointingArmBack.visible = false;
 			
 			Sounds.playSoundById(Sounds.ARROW_THROW);
 		}
 		private function onCollisionWithArrow(cb:InteractionCallback):void
 		{
+			AutoFx.showFx(new FxPickArrow(), _main.arrow.body.position.x, _main.arrow.body.position.y);
 			_main.arrow.body.position = new Vec2( -200, -200);
 			_nArrowsLeft++;
+			_main.arrowIndicator.setArrowAvailable();
 		}
 		
 		
@@ -237,6 +240,9 @@ package one_arrow.gameplay.character
 		
 		private function onStageDown(e:MouseEvent):void
 		{
+			if (_nArrowsLeft <= 0)
+				_main.arrowIndicator.doAnimation();
+			
 			if (_nArrowsLeft <= 0 || !_feetInFloor) return;
 			
 			_mouseDown = true;

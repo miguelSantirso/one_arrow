@@ -62,6 +62,7 @@
     <element path="assets\pantalla_start.swc" />
     <element path="assets\fx_main_character.swc" />
     <element path="assets\enemy_03_actions.swc" />
+    <element path="assets\icono_flecha.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
