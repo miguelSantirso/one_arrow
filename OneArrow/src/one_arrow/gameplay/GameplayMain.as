@@ -52,6 +52,8 @@ package one_arrow.gameplay
 		private var _enemies:Enemies;
 		private var _currentWave:int = -1;
 		
+		private var _rules:GameplayRules = new GameplayRules();
+		
 		public var cameraX:int = 0;
 		public var cameraY:int = 0;
 		
@@ -95,6 +97,8 @@ package one_arrow.gameplay
 			addChild(_arrowsIndicator);
 			_arrowsIndicator.x = 20;
 			_arrowsIndicator.y = 20;
+			
+			_rules.waveCompletedAndReturnPointsObtained();
 		}
 		
 		protected override function dispose(e:Event = null):void
@@ -121,14 +125,14 @@ package one_arrow.gameplay
 				_bgDay.alpha = (Config.BG_TRANSITION_END_FRAME - _framesElapsed) / Config.BG_TRANSITION_FRAMES_LONG;
 			}
 			
-			if (_currentWave != _enemies.currentWave)
+			if (_currentWave != _rules.currentWave)
 			{
-				_currentWave = _enemies.currentWave;
+				_currentWave = _rules.currentWave;
 				if (_currentWave == 2)
 				{
 					_character.maxJumps = 2;
 				}
-				_scoreboard.newWave(_currentWave + 1, 30);
+				_scoreboard.newWave(_currentWave + 1);
 			}
 			
 			_character.update();
@@ -155,6 +159,8 @@ package one_arrow.gameplay
 			
 			_physicalWorld.update();
 			
+			_rules.update();
+			_scoreboard.countDownMillisLeft = _rules.millisRemaining;
 			_scoreboard.update();
 		}
 		
