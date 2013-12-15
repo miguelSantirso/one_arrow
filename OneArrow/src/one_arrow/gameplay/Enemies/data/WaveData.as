@@ -7,11 +7,12 @@ package one_arrow.gameplay.enemies.data
 	public class WaveData 
 	{
 		
-		public var _enemies:Array;
+		private var _enemies:Vector.<EnemyData>;
+		public function get enemies():Vector.<EnemyData> { return _enemies; }
 		
 		public function WaveData():void
 		{
-			_enemies = new Array();
+			_enemies = new Vector.<EnemyData>();
 		}
 		
 		public function parseWave(wave:XML):void

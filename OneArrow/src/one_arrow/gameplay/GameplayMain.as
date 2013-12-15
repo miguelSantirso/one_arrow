@@ -52,6 +52,7 @@ package one_arrow.gameplay
 			addChild(_arrow);
 			_physicalWorld.addBody(_arrow.body);
 			_enemies = new Enemies(this);
+			addChild(_enemies);
 			_character = new MainCharacter(this);
 			_character.physicalBody.position = new Vec2(800, 805);
 			addChild(_character);
@@ -61,6 +62,7 @@ package one_arrow.gameplay
 		public function update():void
 		{
 			_character.update();
+			_enemies.update();
 			
 			cameraX = _character.physicalBody.position.x;
 			cameraY = _character.physicalBody.position.y;

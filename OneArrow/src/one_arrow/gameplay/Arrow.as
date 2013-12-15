@@ -25,6 +25,7 @@ package one_arrow.gameplay
 		private var _restType:CbType = new CbType();
 		
 		private var _canStick:Boolean = false;
+		public function get canStick():Boolean { return _canStick;}
 		
 		public function get body():Body { return _body; }
 		private var _body:Body;

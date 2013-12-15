@@ -76,8 +76,6 @@ package one_arrow.gameplay.character
 				}
 			}
 			
-			
-			
 		}
 		
 		

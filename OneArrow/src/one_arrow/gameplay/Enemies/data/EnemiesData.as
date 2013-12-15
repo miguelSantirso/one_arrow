@@ -63,9 +63,15 @@ package one_arrow.gameplay.enemies.data
 			dispatchEvent(new Event(WAVES_LOADED));
 		}
 		
-		public function getEnemies():Vector.<EnemyData>
+		public function get enemiesInWave():Vector.<EnemyData>
 		{
-			return null;
+			
+			return _waves[_actualWaveId].enemies;
+		}
+		
+		public function nextWave():void
+		{
+			_actualWaveId++;
 		}
 		
 	}

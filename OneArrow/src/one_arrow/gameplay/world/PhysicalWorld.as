@@ -100,6 +100,11 @@ package one_arrow.gameplay.world
 			_space.bodies.add(b);
 		}
 		
+		public function removeBody(b:Body):void
+		{
+			_space.bodies.remove(b);
+		}
+		
 		
 		private function updateGraphics(b:Body):void
 		{

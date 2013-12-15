@@ -41,7 +41,7 @@ package one_arrow.gameplay.character
 		protected var _main:GameplayMain;
 		
 		public function get physicalBody():Body { return _physicalBody; }
-		private var _physicalBody:Body;
+		protected var _physicalBody:Body;
 		
 		protected var _direction:Vec2 = new Vec2();
 		private var _nextPosition:Vec2 = new Vec2();
@@ -55,9 +55,12 @@ package one_arrow.gameplay.character
 		public static const ANIM_LOADING_LEFT:int = 6;
 		public static const ANIM_POINTING_LEFT:int = 7;
 		public static const ANIM_POINTING_RIGHT:int = 8;
+		public static const ANIM_IDLE:int = 9;
+		public static const ANIM_ATTACK:int = 10;
+		public static const ANIM_DEFEAT:int = 11;
 		
 		protected var _animations:Dictionary = new Dictionary();
-		private var _currentAnimation:int = -1;
+		protected var _currentAnimation:int = -1;
 		
 		private var _feetSensor:Circle;
 		private var _feetType:CbType = new CbType();
