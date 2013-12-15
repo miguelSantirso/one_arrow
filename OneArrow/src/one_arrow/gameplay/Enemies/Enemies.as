@@ -9,6 +9,7 @@ package one_arrow.gameplay.enemies
 	import one_arrow.gameplay.enemies.types.EnemyFly;
 	import one_arrow.gameplay.GameplayMain;
 	import one_arrow.gameplay.character.Character;
+	import one_arrow.Sounds;
 	/**
 	 * Controls the enemies
 	 */
@@ -86,11 +87,12 @@ package one_arrow.gameplay.enemies
 		
 		private function startNextWave():void
 		{
-			
 			_enemiesData.nextWave();
 			loadEnemies();
 			
 			_status = STATUS_FIGHTING;
+			
+			Sounds.playSoundById(Sounds.ENEMY_SPAWN);
 		}
 		
 		public function update():void

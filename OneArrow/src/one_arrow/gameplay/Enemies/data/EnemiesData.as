@@ -44,7 +44,6 @@ package one_arrow.gameplay.enemies.data
 		
 		public function get enemiesInWave():Vector.<EnemyData>
 		{
-			
 			return _waves[_actualWaveId].enemies;
 		}
 		

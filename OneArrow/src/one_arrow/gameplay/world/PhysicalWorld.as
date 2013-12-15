@@ -28,6 +28,7 @@ package one_arrow.gameplay.world
 		public static const TERRAIN_TYPE:CbType = new CbType();
 		public static const ARROW_COLLISION_GROUP:int = 1;
 		public static const TERRAIN_COLLISION_GROUP:int = 2;
+		public static const BOUNDS_COLLISION_GROUP:int = 4;
 		
 		private var _gameplay:GameplayMain;
 		
@@ -54,6 +55,12 @@ package one_arrow.gameplay.world
 						body.cbTypes.add(TERRAIN_TYPE);
 						body.shapes.foreach(function(s:nape.shape.Shape):void {
 							s.filter.collisionGroup = TERRAIN_COLLISION_GROUP;
+						});
+					}
+					if (bodyName.indexOf("bound") >= 0)
+					{
+						body.shapes.foreach(function(s:nape.shape.Shape):void {
+							s.filter.collisionGroup = BOUNDS_COLLISION_GROUP;
 						});
 					}
 					if (bodyName.indexOf("arrow") >= 0)

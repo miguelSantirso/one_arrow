@@ -27,6 +27,8 @@ package one_arrow.gameplay.character
 		
 		private var _nArrowsLeft:int = 1;
 		
+		public function get damaged():Boolean { return _damaged; }
+		private var _damaged:Boolean = false;
 		private var _mouseDown:Boolean = false;
 		private var _framesToStartPointing:int = Config.LOADING_ANIM_FRAMES_LONG;
 		private var _shootAngle:Number;
@@ -51,6 +53,9 @@ package one_arrow.gameplay.character
 			_animations[Character.ANIM_LOADING_LEFT] = new MainCharacterLoadingLeft();
 			_animations[Character.ANIM_POINTING_RIGHT] = new MainCharPointingRight();
 			_animations[Character.ANIM_POINTING_LEFT] = new MainCharPointingLeft();
+			_animations[Character.ANIM_HIT] = new MainCharHitRight();
+			_animations[Character.ANIM_HIT_FALLING_LOOP] = new MainCharHitFallingLoop();
+			_animations[Character.ANIM_HIT_RECOVER] = new MainCharRecover();
 			
 			setAnimation(Character.ANIM_IDLE_RIGHT);
 			
@@ -84,7 +89,28 @@ package one_arrow.gameplay.character
 		{
 			_vectorToMouse = _lastMouseWorldPos.sub(physicalBody.position);
 			
-			if (_mouseDown)
+			if (_damaged)
+			{
+				if (_currentAnimation == ANIM_HIT && currentAnimMc.currentFrame == currentAnimMc.totalFrames)
+				{
+					if (_feetInFloor)
+						setAnimation(ANIM_HIT_RECOVER);
+					else
+						setAnimation(ANIM_HIT_FALLING_LOOP);
+				}
+				else if (_currentAnimation == ANIM_HIT_FALLING_LOOP && _feetInFloor)
+				{
+					setAnimation(ANIM_HIT_RECOVER);
+				}
+				else if (_currentAnimation == ANIM_HIT_RECOVER && currentAnimMc.currentFrame == currentAnimMc.totalFrames)
+				{
+					_damaged = false;
+					_preventDefaultAnimations = false;
+				}
+				
+				super.update();
+			}
+			else if (_mouseDown)
 			{
 				if (_framesToStartPointing > 0)
 				{
@@ -132,6 +158,11 @@ package one_arrow.gameplay.character
 					_direction.x = -1;
 				else _direction.x = 0;
 				
+				if (Main.input.downPressed)
+					_direction.y = 1;
+				else
+					_direction.y = 0;
+				
 				super.update();
 				
 				if (Main.input.canJump && _remainingJumps > 0)
@@ -151,7 +182,24 @@ package one_arrow.gameplay.character
 			
 			Sounds.playSoundById(Sounds.JUMP);
 		}
-		
+
+		public function takeDamage():void
+		{
+			_mouseDown = false;
+			_direction.x = 0;
+			_direction.y = 0;
+			
+			_damaged = true;
+			_feetInFloor = false;
+			scaleX = _lastScaleX;
+			_direction.y = 1;
+			_preventDefaultAnimations = true;
+			_verticalSpeed = 15;
+			setAnimation(ANIM_HIT);
+			
+			Sounds.playSoundById(Sounds.DAMAGE);
+		}
+
 		private function shootArrow():void
 		{
 			var angle:Number = clampAngle(_vectorToMouse.angle);

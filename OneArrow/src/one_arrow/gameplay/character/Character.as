@@ -66,7 +66,11 @@ package one_arrow.gameplay.character
 		public static const ANIM_IDLE:int = 9;
 		public static const ANIM_ATTACK:int = 10;
 		public static const ANIM_DEFEAT:int = 11;
+		public static const ANIM_HIT:int = 12;
+		public static const ANIM_HIT_FALLING_LOOP:int = 13;
+		public static const ANIM_HIT_RECOVER:int = 14;
 		
+		public function get currentAnimMc():MovieClip { return _animations[_currentAnimation]; }
 		protected var _animations:Dictionary = new Dictionary();
 		protected var _currentAnimation:int = -1;
 		
@@ -79,6 +83,8 @@ package one_arrow.gameplay.character
 		protected var _verticalSpeed:Number = 0;
 		
 		protected var _lastScaleX:int = 1;
+		
+		protected var _preventDefaultAnimations:Boolean = false;
 		
 		public function Character(gameplayMain:GameplayMain) 
 		{
@@ -122,7 +128,7 @@ package one_arrow.gameplay.character
 				var rayResult:RayResult = _main.physicalWorld.space.rayCast(
 					Ray.fromSegment(_nextPosition, _nextPosition.add(new Vec2(0, _feetInFloor ? 2 * Config.PLAYER_SPEED_DOWN : -_verticalSpeed))),
 					true,
-					new InteractionFilter(4, PhysicalWorld.TERRAIN_COLLISION_GROUP));
+					new InteractionFilter(16, _direction.y > 0 ? PhysicalWorld.BOUNDS_COLLISION_GROUP : PhysicalWorld.BOUNDS_COLLISION_GROUP | PhysicalWorld.TERRAIN_COLLISION_GROUP));
 				if (rayResult)
 				{
 					if (!_feetInFloor)
@@ -138,10 +144,14 @@ package one_arrow.gameplay.character
 				}
 			}
 			
-			// ANIMATION
-			
 			var movementThisFrameX:Number = _nextPosition.x - _physicalBody.position.x;
 			var movementThisFrameY:Number = _nextPosition.y - _physicalBody.position.y;
+			_physicalBody.position.set(_nextPosition);
+			
+			// ANIMATION
+			
+			if (_preventDefaultAnimations)
+				return;
 			
 			if (movementThisFrameY > 0.5 * Config.PLAYER_SPEED_DOWN)
 			{
@@ -171,8 +181,6 @@ package one_arrow.gameplay.character
 					setAnimation(ANIM_RUN_RIGHT);
 				}
 			}
-			
-			_physicalBody.position.set(_nextPosition);
 		}
 		protected function move():void
 		{
@@ -192,7 +200,9 @@ package one_arrow.gameplay.character
 			}
 			
 			var ray:Ray = new Ray(_nextPosition, _direction);
-			var rayResult:RayResult = _main.physicalWorld.space.rayCast(ray, true, new InteractionFilter(4, PhysicalWorld.TERRAIN_COLLISION_GROUP));
+			var rayResult:RayResult = _main.physicalWorld.space.rayCast(ray, 
+				true,
+				new InteractionFilter(4, PhysicalWorld.BOUNDS_COLLISION_GROUP | PhysicalWorld.TERRAIN_COLLISION_GROUP));
 			if (rayResult)
 			{
 				_nextPosition.x += sign * Math.min(rayResult.distance - 1, Config.PLAYER_SPEED_HORIZONTAL);
@@ -208,7 +218,7 @@ package one_arrow.gameplay.character
 		{
 			_feetInFloor = false;
 			_remainingJumps--;
-			_verticalSpeed = 32;
+			_verticalSpeed = 35;
 			AutoFx.showFx(new FxJump(), physicalBody.position.x, physicalBody.position.y);
 		}
 		

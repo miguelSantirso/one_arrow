@@ -23,6 +23,7 @@ package one_arrow
 		
 		[Embed(source="../../assets/enemyWaves.xml", mimeType="application/octet-stream")]
 		public static const ENEMY_WAVES:Class;
+		public static const ENEMY_FRAMES_RELAXED_AFTER_ATTACK:int = 140;
 		
 		public static const LOADING_ANIM_FRAMES_LONG:int = 19;
 		
