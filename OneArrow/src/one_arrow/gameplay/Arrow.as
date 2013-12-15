@@ -70,6 +70,7 @@ package one_arrow.gameplay
 			weight.material.density = 6.5;
 			shape.filter.collisionMask = PhysicalWorld.ARROW_COLLISION_GROUP;
 			weight.cbTypes.add(_tipType);
+			
 			_sensor = new Circle(50);
 			_sensor.material.density = 0;
 			_sensor.sensorEnabled = true;

@@ -105,7 +105,6 @@ package one_arrow.gameplay.enemies
 				return;
 			}
 			
-			trace(_enemies.length);
 			for (var i:int = 0; i < _enemies.length; i++)
 			{
 				_enemies[i].update();
