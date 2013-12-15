@@ -14,7 +14,6 @@ package one_arrow.gameplay.enemies.types
 	import nape.shape.Polygon;
 	import one_arrow.Config;
 	import one_arrow.gameplay.character.Character;
-	import one_arrow.gameplay.fx.AutoFx;
 	import one_arrow.gameplay.GameplayMain;
 	import utils.FrameScriptInjector;
 	import one_arrow.gameplay.Arrow;
@@ -64,6 +63,7 @@ package one_arrow.gameplay.enemies.types
 		
 		public override function update():void
 		{
+			super.update();
 			
 			if (_status == STATUS_DEFEAT || _status == STATUS_APPEARING)
 				return;
@@ -73,10 +73,9 @@ package one_arrow.gameplay.enemies.types
 				&& currentAnimMc.currentFrame == currentAnimMc.totalFrames)
 			{
 				_main.character.takeDamage();
-				AutoFx.showFx(new FxHit(), _physicalBody.position.x, _physicalBody.position.y - 40);
 				_status = STATUS_LEAVING;
 				setAnimation(ANIM_IDLE);
-				_framesLeftLeaving = Config.ENEMY_FRAMES_RELAXED_AFTER_ATTACK;
+				_framesLeftLeaving = Config.ENEMY_FRAMES_RELAXED_AFTER_ATTACK
 			}
 			
 			var hero:Character = _main.character;

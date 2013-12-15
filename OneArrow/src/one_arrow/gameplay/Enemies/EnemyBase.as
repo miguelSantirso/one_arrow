@@ -32,6 +32,8 @@ package one_arrow.gameplay.enemies
 		protected static const STATUS_APPEARING:int = 5;
 		protected static const STATUS_LEAVING:int = 6;
 		
+		protected static const STATUS_IDLE_SHIELD:int = 7;
+		
 		protected var _enemyCbType:CbType;
 		
 		protected var _status:int;
@@ -76,7 +78,7 @@ package one_arrow.gameplay.enemies
 		
 		protected function initAnimations():void
 		{
-			
+			// to be overriden 
 		}
 		
 		protected function onCollisionWithArrow(cb:InteractionCallback):void
@@ -125,7 +127,7 @@ package one_arrow.gameplay.enemies
 		
 		public override function update():void
 		{
-			super.update();
+			// We don't call the super.update()
 		}
 	}
 

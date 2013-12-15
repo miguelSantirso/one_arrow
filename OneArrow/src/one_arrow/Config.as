@@ -25,6 +25,10 @@ package one_arrow
 		public static const ENEMY_WAVES:Class;
 		public static const ENEMY_FRAMES_RELAXED_AFTER_ATTACK:int = 140;
 		
+		// Enemy 2
+		public static const ENEMY_2_IDLE_SECONDS_AFTER_ATTACK:Number = 2.0;
+		public static const ENEMY_2_SHIELD_SECONDS:Number = 1.5;
+		
 		public static const LOADING_ANIM_FRAMES_LONG:int = 19;
 		
 	}

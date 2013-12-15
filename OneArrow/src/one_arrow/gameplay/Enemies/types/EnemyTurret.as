@@ -22,13 +22,6 @@ package one_arrow.gameplay.enemies.types
 	 */
 	public class EnemyTurret extends EnemyBase 
 	{
-		private static const STATUS_IDLE:int = 1;
-		private static const STATUS_IDLE_SHIELD:int = 2;
-		private static const STATUS_ATTACKING:int = 3;
-		private static const STATUS_DEFEAT:int = 4;
-		private static const STATUS_APPEARING:int = 5;
-		private static const STATUS_LEAVING:int = 6;
-		
 		public function EnemyTurret(gameplayMain:GameplayMain) 
 		{
 			super(gameplayMain);
@@ -52,7 +45,15 @@ package one_arrow.gameplay.enemies.types
 
 		override public function update():void
 		{
+			super.update();
 			
+			switch(_status)
+			{
+				case STATUS_DEFEAT:
+				case STATUS_APPEARING:
+					return;
+				
+			}
 		}
 	}
 
