@@ -93,6 +93,7 @@ package one_arrow.gameplay
 			_physicalWorld.addBody(_character.physicalBody);
 			
 			_projectiles = new Projectiles(this);
+			_projectiles.mouseEnabled = false;
 			addChild(_projectiles);
 			_fore.mouseChildren = false;
 			_fore.mouseEnabled = false;
