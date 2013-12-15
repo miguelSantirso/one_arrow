@@ -43,7 +43,6 @@ package one_arrow.gameplay.enemies.types
 		private static const STATUS_LEAVING:int = 6;
 		private var _status:int;
 		
-		private var _leavingTarget:Vec2 = new Vec2();
 		private var _framesLeftLeaving:int = Config.ENEMY_FRAMES_RELAXED_AFTER_ATTACK;
 		
 		private var _initial_position:Point;
@@ -141,11 +140,9 @@ package one_arrow.gameplay.enemies.types
 			
 			if (_status != STATUS_LEAVING 
 				&& _currentAnimation == Character.ANIM_ATTACK 
-				&& currentAnimMc.currentFrame == 6)
+				&& currentAnimMc.currentFrame == currentAnimMc.totalFrames)
 			{
 				_main.character.takeDamage();
-				_leavingTarget.x = Math.random() * (Config.WORLD_SIZE_X - 200) + 100; 
-				_leavingTarget.y = Math.random() * (Config.WORLD_SIZE_Y - 300) + 150; 
 				_status = STATUS_LEAVING;
 				setAnimation(ANIM_IDLE);
 				_framesLeftLeaving = Config.ENEMY_FRAMES_RELAXED_AFTER_ATTACK
@@ -164,12 +161,6 @@ package one_arrow.gameplay.enemies.types
 			{
 				if (--_framesLeftLeaving == 0)
 					_status = STATUS_IDLE;
-				else
-				{
-					direction = _leavingTarget.sub(_physicalBody.position);
-					direction.length = 1;
-					_physicalBody.position.add(direction.mul(MOVEMENT_SPEED));
-				}
 			}
 			else if (distanceToHero < DISTANCE_TO_FOLLOW && distanceToHero>DISTANCE_TO_ATTACK)
 			{
