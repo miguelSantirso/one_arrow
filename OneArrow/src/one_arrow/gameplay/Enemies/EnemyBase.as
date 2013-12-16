@@ -87,7 +87,7 @@ package one_arrow.gameplay.enemies
 		{
 			_status = STATUS_DEFEAT;
 			setAnimation(Character.ANIM_DEFEAT);
-			_main.physicalWorld.removeBody(_physicalBody);
+			collisionBox.cbTypes.clear();
 			
 			Sounds.playSoundById(Sounds.ENEMY_DAMAGE);
 			Sounds.playSoundById(Sounds.ENEMY_DEATH);
@@ -125,6 +125,7 @@ package one_arrow.gameplay.enemies
 		
 		protected function onDefeatAnimationComplete(evt:Event):void
 		{
+			_main.physicalWorld.removeBody(_physicalBody);
 			_animations[Character.ANIM_DEFEAT].removeEventListener(DEFEAT_ANIMATION_COMPLETE, onDefeatAnimationComplete);
 			while (_animLayer.numChildren > 0) {
 				_animLayer.removeChildAt(0);
