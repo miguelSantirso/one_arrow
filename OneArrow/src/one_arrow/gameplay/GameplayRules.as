@@ -32,11 +32,12 @@ package one_arrow.gameplay
 			_currentWave++;
 			_waveMillisLong = WAVE_INITIAL_MILLIS_LONG - Math.floor(_currentWave / ROUND_WAVES_LONG) * MILLIS_PENALTY_PER_ROUND;
 			
+			var gainedScore:int = Math.floor(_waveMillisRemaining / 1000.0);
+			_totalScore += gainedScore;
+			
 			_restTimeFramesRemaining = _currentWave == 0 ? 10 : REST_TIME_FRAMES;
 			_waveMillisRemaining = _waveMillisLong;
 			
-			var gainedScore:int = Math.floor(_restTimeFramesRemaining / 1000.0);
-			_totalScore += gainedScore;
 			return gainedScore;
 		}
 		
