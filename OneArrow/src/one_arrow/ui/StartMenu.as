@@ -4,6 +4,7 @@ package one_arrow.ui
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import one_arrow.Config;
 	import one_arrow.GameScreen;
 	import one_arrow.Main;
 	/**
@@ -26,6 +27,7 @@ package one_arrow.ui
 			background = new start_menu();
 			addChild(background);
 			
+			background.scaleX = background.scaleY = Config.SCREEN_SIZE_X / background.width;
 			background.x = Main.instance.stage.stageWidth / 2 - background.width / 2;
 			background.y = Main.instance.stage.stageHeight / 2 - background.height / 2;
 			
