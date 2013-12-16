@@ -52,7 +52,6 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="lib\nape-dev.swc" />
     <element path="lib\nape-hacks.swc" />
     <element path="lib\nape-symbolic.swc" />
     <element path="assets\main_character_actions.swc" />
@@ -66,6 +65,7 @@
     <element path="assets\scoreboard.swc" />
     <element path="assets\main_char_defeat.swc" />
     <element path="assets\animacion_wave_3.swc" />
+    <element path="lib\nape-release.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
