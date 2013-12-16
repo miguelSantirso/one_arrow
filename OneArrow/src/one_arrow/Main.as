@@ -36,6 +36,7 @@ package one_arrow
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
 			
+			Sounds.playSoundById(Sounds.AMBIENT, 99999);
 			MochiServices.connect("07494139c648b09b", root);
 			
 			_input = new KeyboardInput();

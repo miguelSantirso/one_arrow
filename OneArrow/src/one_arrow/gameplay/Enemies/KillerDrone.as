@@ -3,6 +3,7 @@ package one_arrow.gameplay.enemies
 	import flash.display.MovieClip;
 	import nape.geom.Vec2;
 	import one_arrow.gameplay.GameplayMain;
+	import one_arrow.Sounds;
 	
 	/**
 	 * ...
@@ -52,6 +53,10 @@ package one_arrow.gameplay.enemies
 				_finalAnimation = new DronKilling();
 				addChild(_finalAnimation);
 				_gameplay.removeMainChar();
+			}
+			else if (_finalAnimation.currentFrame ==  13)
+			{
+				Sounds.playSoundById(Sounds.ENEMY_DRON_KILLING);
 			}
 			else if (_finalAnimation.currentFrame == _finalAnimation.totalFrames)
 			{

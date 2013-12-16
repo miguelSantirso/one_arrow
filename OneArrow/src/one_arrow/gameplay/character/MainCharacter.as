@@ -244,6 +244,7 @@ package one_arrow.gameplay.character
  			_main.arrow.body.position = new Vec2( -200, -200);
  			_nArrowsLeft++;
 			_main.arrowIndicator.setArrowAvailable();
+			Sounds.playSoundById(Sounds.PICK_UP_ARROW);
 		}
 		
 		private function clampAngle(angle:Number):Number

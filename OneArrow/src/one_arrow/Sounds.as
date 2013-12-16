@@ -10,9 +10,12 @@ package one_arrow
 		public static const ARROW_THROW:int = registerSound(SoundThrow, "ArrowThrow");
 		public static const JUMP:int = registerSound(SoundJump, "Jump");
 		public static const DAMAGE:int = registerSound(SoundDmg, "Damage");
-		public static const ENEMY_DEATH:int = registerSound(SoundEnemyDeath, "EnemyDeath");
+		public static const ENEMY_DEATH:int = registerSound(SoundEnemyDefeat, "EnemyDeath");
 		public static const ENEMY_SPAWN:int = registerSound(SoundEnemySpawn, "EnemySpawn");
 		public static const ENEMY_DAMAGE:int = registerSound(SoundEnemyDmg, "EnemyDamage");
+		public static const ENEMY_DRON_KILLING:int = registerSound(SoundMisil, "SoundMisil");
+		public static const PICK_UP_ARROW:int = registerSound(SoundPickUpArrow, "SoundPickUpArrow");
+		public static const AMBIENT:int = registerSound(SoundWind, "SoundWind");
 		
 		private static var _soundsById:Vector.<Sound>;
 		private static var _soundsByName:Dictionary;
