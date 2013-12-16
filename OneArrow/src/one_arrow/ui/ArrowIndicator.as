@@ -15,7 +15,7 @@ package one_arrow.ui
 		
 		public function setArrowAvailable():void
 		{
-			gotoAndStop(0);
+			gotoAndStop(1);
 		}
 		public function setArrowsEmpty():void
 		{

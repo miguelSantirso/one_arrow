@@ -26,7 +26,7 @@ package one_arrow.ui
 		
 		public function SuccessInformation() 
 		{
-			
+			mouseEnabled = mouseChildren = false;
 			_activeCountDown = false;
 			
 			_successAnimation = new SuccessAnimation();
