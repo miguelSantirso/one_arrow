@@ -164,7 +164,7 @@ package one_arrow.gameplay
 			{
 				var timeLeft:int = _rules.millisRemaining / 1000;
 				var points:int = _rules.waveCompletedAndReturnPointsObtained();
-				_successInformation.showWave(timeLeft, _rules.totalScore - timeLeft, _rules.currentWave + 1);
+				_successInformation.showWave(timeLeft, _rules.totalScore, _rules.currentWave + 1);
 				_scoreboard.success();
  			}
 			

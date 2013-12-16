@@ -35,14 +35,14 @@ package one_arrow.ui
 			FrameScriptInjector.injectFunctionToLabel(_successAnimation, "countdown", onCountDown);
 			FrameScriptInjector.injectFunctionToLabel(_successAnimation, "complete", onCompleted);
 			
-			_successAnimation.scaleX = _successAnimation.scaleY = Config.SCREEN_SIZE_X / _successAnimation.width;
-			_successAnimation.y = 0.5 * (Config.SCREEN_SIZE_Y - _successAnimation.height);
+			_successAnimation.scaleX = _successAnimation.scaleY = 1.25;
+			_successAnimation.y = 10;
 		}
 		
 		public function showWave(seconds:int, points:int, waveId:int):void
 		{
 			
-			_actualPoints = 0;
+			_actualPoints = points - seconds;
 			_actualSeconds = seconds;
 			
 			_secondsInterval = seconds / 30;
