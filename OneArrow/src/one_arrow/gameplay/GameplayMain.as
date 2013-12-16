@@ -14,6 +14,7 @@ package one_arrow.gameplay
 	import one_arrow.gameplay.world.PhysicalWorld;
 	import one_arrow.Config;
 	import one_arrow.GameScreen;
+	import one_arrow.Main;
 	import one_arrow.ui.ArrowIndicator;
 	import one_arrow.ui.BgScoreboard;
 	import one_arrow.ui.SuccessInformation;
@@ -145,7 +146,7 @@ package one_arrow.gameplay
 			{
 				ranOutOfTime();
 			}
-			else if (_currentWave != _rules.currentWave && !_rules.isResting())
+			else if (_currentWave != _rules.currentWave && !_rules.isResting() && !_gameOver)
  			{
 				_currentWave = _rules.currentWave;
  				if (_currentWave == 2)
@@ -156,11 +157,11 @@ package one_arrow.gameplay
 				_enemies.startWave(_currentWave);
 				_scoreboard.newWave(_currentWave + 1);
 			}
-			else if (_enemies.isWaveComplete() && !_rules.isResting())
+			else if (!_gameOver && _enemies.isWaveComplete() && !_rules.isResting())
 			{
 				var timeLeft:int = _rules.millisRemaining / 1000;
 				var points:int = _rules.waveCompletedAndReturnPointsObtained();
-				_successInformation.showWave(timeLeft, _rules.totalScore - timeLeft, _rules.currentWave);
+				_successInformation.showWave(timeLeft, _rules.totalScore - timeLeft, _rules.currentWave + 1);
 				_scoreboard.success();
  			}
 			
@@ -212,6 +213,17 @@ package one_arrow.gameplay
 			_gameOver = true;
 			_killerDrone = new KillerDrone(this);
 			_fore.addChild(_killerDrone);
+			_enemies.killAllEnemies();
+			_character.gameOver();
+		}
+		public function removeMainChar():void
+		{
+			if (contains(_character))
+				removeChild(_character);
+		}
+		public function gameFinished():void
+		{
+			Main.showLeaderboard(_rules.totalScore);
 		}
 	}
 

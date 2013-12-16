@@ -81,7 +81,7 @@ package one_arrow.gameplay.enemies
 			// to be overriden 
 		}
 		
-		protected function onCollisionWithArrow(cb:InteractionCallback):void
+		public function killNow():void
 		{
 			_status = STATUS_DEFEAT;
 			setAnimation(Character.ANIM_DEFEAT);
@@ -89,6 +89,11 @@ package one_arrow.gameplay.enemies
 			
 			Sounds.playSoundById(Sounds.ENEMY_DAMAGE);
 			Sounds.playSoundById(Sounds.ENEMY_DEATH);
+		}
+		
+		protected function onCollisionWithArrow(cb:InteractionCallback):void
+		{
+			killNow();
 		}
 		
 		public function setPosition(position:Point):void

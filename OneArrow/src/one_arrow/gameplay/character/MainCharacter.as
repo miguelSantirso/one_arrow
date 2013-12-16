@@ -40,6 +40,8 @@ package one_arrow.gameplay.character
 		private var _vectorToMouse:Vec2 = new Vec2();
 		private var _arrowDirection:Vec2 = new Vec2();
 		
+		private var _gameOver:Boolean = false;
+		
 		public function MainCharacter(gameplayMain:GameplayMain)
 		{
 			super(gameplayMain);
@@ -89,6 +91,7 @@ package one_arrow.gameplay.character
 		{
 			_vectorToMouse = _lastMouseWorldPos.sub(physicalBody.position);
 			
+			
 			if (_damaged)
 			{
 				if (_currentAnimation == ANIM_HIT && currentAnimMc.currentFrame == currentAnimMc.totalFrames)
@@ -109,6 +112,13 @@ package one_arrow.gameplay.character
 				}
 				
 				super.update();
+			}
+			else if (_gameOver)
+			{
+				_direction.x = _direction.y = 0;
+				_mouseDown = true;
+				super.update();
+				return;
 			}
 			else if (_mouseDown)
 			{
@@ -199,6 +209,13 @@ package one_arrow.gameplay.character
 			setAnimation(ANIM_HIT);
 			
 			Sounds.playSoundById(Sounds.DAMAGE);
+		}
+		
+		
+		public function gameOver():void
+		{
+			_lastScaleX = -1;
+			_gameOver = true;
 		}
 		
 		

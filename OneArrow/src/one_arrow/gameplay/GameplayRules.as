@@ -7,7 +7,7 @@ package one_arrow.gameplay
 	public class GameplayRules 
 	{
 		private const REST_TIME_FRAMES:int = 160;
-		private var _waveMillisLong:int = 90 * 1000;
+		private var _waveMillisLong:int = 9 * 1000;
 		
 		public function get totalScore():Number { return _totalScore; }
 		private var _totalScore:int;

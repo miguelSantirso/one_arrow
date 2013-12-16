@@ -45,13 +45,6 @@ package one_arrow.gameplay.enemies.types
 			_animations[Character.ANIM_DEFEAT] = new Enemy01Defeat();
 		}
 		
-		protected override function onCollisionWithArrow(cb:InteractionCallback):void
-		{
-			super.onCollisionWithArrow(cb);
-			
-			Sounds.playSoundById(Sounds.ENEMY_DAMAGE);
-			Sounds.playSoundById(Sounds.ENEMY_DEATH);
-		}
 		
 		private function setAssetDirection():void
 		{

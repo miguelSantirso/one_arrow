@@ -19,7 +19,7 @@ package one_arrow.gameplay.enemies
 		private var _main:GameplayMain;
 		private var _enemiesData:EnemiesData;
 		
-		private var _enemies:Vector.<Character>;
+		private var _enemies:Vector.<EnemyBase>;
 		
 		private static const STATUS_FIGHTING:int = 0;
 		private static const STATUS_WAITING:int = 1;
@@ -31,7 +31,7 @@ package one_arrow.gameplay.enemies
 		{
 			_main = gameplayMain;
 			
-			_enemies = new Vector.<Character>;
+			_enemies = new Vector.<EnemyBase>;
 			
 			_status = STATUS_FIGHTING;
 			
@@ -70,6 +70,15 @@ package one_arrow.gameplay.enemies
 				}
 			}
 			
+		}
+		
+		
+		public function killAllEnemies():void
+		{
+			for each (var e:EnemyBase in _enemies)
+			{
+				e.killNow();
+			}
 		}
 		
 		
