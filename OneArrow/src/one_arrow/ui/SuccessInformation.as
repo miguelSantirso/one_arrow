@@ -46,7 +46,7 @@ package one_arrow.ui
 			_actualSeconds = seconds;
 			
 			_secondsInterval = seconds / 30;
-			_pointsInterval = points / 30;
+			_pointsInterval = seconds / 30;
 			
 			_seconds = seconds;
 			_points = points;

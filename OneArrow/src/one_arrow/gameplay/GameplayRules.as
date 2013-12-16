@@ -7,7 +7,7 @@ package one_arrow.gameplay
 	public class GameplayRules 
 	{
 		private const REST_TIME_FRAMES:int = 160;
-		private static const WAVE_INITIAL_MILLIS_LONG:int = 90 * 1000;
+		private static const WAVE_INITIAL_MILLIS_LONG:int = 70 * 1000;
 		private static const MILLIS_PENALTY_PER_ROUND:int = 30 * 1000;
 		private static const ROUND_WAVES_LONG:int = 20;
 		private var _waveMillisLong:int = WAVE_INITIAL_MILLIS_LONG;

@@ -35,17 +35,132 @@
 	<enemy x="711" y="715" type="0"/>
 	<enemy x="1174" y="532" type="0"/>
 </wave>
-
 <wave>
-	<enemy x="300" y="800" type="0"/>
-	<enemy x="600" y="600" type="0"/>
-	<enemy x="900" y="300" type="0"/>
-	<enemy x="1000" y="220" type="0"/>
+	<enemy x="167" y="432" type="0"/>
+	<enemy x="193" y="790" type="0"/>
+	<enemy x="711" y="715" type="0"/>
+	<enemy x="1174" y="532" type="0"/>
+	<enemy x="1523" y="372" type="0"/>
+	<enemy x="1664" y="815" type="0"/>
 </wave>
 <wave>
-	<enemy x="300" y="800" type="0"/>
-	<enemy x="1500" y="800" type="0"/>
-	<enemy x="1000" y="800" type="0"/>
-	<enemy x="500" y="800" type="0"/>
+	<enemy x="1590" y="525" type="2"/>
+	<enemy x="1590" y="525" type="0"/>
+	<enemy x="178" y="617" type="0"/>
+	<enemy x="1174" y="532" type="0"/>
+	<enemy x="1523" y="372" type="0"/>
+</wave>
+<wave> <!-- 10 -->
+	<enemy x="1590" y="521" type="0"/>
+	<enemy x="193" y="790" type="0"/>
+	<enemy x="577" y="527" type="0"/>
+	<enemy x="999" y="363" type="0"/>
+	<enemy x="846" y="925" type="0"/>
+	<enemy x="167" y="432" type="0"/>
+</wave>
+<wave>
+	<enemy x="167" y="432" type="2"/>
+	<enemy x="1523" y="372" type="2"/>
+	<enemy x="577" y="527" type="0"/>
+	<enemy x="1174" y="532" type="0"/>
+	<enemy x="846" y="925" type="0"/>
+</wave>
+<wave>
+	<enemy x="167" y="432" type="2"/>
+	<enemy x="1523" y="372" type="2"/>
+	<enemy x="705" y="368" type="0"/>
+	<enemy x="999" y="363" type="0"/>
+</wave>
+<wave>
+	<enemy x="846" y="925" type="2"/>
+	<enemy x="603" y="925" type="0"/>
+	<enemy x="1251" y="925" type="0"/>
+	<enemy x="1523" y="372" type="0"/>
+	<enemy x="1590" y="525" type="0"/>
+	<enemy x="193" y="790" type="0"/>
+	<enemy x="178" y="617" type="0"/>
+</wave>
+<wave>
+	<enemy x="999" y="363" type="0"/>
+	<enemy x="1523" y="372" type="0"/>
+	<enemy x="1174" y="532" type="0"/>
+	<enemy x="1590" y="525" type="0"/>
+	<enemy x="1664" y="880" type="0"/>
+	<enemy x="346" y="929" type="0"/>
+	<enemy x="603" y="925" type="0"/>
+</wave>
+<wave> <!-- 15 -->
+	<enemy x="178" y="617" type="2"/>
+	<enemy x="577" y="527" type="2"/>
+	<enemy x="167" y="432" type="0"/>
+	<enemy x="705" y="368" type="0"/>
+	<enemy x="193" y="790" type="0"/>
+	<enemy x="999" y="363" type="0"/>
+	<enemy x="1664" y="880" type="0"/>
+</wave>
+<wave>
+	<enemy x="167" y="432" type="2"/>
+	<enemy x="999" y="363" type="2"/>
+	<enemy x="711" y="715" type="2"/>
+	<enemy x="346" y="929" type="0"/>
+	<enemy x="603" y="925" type="0"/>
+	<enemy x="1251" y="925" type="0"/>
+	<enemy x="1508" y="925" type="0"/>
+</wave>
+<wave>
+	<enemy x="167" y="432" type="0"/>
+	<enemy x="705" y="368" type="0"/>
+	<enemy x="999" y="363" type="0"/>
+	<enemy x="1523" y="372" type="0"/>
+	<enemy x="577" y="527" type="0"/>
+	<enemy x="1174" y="532" type="0"/>
+	<enemy x="711" y="715" type="0"/>
+	<enemy x="909" y="719" type="0"/>
+	<enemy x="603" y="925" type="0"/>
+	<enemy x="846" y="925" type="0"/>
+	<enemy x="1251" y="925" type="0"/>
+</wave>
+<wave>
+	<enemy x="167" y="432" type="0"/>
+	<enemy x="705" y="368" type="0"/>
+	<enemy x="999" y="363" type="0"/>
+	<enemy x="1523" y="372" type="0"/>
+	<enemy x="577" y="527" type="0"/>
+	<enemy x="1174" y="532" type="0"/>
+	<enemy x="711" y="715" type="0"/>
+	<enemy x="909" y="719" type="0"/>
+	<enemy x="603" y="925" type="0"/>
+	<enemy x="846" y="925" type="0"/>
+	<enemy x="1251" y="925" type="0"/>
+	<enemy x="193" y="790" type="2"/>
+	<enemy x="1664" y="880" type="2"/>
+</wave>
+<wave> <!-- 19 -->
+	<enemy x="705" y="368" type="2"/>
+	<enemy x="999" y="363" type="2"/>
+	<enemy x="711" y="715" type="2"/>
+	<enemy x="909" y="719" type="2"/>
+	<enemy x="577" y="527" type="0"/>
+	<enemy x="1174" y="532" type="0"/>
+	<enemy x="167" y="432" type="0"/>
+	<enemy x="1523" y="372" type="0"/>
+	<enemy x="193" y="790" type="0"/>
+	<enemy x="1664" y="811" type="0"/>
+	<enemy x="846" y="921" type="0"/>
+</wave>
+<wave> <!-- 20 -->
+	<enemy x="167" y="432" type="2"/>
+	<enemy x="705" y="368" type="2"/>
+	<enemy x="999" y="363" type="2"/>
+	<enemy x="1523" y="372" type="2"/>
+	<enemy x="178" y="617" type="0"/>
+	<enemy x="577" y="527" type="0"/>
+	<enemy x="1174" y="532" type="0"/>
+	<enemy x="1590" y="525" type="0"/>
+	<enemy x="711" y="715" type="0"/>
+	<enemy x="909" y="719" type="0"/>
+	<enemy x="193" y="790" type="0"/>
+	<enemy x="1664" y="880" type="0"/>
+	<enemy x="1664" y="815" type="0"/>
 </wave>
 </data>
