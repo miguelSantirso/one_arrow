@@ -113,8 +113,6 @@ package one_arrow.gameplay
 			
 			_rules.waveCompletedAndReturnPointsObtained();
 			
-			addChild(_fore);
-			
 			_successInformation = new SuccessInformation();
 			addChild(_successInformation);
 		}
