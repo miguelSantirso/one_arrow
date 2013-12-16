@@ -112,6 +112,21 @@ package one_arrow.gameplay.enemies.types
 		{
 			super.update();
 			
+			if (_animations[_currentAnimation])
+			{
+				var hero:Character = _main.character;
+				var direction:Vec2 = new Vec2(hero.physicalBody.position.x - _physicalBody.position.x,
+											hero.physicalBody.position.y - _physicalBody.position.y);
+				direction.normalise();
+				
+				trace(direction.x);
+				
+				if (direction.x > 0)
+					_animations[_currentAnimation].scaleX = 1;
+				else
+					_animations[_currentAnimation].scaleX = -1;
+			}
+			
 			switch(_status)
 			{
 				case STATUS_DEFEAT:
