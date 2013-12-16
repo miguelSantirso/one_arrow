@@ -18,6 +18,7 @@ package one_arrow.gameplay
 	import one_arrow.ui.ArrowIndicator;
 	import one_arrow.ui.BgScoreboard;
 	import one_arrow.ui.SuccessInformation;
+	import one_arrow.ui.SurviveInformation;
 	
 	/**
 	 * ...
@@ -41,6 +42,8 @@ package one_arrow.gameplay
 		private var _fore:Sprite = new Sprite();
 		private var _successInformation:SuccessInformation;
 		public function get successInformation():SuccessInformation { return _successInformation; }
+		private var _surviveInformation:SurviveInformation;
+		
 		private var _bgDay:Bitmap = new BackgroundDay();
 		
 		private var _framesElapsed:Number = 0;
@@ -115,6 +118,13 @@ package one_arrow.gameplay
 			
 			_successInformation = new SuccessInformation();
 			addChild(_successInformation);
+			
+			_surviveInformation = new SurviveInformation();
+			addChild(_surviveInformation);
+			_surviveInformation.x = Main.instance.stage.stageWidth/ 2;
+			_surviveInformation.y =  Main.instance.stage.stageHeight/2;
+
+			_surviveInformation.show();
 		}
 		
 		protected override function dispose(e:Event = null):void
