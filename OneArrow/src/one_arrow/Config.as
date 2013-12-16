@@ -9,8 +9,8 @@ package one_arrow
 	{
 		public static const DEBUG:Boolean = false;
 		
-		public static const SCREEN_SIZE_X:int = 1200;
-		public static const SCREEN_SIZE_Y:int = 900;
+		public static const SCREEN_SIZE_X:int = 1000;
+		public static const SCREEN_SIZE_Y:int = 700;
 		
 		public static const BG_TRANSITION_START_FRAME:Number = 15 * 30;
 		public static const BG_TRANSITION_FRAMES_LONG:Number = 60 * 30;
@@ -33,11 +33,11 @@ package one_arrow
 		public static const ENEMY_FRAMES_RELAXED_AFTER_ATTACK:int = 140;
 		
 		// Enemy 2
-		public static const ENEMY_2_IDLE_SECONDS_AFTER_ATTACK:Number = 2.0;
+		public static const ENEMY_2_IDLE_SECONDS_AFTER_ATTACK:Number = 5.0;
 		public static const ENEMY_2_SHIELD_SECONDS:Number = 1.5;
 		
 		// Projectiles
-		public static const PROJECTILE_ENERGY_BALL_LIFE_SECONDS:Number = 7.5;
+		public static const PROJECTILE_ENERGY_BALL_LIFE_SECONDS:Number = 4;
 		public static const PROJECTILE_ENERGY_BALL_SPEED:Number = 5.0;
 		
 		public static const LOADING_ANIM_FRAMES_LONG:int = 19;

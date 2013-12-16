@@ -42,6 +42,8 @@ package one_arrow.gameplay.enemies
 			
 		protected var _appearanceEffect:MovieClip;
 		
+		private var collisionBox:Polygon;
+		
 		public function EnemyBase(gameplayMain:GameplayMain) 
 		{
 			super(gameplayMain);
@@ -61,10 +63,10 @@ package one_arrow.gameplay.enemies
 				defeat.addEventListener(DEFEAT_ANIMATION_COMPLETE, onDefeatAnimationComplete);		
 			}
 			
-			var collisionBox:Polygon = new Polygon(Polygon.rect( -35, -84, 70, 60));
+			collisionBox = new Polygon(Polygon.rect( -35, -84, 70, 60));
 			collisionBox.sensorEnabled = true;
 			collisionBox.body = _physicalBody;
-			collisionBox.cbTypes.add(_enemyCbType);
+			//collisionBox.cbTypes.add(_enemyCbType);
 			_main.physicalWorld.space.listeners.add(new InteractionListener(
 				CbEvent.BEGIN,
 				InteractionType.SENSOR,
@@ -112,6 +114,7 @@ package one_arrow.gameplay.enemies
 		{
 			setAnimation(Character.ANIM_IDLE);
 			_status = STATUS_IDLE;
+			collisionBox.cbTypes.add(_enemyCbType);
 		}
 		
 		protected function onAppearanceComplete(evt:Event):void

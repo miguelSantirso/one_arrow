@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
 <wave>
-	<enemy x="500" y="800" type="0"/>
-	<enemy x="1500" y="600" type="0"/>
-	<enemy x="1000" y="300" type="2"/>
-	<enemy x="500" y="420" type="2"/>
+	<enemy x="460" y="925" type="0"/>
 </wave>
+<wave>
+	<enemy x="1200" y="925" type="0"/>
+	<enemy x="1664" y="811" type="0"/>
+</wave>
+<wave>
+	<enemy x="909" y="719" type="0"/>
+	<enemy x="193" y="786" type="0"/>
+</wave>
+<wave>
+	<enemy x="1664" y="880" type="0"/>
+	<enemy x="1251" y="925" type="0"/>
+	<enemy x="846" y="925" type="0"/>
+	<enemy x="193" y="790" type="0"/>
+</wave>
+<wave>
+	<enemy x="178" y="617" type="0"/>
+	<enemy x="603" y="925" type="0"/>
+	<enemy x="909" y="719" type="0"/>
+	<enemy x="1664" y="815" type="0"/>
+</wave>
+<wave>
+	<enemy x="846" y="925" type="2"/>
+	<enemy x="167" y="432" type="0"/>
+	<enemy x="1523" y="372" type="0"/>
+</wave>
+<wave>
+	<enemy x="705" y="368" type="0"/>
+	<enemy x="999" y="363" type="0"/>
+	<enemy x="577" y="527" type="0"/>
+	<enemy x="711" y="715" type="0"/>
+	<enemy x="1174" y="532" type="0"/>
+</wave>
+
 <wave>
 	<enemy x="300" y="800" type="0"/>
 	<enemy x="600" y="600" type="0"/>

@@ -225,7 +225,7 @@ package one_arrow.gameplay.character
 		{
 			_feetInFloor = false;
 			_remainingJumps--;
-			_verticalSpeed = 35;
+			_verticalSpeed = 38;
 			AutoFx.showFx(new FxJump(), physicalBody.position.x, physicalBody.position.y);
 		}
 		

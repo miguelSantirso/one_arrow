@@ -51,9 +51,6 @@ package one_arrow.gameplay.enemies
 				
 				_finalAnimation = new DronKilling();
 				addChild(_finalAnimation);
-			}
-			else if (_finalAnimation.currentFrame == 43)
-			{
 				_gameplay.removeMainChar();
 			}
 			else if (_finalAnimation.currentFrame == _finalAnimation.totalFrames)

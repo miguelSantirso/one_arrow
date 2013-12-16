@@ -152,12 +152,12 @@ package one_arrow.gameplay
 			else if (_currentWave != _rules.currentWave && !_rules.isResting() && !_gameOver)
  			{
 				_currentWave = _rules.currentWave;
- 				if (_currentWave == 2)
+ 				if (_currentWave == 1)
  				{
  					_character.maxJumps = 2;
  				}
 				
-				_enemies.startWave(_currentWave);
+				_enemies.startWave(_currentWave % _enemies.nWaves);
 				_scoreboard.newWave(_currentWave + 1);
 			}
 			else if (!_gameOver && _enemies.isWaveComplete() && !_rules.isResting())

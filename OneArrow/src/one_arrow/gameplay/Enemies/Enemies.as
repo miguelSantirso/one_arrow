@@ -25,6 +25,7 @@ package one_arrow.gameplay.enemies
 		private static const STATUS_WAITING:int = 1;
 		private var _status:int;
 		
+		public function get nWaves():int { return _enemiesData.nWaves; }
 		public function get currentWave():int { return _enemiesData.currentWave; }
 		
 		public function Enemies(gameplayMain:GameplayMain)
