@@ -2,6 +2,8 @@ package one_arrow
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import mochi.as3.MochiScores;
+	import mochi.as3.MochiServices;
 	import one_arrow.gameplay.GameplayMain;
 	import one_arrow.ui.StartMenu;
 	import one_arrow.events.GameScreenEvent;
@@ -34,6 +36,8 @@ package one_arrow
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
 			
+			MochiServices.connect("07494139c648b09b", root);
+			
 			_input = new KeyboardInput();
 			_input.init(stage);
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -41,6 +45,17 @@ package one_arrow
 			changeGameScreen(GameScreen.START_MENU);
 		}
 		
+		
+		public static function showLeaderboard(withNewScore:int = -1):void
+		{
+			var o:Object = { n: [4, 7, 4, 10, 11, 12, 0, 15, 4, 5, 9, 11, 12, 1, 8, 2], f: function (i:Number,s:String):String { if (s.length == 16) return s; return this.f(i+1,s + this.n[i].toString(16));}};
+			var boardID:String = o.f(0, "");
+			
+			if (withNewScore >= 0)
+				MochiScores.showLeaderboard({boardID: boardID, score: withNewScore});
+			else
+				MochiScores.showLeaderboard({boardID: boardID});
+		}
 		
 		private function onEnterFrame(e:Event):void
 		{
