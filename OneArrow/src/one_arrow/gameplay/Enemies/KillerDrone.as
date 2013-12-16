@@ -11,7 +11,7 @@ package one_arrow.gameplay.enemies
 	 */
 	public class KillerDrone extends MovieClip 
 	{
-		private const _MOVEMENT_SPEED:Number = 2;
+		private const _MOVEMENT_SPEED:Number = 5;
 		
 		private var _inPosition:Boolean = false;
 		private var _finalAnimation:MovieClip = null;
@@ -60,6 +60,7 @@ package one_arrow.gameplay.enemies
 			}
 			else if (_finalAnimation.currentFrame == _finalAnimation.totalFrames)
 			{
+				_finalAnimation.stop();
 				while (numChildren > 0)
 					removeChildAt(0);
 				
