@@ -54,7 +54,7 @@ package one_arrow.gameplay.enemies
 				addChild(_finalAnimation);
 				_gameplay.removeMainChar();
 			}
-			else if (_finalAnimation.currentFrame ==  13)
+			else if (_finalAnimation.currentFrame ==  33)
 			{
 				Sounds.playSoundById(Sounds.ENEMY_DRON_KILLING);
 			}
