@@ -34,6 +34,8 @@ package one_arrow.gameplay
 		private var _body:Body;
 		private var _sensor:Circle;
 		
+		private var _glow:GlowArrow = new GlowArrow();
+		
 		public function Arrow(gameplayMain:GameplayMain) 
 		{
 			mouseEnabled = false;
@@ -41,6 +43,8 @@ package one_arrow.gameplay
 			
 			_gameplay = gameplayMain;
 			
+			addChild(_glow);
+			_glow.visible = false;
 			addChild(new ArrowRight);
 			
 			_body = new Body(BodyType.DYNAMIC);
@@ -83,6 +87,7 @@ package one_arrow.gameplay
 		
 		public function shoot(pos:Vec2, angle:Number):void
 		{
+			_glow.visible = false;
 			_canStick = true;
 			_body.allowMovement = _body.allowRotation = true;
 			
@@ -106,6 +111,7 @@ package one_arrow.gameplay
 			_body.angularVel = 0;
 			_body.allowMovement = _body.allowRotation = false;
 			_sensor.cbTypes.add(ARROW_CB_TYPE);
+			_glow.visible = true;
 		}
 		
 		private function onInvalidTerrainCollision(cb:InteractionCallback):void
@@ -113,6 +119,7 @@ package one_arrow.gameplay
 			_body.allowRotation = true;
 			_canStick = false;
 			_sensor.cbTypes.add(ARROW_CB_TYPE);
+			_glow.visible = true;
 		}
 		
 	}
