@@ -66,6 +66,7 @@
     <element path="assets\main_char_defeat.swc" />
     <element path="assets\animacion_wave_3.swc" />
     <element path="lib\nape-release.swc" />
+    <element path="assets\Survive.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

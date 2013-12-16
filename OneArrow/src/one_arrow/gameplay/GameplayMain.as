@@ -121,8 +121,6 @@ package one_arrow.gameplay
 			
 			_surviveInformation = new SurviveInformation();
 			addChild(_surviveInformation);
-			_surviveInformation.x = Main.instance.stage.stageWidth/ 2;
-			_surviveInformation.y =  Main.instance.stage.stageHeight/2;
 
 			_surviveInformation.show();
 		}
