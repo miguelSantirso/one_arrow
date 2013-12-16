@@ -52,9 +52,15 @@ package one_arrow
 			var boardID:String = o.f(0, "");
 			
 			if (withNewScore >= 0)
-				MochiScores.showLeaderboard({boardID: boardID, score: withNewScore});
+			{
+				MochiScores.showLeaderboard( { boardID: boardID, score: withNewScore, onClose: Main.instance.restartGame });
+			}
 			else
 				MochiScores.showLeaderboard({boardID: boardID});
+		}
+		private function restartGame():void
+		{
+			changeGameScreen(GameScreen.START_MENU);
 		}
 		
 		private function onEnterFrame(e:Event):void

@@ -112,6 +112,10 @@ package one_arrow.gameplay.character
 		}
 		
 		
+		public function dispose():void
+		{
+		}
+		
 		public function update():void
 		{
 			_nextPosition.set(_physicalBody.position);

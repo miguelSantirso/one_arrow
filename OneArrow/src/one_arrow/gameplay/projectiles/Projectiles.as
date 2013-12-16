@@ -21,6 +21,12 @@ package one_arrow.gameplay.projectiles
 			_projectiles = new Vector.<Projectile>;
 		}
 		
+		
+		public function dispose():void
+		{
+			
+		}
+		
 		public function update():void
 		{
 			for (var i:int = 0; i < _projectiles.length; i++){

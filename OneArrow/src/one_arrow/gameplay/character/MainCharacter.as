@@ -87,6 +87,13 @@ package one_arrow.gameplay.character
 		}
 		
 		
+		public override function dispose():void
+		{
+			_main.removeEventListener(MouseEvent.MOUSE_DOWN, onStageDown);
+			_main.removeEventListener(MouseEvent.MOUSE_UP, onStageUp);
+			_main.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+		}
+		
 		public override function update():void
 		{
 			_vectorToMouse = _lastMouseWorldPos.sub(physicalBody.position);

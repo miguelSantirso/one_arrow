@@ -95,6 +95,7 @@ package one_arrow.gameplay.enemies
 			{
 				if (_enemies[i] == evt.currentTarget)
 				{
+					_enemies[i].dispose();
 					_enemies.splice(i, 1);
 					
 					if (_enemies.length == 0)

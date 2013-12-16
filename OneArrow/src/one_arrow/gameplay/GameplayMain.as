@@ -74,6 +74,7 @@ package one_arrow.gameplay
 		
 		protected override function init(e:Event = null):void 
 		{
+			removeEventListener(Event.ADDED_TO_STAGE, init);
 			super.init(e);
 			
 			addChild(_bg);
@@ -121,6 +122,10 @@ package one_arrow.gameplay
 		protected override function dispose(e:Event = null):void
 		{
 			super.dispose(e);
+			
+			_character.dispose();
+			_character = null;
+			
 		}
 		
 		public override function update():void
@@ -208,6 +213,7 @@ package one_arrow.gameplay
 		
 		private var _gameOver:Boolean = false;
 		private var _killerDrone:KillerDrone;
+		private var _gameFinished:Boolean = false;
 		public function ranOutOfTime():void
 		{
 			_gameOver = true;
@@ -223,6 +229,15 @@ package one_arrow.gameplay
 		}
 		public function gameFinished():void
 		{
+			if (_gameFinished)
+				return;
+			
+			_gameFinished = true;
+			var overlay:Sprite = new Sprite();
+			overlay.graphics.beginFill(0, 0.4);
+			overlay.graphics.drawRect(0, 0, Config.SCREEN_SIZE_X, Config.SCREEN_SIZE_Y);
+			addChild(overlay);
+			
 			Main.showLeaderboard(_rules.totalScore);
 		}
 	}

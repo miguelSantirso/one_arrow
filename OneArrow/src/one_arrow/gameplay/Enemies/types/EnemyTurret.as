@@ -38,6 +38,12 @@ package one_arrow.gameplay.enemies.types
 			attackAnimation.addEventListener(ATTACK_ANIMATION_COMPLETE, onAttackAnimationComplete);		
 		}
 		
+		public override function dispose():void
+		{
+			super.dispose();
+			_animations[Character.ANIM_ATTACK].removeEventListener(ATTACK_ANIMATION_COMPLETE, onAttackAnimationComplete);
+		}
+		
 		protected override function initAnimations():void
 		{
 			_animations[Character.ANIM_IDLE] = new Enemy03Idle();
