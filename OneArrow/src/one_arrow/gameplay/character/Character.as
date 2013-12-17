@@ -82,7 +82,7 @@ package one_arrow.gameplay.character
 		protected var _feetInFloor:Boolean = false;
 		protected var _remainingJumps:int = 2;
 		public var maxJumps:int = 1;
-		private var _verticalAcceleration:Number = 5;
+		private var _verticalAcceleration:Number = 4.5;
 		protected var _verticalSpeed:Number = 0;
 		
 		protected var _lastScaleX:int = 1;

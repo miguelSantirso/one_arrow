@@ -4,6 +4,7 @@ package one_arrow.gameplay
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Point;
+	import mochi.as3.MochiEvents;
 	import nape.geom.Vec2;
 	import one_arrow.gameplay.character.Character;
 	import one_arrow.gameplay.character.MainCharacter;
@@ -79,6 +80,8 @@ package one_arrow.gameplay
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			super.init(e);
+			
+			MochiEvents.startPlay();
 			
 			addChild(_bg);
 
@@ -160,7 +163,7 @@ package one_arrow.gameplay
 			else if (_currentWave != _rules.currentWave && !_rules.isResting() && !_gameOver)
  			{
 				_currentWave = _rules.currentWave;
- 				if (_currentWave == 1)
+ 				if (_currentWave == 0)
  				{
  					_character.maxJumps = 2;
  				}
