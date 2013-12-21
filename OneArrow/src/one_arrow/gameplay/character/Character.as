@@ -206,7 +206,7 @@ package one_arrow.gameplay.character
 				AutoFx.showFx(fx, _physicalBody.position.x, _physicalBody.position.y);
 			}
 			
-			var ray:Ray = new Ray(_nextPosition, _direction);
+			var ray:Ray = new Ray(_nextPosition, new Vec2(_direction.x, 0));
 			var rayResult:RayResult = _main.physicalWorld.space.rayCast(ray, 
 				true,
 				new InteractionFilter(4, PhysicalWorld.BOUNDS_COLLISION_GROUP | PhysicalWorld.TERRAIN_COLLISION_GROUP));
