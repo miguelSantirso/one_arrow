@@ -84,6 +84,7 @@ package one_arrow.gameplay.character
 			gameplayMain.addEventListener(MouseEvent.MOUSE_DOWN, onStageDown, false, 0, true);
 			gameplayMain.addEventListener(MouseEvent.MOUSE_UP, onStageUp, false, 0, true);
 			gameplayMain.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove, false, 0, true);
+			gameplayMain.addEventListener(MouseEvent.MOUSE_OUT, onMouseOut, false, 0, true);
 		}
 		
 		
@@ -92,6 +93,7 @@ package one_arrow.gameplay.character
 			_main.removeEventListener(MouseEvent.MOUSE_DOWN, onStageDown);
 			_main.removeEventListener(MouseEvent.MOUSE_UP, onStageUp);
 			_main.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+			_main.removeEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
 		}
 		
 		public override function update():void
@@ -270,6 +272,11 @@ package one_arrow.gameplay.character
 
 			if (_nArrowsLeft <= 0 || !_feetInFloor) return;
 			
+			// This can happen if the user moves the mouse out of the screen while shooting, releases the mouse button and then comes back to keep playing
+			// In this case, the best solution is to allow him to shoot simply by clicking on the screen
+			if (_mouseDown) 
+				onStageUp(e);
+			
 			_mouseDown = true;
 			setAnimation(_lastScaleX == 1 ? Character.ANIM_LOADING_RIGHT : Character.ANIM_LOADING_LEFT);
 			scaleX = 1;
@@ -292,6 +299,11 @@ package one_arrow.gameplay.character
 		{
 			_lastMouseWorldPos.x = e.stageX - 0.5 * Config.SCREEN_SIZE_X + _main.cameraX;
 			_lastMouseWorldPos.y = e.stageY - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;
+		}
+		private function onMouseOut(e:MouseEvent):void
+		{
+			//_mouseDown = false;
+			//_pointingArmFore.visible = _pointingArmBack.visible = false;
 		}
 		
 	}
