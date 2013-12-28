@@ -54,7 +54,7 @@ package one_arrow.gameplay.enemies.types
 		
 		protected override function onCollisionWithArrow(cb:InteractionCallback):void
 		{
-			if (_status != STATUS_IDLE) // only vulnerable state
+			if (_status != STATUS_IDLE && _status != STATUS_ATTACKING) // only vulnerable states
 				return;
 				
 			super.onCollisionWithArrow(cb);
