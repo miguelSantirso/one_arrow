@@ -69,7 +69,7 @@ package one_arrow.gameplay.character
 			collisionBox.body = physicalBody;
 			collisionBox.cbTypes.add(CHARACTER_CB_TYPE);
 			_main.physicalWorld.space.listeners.add(new InteractionListener(
-				CbEvent.BEGIN,
+				CbEvent.ONGOING,
 				InteractionType.SENSOR,
 				CHARACTER_CB_TYPE,
 				Arrow.ARROW_CB_TYPE,
@@ -250,11 +250,14 @@ package one_arrow.gameplay.character
 		}
 		private function onCollisionWithArrow(cb:InteractionCallback):void
 		{
-			AutoFx.showFx(new FxPickArrow(), _main.arrow.body.position.x, _main.arrow.body.position.y);
- 			_main.arrow.body.position = new Vec2( -200, -200);
- 			_nArrowsLeft++;
-			_main.arrowIndicator.setArrowAvailable();
-			Sounds.playSoundById(Sounds.PICK_UP_ARROW);
+			if (Main.input.moveKeyPressed)
+			{
+				AutoFx.showFx(new FxPickArrow(), _main.arrow.body.position.x, _main.arrow.body.position.y);
+				_main.arrow.body.position = new Vec2( -200, -200);
+				_nArrowsLeft++;
+				_main.arrowIndicator.setArrowAvailable();
+				Sounds.playSoundById(Sounds.PICK_UP_ARROW);
+			}
 		}
 		
 		private function clampAngle(angle:Number):Number

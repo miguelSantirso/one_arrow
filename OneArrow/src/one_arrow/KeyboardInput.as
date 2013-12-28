@@ -37,6 +37,11 @@ package one_arrow
 			return _keysState[39] || _keysState[68];
 		}
 		
+		public function get moveKeyPressed():Boolean
+		{
+			return upPressed || downPressed || leftPressed || rightPressed;
+		}
+		
 		
 		
 		public function init(stage:Stage):void
