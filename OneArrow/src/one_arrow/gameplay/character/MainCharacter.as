@@ -2,6 +2,7 @@ package one_arrow.gameplay.character
 {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
+	import flash.events.TouchEvent;
 	import flash.geom.Point;
 	import nape.callbacks.CbEvent;
 	import nape.callbacks.CbType;
@@ -41,6 +42,8 @@ package one_arrow.gameplay.character
 		private var _arrowDirection:Vec2 = new Vec2();
 		
 		private var _gameOver:Boolean = false;
+		
+		private var _mouseHoldingOnAirEvent:MouseEvent = null;
 		
 		public function MainCharacter(gameplayMain:GameplayMain)
 		{
@@ -87,7 +90,6 @@ package one_arrow.gameplay.character
 			gameplayMain.addEventListener(MouseEvent.MOUSE_OUT, onMouseOut, false, 0, true);
 		}
 		
-		
 		public override function dispose():void
 		{
 			_main.removeEventListener(MouseEvent.MOUSE_DOWN, onStageDown);
@@ -100,6 +102,12 @@ package one_arrow.gameplay.character
 		{
 			_vectorToMouse = _lastMouseWorldPos.sub(physicalBody.position);
 			
+			// Check if the player wants to shoot the arrow when the character ends her jump and lands on the floor:
+			if (_feetInFloor && _mouseHoldingOnAirEvent)
+			{
+				onStageDown(_mouseHoldingOnAirEvent);
+				return;
+			}
 			
 			if (_damaged)
 			{
@@ -269,6 +277,11 @@ package one_arrow.gameplay.character
 		{
 			if (_nArrowsLeft <= 0)
 				_main.arrowIndicator.doAnimation();
+				
+			if (!_feetInFloor)
+			{
+				_mouseHoldingOnAirEvent = e;
+			}
 
 			if (_nArrowsLeft <= 0 || !_feetInFloor) return;
 			
@@ -287,6 +300,7 @@ package one_arrow.gameplay.character
 		private function onStageUp(e:MouseEvent):void
 		{
 			_mouseDown = false;
+			_mouseHoldingOnAirEvent = null;
 			_lastMouseWorldPos.x = e.stageX - 0.5 * Config.SCREEN_SIZE_X + _main.cameraX;
 			_lastMouseWorldPos.y = e.stageY - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;
 			if (_framesToStartPointing == -1)
