@@ -52,7 +52,7 @@ package one_arrow.gameplay.character
 		
 		private var _prevDirectionX:int = 0;
 		protected var _direction:Vec2 = new Vec2();
-		private var _nextPosition:Vec2 = new Vec2();
+		protected var _nextPosition:Vec2 = new Vec2();
 		
 		public static const ANIM_IDLE_LEFT:int = 0;
 		public static const ANIM_IDLE_RIGHT:int = 1;

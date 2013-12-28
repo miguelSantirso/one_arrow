@@ -22,13 +22,13 @@ package one_arrow
 		}
 		public function get upPressed():Boolean 
 		{
-			return _keysState[38] || _keysState[87];
+			return _keysState[38] || _keysState[87] || _keysState[32];
 		}
 		public function get downPressed():Boolean 
 		{
 			return _keysState[40] || _keysState[83];
 		}
-		public function get leftPressed():Boolean 
+		public function get leftPressed():Boolean
 		{
 			return _keysState[37] || _keysState[65];
 		}
@@ -59,7 +59,7 @@ package one_arrow
 			//trace("key up: " + e.keyCode);
 			_keysState[e.keyCode] = false;
 			
-			if (e.keyCode == 38 || e.keyCode == 87)
+			if (e.keyCode == 38 || e.keyCode == 87 || e.keyCode == 32)
 				_jumpAvailable = true;
 		}
 		

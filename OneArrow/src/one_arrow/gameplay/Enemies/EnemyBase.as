@@ -30,7 +30,6 @@ package one_arrow.gameplay.enemies
 		protected static const STATUS_ATTACKING:int = 3;
 		protected static const STATUS_DEFEAT:int = 4;
 		protected static const STATUS_APPEARING:int = 5;
-		protected static const STATUS_LEAVING:int = 6;
 		
 		protected static const STATUS_IDLE_SHIELD:int = 7;
 		
