@@ -93,8 +93,8 @@ package one_arrow.gameplay.enemies.types
 					{
 						_main.character.takeDamage();
 						_status = STATUS_IDLE;
+						_direction = localDirection;
 						setAnimation(ANIM_IDLE);
-						setAssetDirection();
 						_framesLeftLeaving = Config.ENEMY_FRAMES_RELAXED_AFTER_ATTACK;
 					}
 					else 
@@ -107,12 +107,6 @@ package one_arrow.gameplay.enemies.types
 					_physicalBody.position.set(new Vec2(_physicalBody.position.x + (localDirection.x * FOLLOW_SPEED),
 														_physicalBody.position.y + (localDirection.y * FOLLOW_SPEED)));
 					
-					/*if (_storedStandardFramerate < 0)
-					{
-						_storedStandardFramerate = _animLayer.stage.frameRate;
-						_animLayer.stage.frameRate += FRAMERATE_SPEEDUP_FACTOR;
-					}*/
-					
 					if (distanceToHero > DISTANCE_TO_FOLLOW)
 					{
 						_initial_position = new Point(_physicalBody.position.x, _physicalBody.position.y);
@@ -124,6 +118,8 @@ package one_arrow.gameplay.enemies.types
 					{
 						setAnimation(Character.ANIM_ATTACK);
 						_status = STATUS_ATTACKING;
+						_direction = localDirection;
+						setAssetDirection();
 						break;
 					}
 					
@@ -131,12 +127,6 @@ package one_arrow.gameplay.enemies.types
 					
 					break;
 				case STATUS_IDLE:
-					/*if (_storedStandardFramerate > 0)
-					{
-						_animations[_currentAnimation].frameRate = _storedStandardFramerate;
-						_storedStandardFramerate = -1;
-					}*/
-					
 					if ((_framesLeftLeaving == 0) && (distanceToHero < DISTANCE_TO_FOLLOW))
 					{
 						if (distanceToHero >= DISTANCE_TO_ATTACK)
@@ -148,6 +138,7 @@ package one_arrow.gameplay.enemies.types
 						{
 							setAnimation(Character.ANIM_ATTACK);
 							_status = STATUS_ATTACKING;
+							setAssetDirection();
 						}
 					}
 					else
