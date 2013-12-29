@@ -68,6 +68,7 @@
     <element path="assets\animacion_wave_3.swc" />
     <element path="lib\nape-release.swc" />
     <element path="assets\Survive.swc" />
+    <element path="lib\nape-dev.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

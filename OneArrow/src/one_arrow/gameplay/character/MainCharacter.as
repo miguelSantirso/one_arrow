@@ -212,6 +212,7 @@ package one_arrow.gameplay.character
 
 		public function takeDamage():void
 		{
+			_framesToStartPointing = Config.LOADING_ANIM_FRAMES_LONG;
 			_mouseDown = false;
 			_direction.x = 0;
 			_direction.y = 0;
