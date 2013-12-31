@@ -4,8 +4,8 @@
 	<enemy x="460" y="925" type="0"/>
 </wave>
 <wave>
-	<enemy x="1200" y="925" type="0"/>
-	<enemy x="1664" y="811" type="0"/>
+	<enemy x="1200" y="925" type="2"/>
+	<enemy x="1664" y="811" type="2"/>
 </wave>
 <wave>
 	<enemy x="909" y="719" type="0"/>

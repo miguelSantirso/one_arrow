@@ -34,7 +34,7 @@ package one_arrow.gameplay.enemies.types
 		private static const DISTANCE_TO_FOLLOW:int = 200;
 		private static const DISTANCE_TO_ATTACK:int = 50;
 		private static const DISTANCE_TO_DIE:int = 90;
-		private static const MC_WIDTH:int = 45;
+		private static const MC_WIDTH:int = 60;
 		private static const FRAMERATE_SPEEDUP_FACTOR:int = 15;
 		
 		private var _framesLeftLeaving:int = 0;
@@ -91,7 +91,7 @@ package one_arrow.gameplay.enemies.types
 					}
 					else if (distanceToHero < DISTANCE_TO_ATTACK)
 					{
-						_main.character.takeDamage();
+						if(!_main.character.isDamaged()) _main.character.takeDamage();
 						_status = STATUS_IDLE;
 						_direction = localDirection;
 						setAnimation(ANIM_IDLE);
@@ -106,7 +106,7 @@ package one_arrow.gameplay.enemies.types
 				case STATUS_FOLLOWING:
 					_physicalBody.position.set(new Vec2(_physicalBody.position.x + (localDirection.x * FOLLOW_SPEED),
 														_physicalBody.position.y + (localDirection.y * FOLLOW_SPEED)));
-					
+						
 					if (distanceToHero > DISTANCE_TO_FOLLOW)
 					{
 						_initial_position = new Point(_physicalBody.position.x, _physicalBody.position.y);
