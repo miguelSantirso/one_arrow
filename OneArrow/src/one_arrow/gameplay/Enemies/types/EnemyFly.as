@@ -28,14 +28,19 @@ package one_arrow.gameplay.enemies.types
 	 */
 	public class EnemyFly extends EnemyBase 
 	{
-		private static const MAXIMUM_IDLE_DISTANCE:int = 100;
-		private static const MOVEMENT_SPEED:int = 2;
-		private static const FOLLOW_SPEED:int = 4;
-		private static const DISTANCE_TO_FOLLOW:int = 200;
-		private static const DISTANCE_TO_ATTACK:int = 50;
-		private static const DISTANCE_TO_DIE:int = 90;
 		private static const MC_WIDTH:int = 45;
-		private static const FRAMERATE_SPEEDUP_FACTOR:int = 15;
+		
+		private var _followSpeed:int=4;
+		public function set followSpeed(value:int):void { _followSpeed = value; }
+		private var _movementSpeed:int=2;
+		public function set movementSpeed(value:int):void { _movementSpeed = value; }
+		private var _maximumIdleDistance:int=100;
+		public function set maximumIdleDistance(value:int):void { _maximumIdleDistance = value; }
+		private var _distanceToFollow:int=200;
+		public function set distanceToFollow(value:int):void { _distanceToFollow = value; }
+		private var _distanceToAttack:int=50;
+		public function set distanceToAttack(value:int):void { _distanceToAttack = value; }
+		
 		
 		private var _framesLeftLeaving:int = 0;
 		private var _storedStandardFramerate:int = -1;
@@ -43,13 +48,6 @@ package one_arrow.gameplay.enemies.types
 		public function EnemyFly(gameplayMain:GameplayMain) 
 		{
 			super(gameplayMain);
-		}
-		
-		protected override function initAnimations():void
-		{
-			_animations[Character.ANIM_IDLE] = new Enemy01Idle();
-			_animations[Character.ANIM_ATTACK] = new Enemy01Attack();
-			_animations[Character.ANIM_DEFEAT] = new Enemy01Defeat();
 		}
 		
 		private function setAssetDirection():void
@@ -89,7 +87,7 @@ package one_arrow.gameplay.enemies.types
 					{
 						_status = STATUS_ATTACKING;
 					}
-					else if (distanceToHero < DISTANCE_TO_ATTACK)
+					else if (distanceToHero < _distanceToAttack)
 					{
 						_main.character.takeDamage();
 						_status = STATUS_IDLE;
@@ -104,17 +102,17 @@ package one_arrow.gameplay.enemies.types
 					}
 					break;
 				case STATUS_FOLLOWING:
-					_physicalBody.position.set(new Vec2(_physicalBody.position.x + (localDirection.x * FOLLOW_SPEED),
-														_physicalBody.position.y + (localDirection.y * FOLLOW_SPEED)));
+					_physicalBody.position.set(new Vec2(_physicalBody.position.x + (localDirection.x * _followSpeed),
+														_physicalBody.position.y + (localDirection.y * _followSpeed)));
 					
-					if (distanceToHero > DISTANCE_TO_FOLLOW)
+					if (distanceToHero > _distanceToFollow)
 					{
 						_initial_position = new Point(_physicalBody.position.x, _physicalBody.position.y);
 						_status = STATUS_IDLE;
 						break;
 					}
 														
-					if(distanceToHero < DISTANCE_TO_ATTACK)
+					if(distanceToHero < _distanceToAttack)
 					{
 						setAnimation(Character.ANIM_ATTACK);
 						_status = STATUS_ATTACKING;
@@ -127,9 +125,9 @@ package one_arrow.gameplay.enemies.types
 					
 					break;
 				case STATUS_IDLE:
-					if ((_framesLeftLeaving == 0) && (distanceToHero < DISTANCE_TO_FOLLOW))
+					if ((_framesLeftLeaving == 0) && (distanceToHero < _distanceToFollow))
 					{
-						if (distanceToHero >= DISTANCE_TO_ATTACK)
+						if (distanceToHero >= _distanceToAttack)
 						{
 							setAnimation(Character.ANIM_IDLE);
 							_status = STATUS_FOLLOWING;
@@ -146,14 +144,14 @@ package one_arrow.gameplay.enemies.types
 						if (_framesLeftLeaving > 0) _framesLeftLeaving--;
 						
 						if (_direction.x < 0 
-							&& _physicalBody.position.x < _initial_position.x - MAXIMUM_IDLE_DISTANCE)
+							&& _physicalBody.position.x < _initial_position.x - _maximumIdleDistance)
 							_direction.x = 1;
 						else if(_direction.x > 0
-							&& _physicalBody.position.x > _initial_position.x + MAXIMUM_IDLE_DISTANCE)
+							&& _physicalBody.position.x > _initial_position.x + _maximumIdleDistance)
 							_direction.x = -1;
 						
 						// Check collisions with the side walls:
-						var nextPositionX:Number = _physicalBody.position.x + (MOVEMENT_SPEED * _direction.x);
+						var nextPositionX:Number = _physicalBody.position.x + (_movementSpeed * _direction.x);
 						var nextPositionXWW:Number = nextPositionX + (MC_WIDTH * _direction.x);
 						var rayToWall:Ray = new Ray(new Vec2(nextPositionXWW, _physicalBody.position.y), new Vec2(_direction.x, 0));
 						var rayCast:RayResult = _main.physicalWorld.space.rayCast(rayToWall, true, new InteractionFilter(4, PhysicalWorld.BOUNDS_COLLISION_GROUP));

@@ -7,6 +7,7 @@ package one_arrow.gameplay.enemies
 	import one_arrow.gameplay.enemies.data.EnemiesData;
 	import one_arrow.gameplay.enemies.data.EnemyData;
 	import one_arrow.gameplay.enemies.types.EnemyFly;
+	import one_arrow.gameplay.enemies.types.EnemyFly1;
 	import one_arrow.gameplay.enemies.types.EnemyTurret;
 	import one_arrow.gameplay.GameplayMain;
 	import one_arrow.gameplay.character.Character;
@@ -51,8 +52,8 @@ package one_arrow.gameplay.enemies
 				switch(_enemiesData.enemiesInWave[i].type)
 				{
 					case 0:
-						newEnemy = new EnemyFly(_main);
-						(newEnemy as EnemyFly).setPosition(new Point(_enemiesData.enemiesInWave[i].x, _enemiesData.enemiesInWave[i].y));
+						newEnemy = new EnemyFly1(_main);
+						(newEnemy as EnemyFly1).setPosition(new Point(_enemiesData.enemiesInWave[i].x, _enemiesData.enemiesInWave[i].y));
 						break;
 					
 					case 2:
