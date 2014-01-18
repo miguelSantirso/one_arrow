@@ -93,7 +93,7 @@ package one_arrow.gameplay.projectiles
 		
 		protected function onPlayerHit(cb:InteractionCallback):void
 		{
-			(_main.character as MainCharacter).takeDamage();
+			if(!_main.character.isDamaged()) (_main.character as MainCharacter).takeDamage();
 			
 			destroy();
 		}

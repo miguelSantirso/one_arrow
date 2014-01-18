@@ -197,26 +197,28 @@ package one_arrow.gameplay.character
 				return;
 			}
 			
+			const characterCollisionDistance:int = 25;
+			
 			var sign:Number = (_direction.x > 0 ? 1 : -1);
-			
-			if (_prevDirectionX != _direction.x && _feetInFloor)
-			{
-				var fx:MovieClip = new FxRunRight();
-				fx.scaleX = sign;
-				AutoFx.showFx(fx, _physicalBody.position.x, _physicalBody.position.y);
-			}
-			
 			var ray:Ray = new Ray(_nextPosition, new Vec2(_direction.x, 0));
 			var rayResult:RayResult = _main.physicalWorld.space.rayCast(ray, 
 				true,
 				new InteractionFilter(4, PhysicalWorld.BOUNDS_COLLISION_GROUP | PhysicalWorld.TERRAIN_COLLISION_GROUP));
 			if (rayResult)
 			{
-				_nextPosition.x += sign * Math.min(rayResult.distance - 1, Config.PLAYER_SPEED_HORIZONTAL);
+				_nextPosition.x += sign * Math.min(rayResult.distance - characterCollisionDistance, Config.PLAYER_SPEED_HORIZONTAL);
 			}
 			else
 			{
 				_nextPosition.x += sign * Config.PLAYER_SPEED_HORIZONTAL;
+			}
+			
+			if (rayResult && (Math.floor(Math.abs(rayResult.distance)) > characterCollisionDistance)
+			&& (_prevDirectionX != _direction.x) && _feetInFloor)
+			{
+				var fx:MovieClip = new FxRunRight();
+				fx.scaleX = sign;
+				AutoFx.showFx(fx, _physicalBody.position.x, _physicalBody.position.y);
 			}
 			
 			_prevDirectionX = _direction.x;
@@ -250,6 +252,13 @@ package one_arrow.gameplay.character
 		public function get halfHeight():Number
 		{
 			return currentAnimMc.height * 0.5;
+		}
+		
+		public function isDamaged():Boolean
+		{
+			return _currentAnimation == ANIM_HIT
+				|| _currentAnimation == ANIM_HIT_FALLING_LOOP
+				|| _currentAnimation == ANIM_HIT_RECOVER;
 		}
 	}
 

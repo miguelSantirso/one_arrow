@@ -295,8 +295,10 @@ package one_arrow.gameplay.character
 				onStageUp(e);
 			
 			_mouseDown = true;
+			(_lastMouseWorldPos.x > physicalBody.position.x) ? _lastScaleX = 1 : _lastScaleX = -1;
 			setAnimation(_lastScaleX == 1 ? Character.ANIM_LOADING_RIGHT : Character.ANIM_LOADING_LEFT);
 			scaleX = 1;
+			trace("DIRECTION: " + _lastScaleX);
 			_framesToStartPointing = Config.LOADING_ANIM_FRAMES_LONG;
 			_lastMouseWorldPos.x = e.stageX - 0.5 * Config.SCREEN_SIZE_X + _main.cameraX;
 			_lastMouseWorldPos.y = e.stageY - 0.5 * Config.SCREEN_SIZE_Y + _main.cameraY + 50;

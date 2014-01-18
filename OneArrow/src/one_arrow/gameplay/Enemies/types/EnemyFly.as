@@ -95,7 +95,8 @@ package one_arrow.gameplay.enemies.types
 					}
 					else if (distanceToHero < _distanceToAttack)
 					{
-						_main.character.takeDamage();
+						
+						if(!_main.character.isDamaged()) _main.character.takeDamage();
 						_status = STATUS_IDLE;
 						_direction = localDirection;
 						setAnimation(ANIM_IDLE);
