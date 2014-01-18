@@ -65,10 +65,10 @@
     <element path="assets\icono_flecha.swc" />
     <element path="assets\scoreboard.swc" />
     <element path="assets\main_char_defeat.swc" />
-    <element path="assets\animacion_wave_3.swc" />
     <element path="lib\nape-release.swc" />
     <element path="assets\Survive.swc" />
     <element path="lib\nape-dev.swc" />
+    <element path="assets\animacion_wave_3.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

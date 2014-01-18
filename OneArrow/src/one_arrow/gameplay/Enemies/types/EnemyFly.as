@@ -48,6 +48,12 @@ package one_arrow.gameplay.enemies.types
 		public function EnemyFly(gameplayMain:GameplayMain) 
 		{
 			super(gameplayMain);
+			init();
+		}
+		
+		protected function init():void
+		{
+			
 		}
 		
 		private function setAssetDirection():void

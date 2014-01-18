@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
 <wave>
-	<enemy x="460" y="925" type="0"/>
+	<enemy x="460" y="925" type="3"/>
 </wave>
 <wave>
 	<enemy x="1200" y="925" type="0"/>
