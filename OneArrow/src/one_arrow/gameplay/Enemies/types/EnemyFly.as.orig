@@ -28,7 +28,8 @@ package one_arrow.gameplay.enemies.types
 	 */
 	public class EnemyFly extends EnemyBase 
 	{
-		private static const MC_WIDTH:int = 60;
+<<<<<<< HEAD
+		private static const MC_WIDTH:int = 45;
 		
 		private var _followSpeed:int=4;
 		public function set followSpeed(value:int):void { _followSpeed = value; }
@@ -41,6 +42,16 @@ package one_arrow.gameplay.enemies.types
 		private var _distanceToAttack:int=50;
 		public function set distanceToAttack(value:int):void { _distanceToAttack = value; }
 		
+=======
+		private static const MAXIMUM_IDLE_DISTANCE:int = 100;
+		private static const MOVEMENT_SPEED:int = 2;
+		private static const FOLLOW_SPEED:int = 4;
+		private static const DISTANCE_TO_FOLLOW:int = 200;
+		private static const DISTANCE_TO_ATTACK:int = 50;
+		private static const DISTANCE_TO_DIE:int = 90;
+		private static const MC_WIDTH:int = 60;
+		private static const FRAMERATE_SPEEDUP_FACTOR:int = 15;
+>>>>>>> fd1dea449ddb31d623dea23537b8d89a10835a68
 		
 		private var _framesLeftLeaving:int = 0;
 		private var _storedStandardFramerate:int = -1;
@@ -53,14 +64,6 @@ package one_arrow.gameplay.enemies.types
 		
 		protected function init():void
 		{
-			
-		}
-		
-		protected override function initAnimations():void
-		{
-			_animations[Character.ANIM_IDLE] = new Enemy01Idle();
-			_animations[Character.ANIM_ATTACK] = new Enemy01Attack();
-			_animations[Character.ANIM_DEFEAT] = new Enemy01Defeat();
 			
 		}
 		
@@ -103,7 +106,6 @@ package one_arrow.gameplay.enemies.types
 					}
 					else if (distanceToHero < _distanceToAttack)
 					{
-						
 						if(!_main.character.isDamaged()) _main.character.takeDamage();
 						_status = STATUS_IDLE;
 						_direction = localDirection;
@@ -117,10 +119,17 @@ package one_arrow.gameplay.enemies.types
 					}
 					break;
 				case STATUS_FOLLOWING:
+<<<<<<< HEAD
 					_physicalBody.position.set(new Vec2(_physicalBody.position.x + (localDirection.x * _followSpeed),
 														_physicalBody.position.y + (localDirection.y * _followSpeed)));
 					
 					if (distanceToHero > _distanceToFollow)
+=======
+					_physicalBody.position.set(new Vec2(_physicalBody.position.x + (localDirection.x * FOLLOW_SPEED),
+														_physicalBody.position.y + (localDirection.y * FOLLOW_SPEED)));
+						
+					if (distanceToHero > DISTANCE_TO_FOLLOW)
+>>>>>>> fd1dea449ddb31d623dea23537b8d89a10835a68
 					{
 						_initial_position = new Point(_physicalBody.position.x, _physicalBody.position.y);
 						_status = STATUS_IDLE;
